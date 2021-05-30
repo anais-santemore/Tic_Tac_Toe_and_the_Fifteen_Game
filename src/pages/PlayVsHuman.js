@@ -100,7 +100,11 @@ export default function PlayVsHuman() {
 
 
     function getBoardColors(ml = moveList) {
-        return Array(9).fill('noColor');
+        let colors = Array(9).fill('noColor')
+        if (xWins(ml) || oWins(ml)) {
+            colors = highlightWins(ml)
+        }
+        return colors
     }
 
 
@@ -202,6 +206,22 @@ export default function PlayVsHuman() {
         }
         return sums
     }
+    function trioList() {
+        let trioList = []
+        for (let i = 1; i <= 7; i++) {
+            for (let j = i + 1; j <= 8; j++) {
+                let k = complementOf(i + j)
+                if (k > j && k <= 9) {
+                    let newTrio = [i, j, k]
+                    trioList.push(newTrio)
+                }
+            }
+        }
+        return trioList
+    }
+    function complementOf(sumOfTwo) {
+        return (15 - sumOfTwo)
+    }
 
     
     
@@ -231,129 +251,25 @@ export default function PlayVsHuman() {
 
     
     // MID-LEVEL HELPERS for getBoardColors() and getBoardHints()
-    function highlightWins() {
+    function highlightWins(ml) {
         console.assert(!gameOver(), `highlightWins() was called but found that the game is not over`);
+        
+        let colors = Array(9).fill('noColor')
+        let Xs = xNumbers(ml)
+        let Os = oNumbers(ml)
+        let winningTrios = trioList().filter(trio => 
+            intersect(trio, Xs).length === 3 || intersect(trio, Os).length === 3
+        )
 
-        let highlightedSquares = Array(9).fill('noColor')
-        let data = lineData()
-
-
-        if (data.xSquares.length === 3) {
-            let squaresToHighlight = data.xSquares
-            squaresToHighlight.forEach(square => {
-                highlightedSquares[square] = 'win';
-            });
-        }
-
-
-        return highlightedSquares;
+        winningTrios.flat().forEach(num => colors[num] = 'win')
+        return colors
     }
 
-    // function highlightWins() {
-    //     console.assert(!gameOver(), `highlightWins() was called but found that the game is not over`);
-
-    //     let highlightedSquares = Array(9).fill('noColor')
-
-    //     let winner = (wins('x')) ? 'x' : 'o';
-    //     // let lines = lines(winner);
-    //     linesWithThree(winner).forEach(line => {
-    //         squaresInLine(line).forEach(square => {
-    //             highlightedSquares[square] = 'win';
-    //         });
-    //     });
-    //     return highlightedSquares;
-    // } 
+    
 
 
-
-    function threatCreatingMoves(ml = moveList) {
-        // This list may contain duplicates. A squareId that appears twice creates two separate two-in-a-line threats.
-        const player = myTurn(ml);
-        const threatCreatingMoves = [];
-        linesWithOnlyOne(ml).forEach((line) => {
-            squaresInLine(line).forEach((square) => {
-                if (squareIsEmpty(square, ml)) {                 // Don't add an already claimed square to the list of therat creating moves!
-                    threatCreatingMoves.push(square);
-                }
-            })
-        })
-        // console.log(`Player '${player}' can create threats on the following squares: ${threatCreatingMoves}`)
-        return threatCreatingMoves;
-    }
-
-
-
-
-    // DEFINITION: thisMoveIsForced IFF player who moved last has one unblocked threat and player whose turn it is has none.
-    function thisMoveIsForced(ml = moveList) {
-        let isForced = (!thereIsAnImmediateWin(ml) && thereIsAnUrgentDefensiveMove(ml))
-        // console.log(`In position: ${moveList} The next move is forced: ${isForced}`)
-        return (isForced);
-    }
-
-    // DEFINITION: ForcingMoves are the moves that give the opponent an urgentDefensiveMove and no immediateWin to take presidence over it.
-    function forcingMoves(ml = moveList) {
-        let forcingMoves = [];
-        emptySquares(ml).forEach(testSquare => {
-            let hypotheticalHistory = ml.concat(testSquare);
-            if (thisMoveIsForced(hypotheticalHistory)) {
-                forcingMoves = forcingMoves.concat(testSquare)
-            }
-        })
-        // console.log(`forcingMoves found these: ${forcingMoves}`)
-        return forcingMoves;
-    }
-
-
-    // DEFINITION: A move that creates a position where you have one threat and your opponent has none &&
-    //             once your opponent responds with their one urgentDefensiveMove you are left with the ability to create a double attack. 
-    function distantForcedWinCreatingMoves(ml = moveList) {
-        let distantForcedWinCreatingMovesList = [];
-        // There cannot be a distantForcedWinCreatingMove unless there are at least 5 empty squares and playerTwo has has a chance to make an error on their first move.
-        if (ml.length < 2 || ml.length > 4) {
-            return distantForcedWinCreatingMovesList;
-        }
-        // To force a win you must force the first reply ... 
-        forcingMoves(ml).forEach(forcingMove => {
-            // ... and ensure the forced reply leaves you able to create a double attack.
-            let hypotheticalHistory = ml.concat(forcingMove);
-            if (urgentDefensiveMoves(hypotheticalHistory).length !== 1) {
-                console.error(`There are ${urgentDefensiveMoves(hypotheticalHistory).length} urgentDefensiveMoves in the hypotheticalHistory being examined by distantForcedWinCreatingMoves.`)
-            }
-            let urgentDefensiveMove = urgentDefensiveMoves(hypotheticalHistory)[0];
-            hypotheticalHistory = hypotheticalHistory.concat(urgentDefensiveMove);
-            // console.log(`The one urgent defensive move is ${urgentDefensiveMove} leading to position: ${hypotheticalHistory}`);
-            if (thereIsADoubleAttackCreatingMove(hypotheticalHistory)) {
-                distantForcedWinCreatingMovesList = distantForcedWinCreatingMovesList.concat(forcingMove);
-            }
-        })
-        console.log(`distantForcedWinCreatingMoves() found the following list: ${distantForcedWinCreatingMovesList}`)
-        return distantForcedWinCreatingMovesList;
-    }
-    function thereIsADistantForcedWinCreatingMove(ml = moveList) {
-        // There cannot be a distantForcedWinCreatingMove unless there are at least 5 empty squares and playerTwo has has a chance to make an error on their first move.
-        // return (moveList.length > 2 && moveList.length < 5 && distantForcedWinCreatingMoves(moveList).length > 0)
-        return (distantForcedWinCreatingMoves(ml).length > 0)
-    }
-
-
-
-    // Check if each of the squares that is is still empty is a losing Move
-    function gameLosingMoves(ml = moveList) {  // This function should ONLY be called by getBoardHints when there are no forced Win Creating Moves
-        let gameLosingMoves = [];
-        emptySquares().forEach(square => {
-            let hypotheticalHistory = ml.concat(square);
-            if (thereIsAForcedWin(hypotheticalHistory)) {
-                console.log(`I think I found a forced win after the moves: ${hypotheticalHistory}`)
-                gameLosingMoves = gameLosingMoves.concat(square)
-            }
-        })
-        console.log(`gameLosingMoves() found the following list: ${gameLosingMoves}`)
-        return gameLosingMoves;
-    }
-
-
-
+    
+    
     // CLICK HANDLERS
     function handleSquareClick(squareClicked) {
         if (gameOver()) {
@@ -443,213 +359,11 @@ export default function PlayVsHuman() {
         return lines;
     }
 
-    function lineCounts(ml = moveList) {
-        // Line Indices 0,1,2 represent the three rows top to bottom.
-        // Line Indices 3,4,5 represent the three columns left to right.
-        // Line Indices 6,7 represent the upslash and downslash diagonals respectivly.
-        // The 3-element array in each represents the number of X's and O's in that line, respectively.
-        let lines = Array(8).fill([0, 0, 0]);
-
-        ml.forEach((squareId, turn) => {
-            let player = (turn % 2 === 0) ? 'x' : 'o'
-
-            let row = Math.floor(squareId / 3)    // number 0, 1, or 2
-            let col = (squareId % 3) + 3           // number 0, 1, or 2  +3 to account for the three indexes set aside for rows
-
-            if (player === 'x') {
-                lines[row][0]++
-                lines[col][0]++
-                if (squareId === 2 || squareId === 4 || squareId === 6) {  // upslash
-                    lines[6][0]++
-                }
-                if (squareId === 0 || squareId === 4 || squareId === 8) {  // downslash
-                    lines[7][0]++
-                }
-            }
-            else {
-                lines[row][1]++
-                lines[col][1]++
-                if (squareId === 2 || squareId === 4 || squareId === 6) {  // upslash
-                    lines[6][1]++
-                }
-                if (squareId === 0 || squareId === 4 || squareId === 8) {  // downslash
-                    lines[7][1]++
-                }
-            }
-        });
-        // console.log(`Status: ${status}`)
-        return lines;
-    }
-
-    function intersect(listOne, listTwo) {
-        let intersection = listOne.filter(number => listTwo.includes(number))
-        return intersection;
-    }
-
-    function unclaimed(ml = moveList) {
-        let unclaimed = [];
-        for (let i = 0; i < 9; i++) {
-            if (!ml.includes(i)) {
-                unclaimed = unclaimed.concat(i)
-            }
-        }
-        return unclaimed;
-    }
-
-    function lineData(ml = moveList) {
-        let lineData = []
-
-        let xSquares = ml.filter((square, turn) => turn % 2 === 0)
-        let oSquares = ml.filter((square, turn) => turn % 2 === 1)
-        // let unclaimed = unclaimed(ml)
-
-        for (let lineId = 0; lineId < 8; lineId++) {
-            let mySquares = squaresInLine(lineId)
-            let thisLinesData = {
-                'lineId': lineId,
-                'xSquares': intersect(mySquares, xSquares),
-                'oSquares': intersect(mySquares, oSquares),
-                'unclaimed': intersect(mySquares, unclaimed(ml))
-            }
-            lineData[lineId] = thisLinesData
-        }
-        console.log(`LINE DATA: ${lineData}`)
-        return lineData
-    }
-
-
-    function thereIsAForcedWin(ml = moveList) {
-        const thereIsAForcedWin = (thereIsAnImmediateWin(ml)
-            || thereIsADoubleAttackCreatingMove(ml)
-            || thereIsADistantForcedWinCreatingMove(ml))
-        // console.log(`immediateWins(moveList).length: ${immediateWins(moveList).length}`)
-        // console.log(`thereIsADistantForcedWinCreatingMove(moveList).length: ${distantForcedWinCreatingMoves(moveList)ngth}`)
-        console.log(`forcedWinCreatingMoves based on the moveList: ${ml} ==>  ${distantForcedWinCreatingMoves(ml)}`)
-        console.log(`thereIsAForcedWin for the current player: ${thereIsAForcedWin}`)
-        return thereIsAForcedWin;
-    }
-
-
-
-    function linesWithThree(player, ml = moveList) {
-        let linesList = [];
-        // console.log(`lineCountsFor : ${lineCountsFor(player)}`)
-        lineCountsFor(player, ml).forEach((count, line) => {
-            if (count === 3) {
-                linesList.push(line)
-            }
-        })
-        // console.log(`linesWithThree() called for player '${player}'. List: ${linesList}`)
-        return linesList;
-    }
-
-    function linesWithOnlyTwo(player, ml = moveList) {
-        let linesList = [];
-        lineCountsFor(player, ml).forEach((count, line) => {
-            if (count === 2 && lineCountsFor(other(player), ml)[line] === 0) {
-                linesList.push(line)
-            }
-        })
-        // console.log(`List Unblocked Twos for player '${player}': ${list}`)
-        return linesList;
-    }
-
-    function linesWithOnlyOne(ml = moveList) {
-        const player = myTurn(ml);
-        let linesList = [];
-        lineCountsFor(player, ml).forEach((count, line) => {
-            if (count === 1 && lineCountsFor(other(player), ml)[line] === 0) {
-                linesList.push(line)
-            }
-        })
-        // console.log(`List Unblocked Ones for player '${player}' based on moveList ${moveList} ==> ${linesList}`)
-        return linesList;
-    }
-    // function emptyLines(ml = moveList) {
-    //     let linesList = [];
-    //     lineCountsFor('x', ml).forEach((count, line) => {
-    //         if (count === 0 && lineCountsFor('o', ml)[line] === 0) {
-    //             linesList.push(line)
-    //         }
-    //     })
-    //     console.log(`List Empty Lines: ${linesList}`)
-    //     return linesList;
-    // }
-    function blockedLines(ml = moveList) {
-        let linesList = [];
-        lineCountsFor('x', ml).forEach((count, line) => {
-            if (count > 0 && lineCountsFor('o', ml)[line] > 0) {
-                linesList.push(line)
-            }
-        })
-        console.log(`List Blocked Lines: ${linesList}`)
-        return linesList;
-    }
-    function allLines() {
-        // Top Row, Middle Row, Bottom Row, 
-        // Left Column, Middle Column, Right Column,
-        // Upslash Diagonal, Downslash Diagonal
-        return [0, 1, 2, 3, 4, 5, 6, 7]
-    }
-
-
-
-
-    // list the squareIds that fall in a given lineId
-    function squaresInLine(lineId) {
-        // console.log(`getSquares() was called with lineId: ${lineId}`)
-        let squareIds;
-        switch (lineId) {
-            case 0:
-                squareIds = [0, 1, 2];  // x / 3 < 1
-                break;
-            case 1:
-                squareIds = [3, 4, 5];  // (x / 3).floor() === 1
-                break;
-            case 2:
-                squareIds = [6, 7, 8]; // (x / 3) > 1
-                break;
-            case 3:
-                squareIds = [0, 3, 6];  // congruent to 0 mod 3
-                break;
-            case 4:
-                squareIds = [1, 4, 7];  // congruent to 1 mod 3
-                break;
-            case 5:
-                squareIds = [2, 5, 8];  // congruent to 2 mod 3
-                break;
-            case 6:
-                squareIds = [2, 4, 6];  // diagonal
-                break;
-            case 7:
-                squareIds = [0, 4, 8];  // congruent to 0 mod 4
-                break;
-            default:
-                console.error(`squaresInLine() was called with an invalid lineId.`)
-        }
-        return squareIds;
-
-    }
-
-
-
+    
     // BOOLEAN helpers for gameStatus() and handleSquareClick()
     function squareIsEmpty(square, ml = moveList) {
         return (!ml.includes(square))
     }
 
-
-
-    // function gameDrawn() {
-    //     return (history.length >= 9 && !wins('x') && !wins('o'));  // Board full and neither player has a win
-    // }
-    // function gameDrawn() {
-    //     return (blockedLines().length >= 8 && !wins('x') && !wins('o'));  // Board full and neither player has a win
-    // }
-
-
-
-    
-    }
 
 }
