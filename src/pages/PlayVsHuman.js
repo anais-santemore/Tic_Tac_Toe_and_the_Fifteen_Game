@@ -71,7 +71,7 @@ export default function PlayVsHuman() {
             </Box>
             <Box className={classes.panelArea}>
                 <Panel
-                    gameStatus={getStatus()}
+                    gameStatus={gameStatus()}
                     record={record}
                     handleUndoClick={handleUndoClick}
                     handleNewGameClick={handleNewGameClick}
@@ -195,7 +195,7 @@ export default function PlayVsHuman() {
     
     
     // HIGH-LEVEL PANEL HELPERS no params
-    function getStatus(ml = moveList) {
+    function gameStatus(ml = moveList) {
         if (xWins(ml)) {
             return (`X wins!`)
         }
@@ -205,15 +205,15 @@ export default function PlayVsHuman() {
         else if (gameDrawn(ml)) {
             return (`Draw.`)
         }
-        else if (ml.length % 2 === 0) {
-            return (`X's turn.`)
+        else if (ml.length === 0) {
+            return (xGoesFirst()) ? `X goes first this game.` : `O goes first this game.`
         }
-        else if (ml.length % 2 === 1) {
-            return (`O's turn.`)
+        else if (ml.length % 2 === 0) {
+            return (xGoesFirst()) ? `X goes next.` : `O goes next.`
         }
         else {
-            console.error("A call to getStatus() did not work!");
-            return
+            console.error("A call to gameStatus() did not work!");
+            return `ERROR`
         }
     }
 
@@ -702,7 +702,7 @@ export default function PlayVsHuman() {
 
 
 
-    // BOOLEAN helpers for getStatus() and handleSquareClick()
+    // BOOLEAN helpers for gameStatus() and handleSquareClick()
     function squareIsEmpty(square, ml = moveList) {
         return (!ml.includes(square))
     }
