@@ -97,7 +97,7 @@ export default function TicTacToeGame(props) {
 
     // The board data to render is always the latest entry in history.  We will have an 'undo' but not a 'redo' button.  May add a Make Computer Move
     function getBoardIcons(ml = moveList) {
-        let data = Array(9).fill('');  // Start with an array representing a board of NINE empty squares
+        let data = Array(9).fill('_');  // Start with an array representing a board of NINE empty squares
 
         ml.forEach((squareId, turn) => {
             if (turn % 2 === 0) {
