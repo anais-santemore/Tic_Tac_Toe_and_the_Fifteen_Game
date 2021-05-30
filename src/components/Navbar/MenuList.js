@@ -6,8 +6,6 @@ import { Link as RouterLink } from "react-router-dom";
 import { makeStyles } from '@material-ui/core/styles';
 
 // MATERIAL-UI COMPONENTS
-import Link from '@material-ui/core/Link';
-import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import Icon from '@material-ui/core/Icon';
@@ -29,33 +27,23 @@ const useStyles = makeStyles(theme => ({
         color: theme.palette.common.white,
         alignContent: 'center',
         justifyContent: 'center',
+    },
+    whiteText : {
+        color: theme.palette.common.white,
     }
 }));
+
+
 
 export default function TeachingServicesList() {
     const classes = useStyles();
     
     return (
-        <React.Fragment>
-            {/* <ListItem
-                key={'home'}
-                className={classes.listItem}
-                button
-                component={RouterLink}
-                to='/'
-            >
-                <Icon className={"fas fa-home fa-2x"}
-                    classes={{ root: classes.icon }}
-                />
-                <ListItemText
-                    primary={'STEM Garden Home'}
-                    primaryTypographyProps={{ variant: 'h5' }}
-                />
-            </ListItem> */}
+        
+        <React.Fragment className={classes.whiteText} >
 
             <ListItem
                 key={'welcome'}
-                className={classes.listItem}
                 button
                 component={RouterLink}
                 to='/'
@@ -70,43 +58,58 @@ export default function TeachingServicesList() {
             </ListItem>
 
             <ListItem
-                key={'play tic-tac-toe'}
-                className={classes.listItem}
+                key={'play_vs_human'}
                 button
                 component={RouterLink}
                 to={{
-                    pathname: '/play_tic_tac_toe',
+                    pathname: '/play_vs_human',
                 }}
             >
-                <Icon className={"far fa-play-circle fa-2x"}
+                <Icon className={"fas fa-user-friends fa-2x"}
                     classes={{ root: classes.icon }}
                 />
                 <ListItemText
-                    primary={'Play Tic-Tac-Toe'}
+                    primary={'Play vs. Human'}
                     primaryTypographyProps={{ variant: 'h5' }}
                 />
             </ListItem>
 
             <ListItem
-                key={'learn tic-tac-toe'}
-                className={classes.listItem}
+                key={'play_vs_human'}
                 button
                 component={RouterLink}
                 to={{
-                    pathname: '/learn_tic_tac_toe',
+                    pathname: '/play_vs_bot',
+                }}
+            >
+                <Icon className={"fas fa-robot fa-2x"}
+                    classes={{ root: classes.icon }}
+                />
+                <ListItemText
+                    primary={'Play vs. Bot'}
+                    primaryTypographyProps={{ variant: 'h5' }}
+                />
+            </ListItem>
+
+            <ListItem
+                key={'play_with_coach'}
+                button
+                component={RouterLink}
+                to={{
+                    pathname: '/play_with_coach',
                 }}
             >
                 <Icon className={"fas fa-question fa-2x"}
                     classes={{ root: classes.icon }}
                 />
                 <ListItemText
-                    primary={'Learn Tic-Tac-Toe Strategy'}
+                    primary={'Play with Coach'}
                     primaryTypographyProps={{ variant: 'h5' }}
                 />
             </ListItem>
 
 
-            <ListItem
+            {/* <ListItem
                 key={'learn about magic squares'}
                 className={classes.listItem}
                 button
@@ -122,7 +125,7 @@ export default function TeachingServicesList() {
                     primary={'Learn about Magic Squares'}
                     primaryTypographyProps={{ variant: 'h5' }}
                 />
-            </ListItem>
+            </ListItem> */}
 
         </React.Fragment>
     );
