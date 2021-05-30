@@ -50,19 +50,12 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-export default function PlayVsHuman(props) {
+export default function PlayVsHuman() {
     const classes = useStyles();
-    const mode = props.mode;
 
-    // State used in BOTH modes    
     let [moveList, setMoveList] = useState([]);
-
-    // State used ONLY in PLAY mode    
-    let [gameNumber, setGameNumber] = useState(1);
+    let [gameNumber, setGameNumber] = useState(1);     // In ODD numbered games X goes first
     let [record, setRecord] = useState([0, 0, 0]);     // 3 element counter for humanWins, botWins, and tieGames.
-
-    // State used ONLY in LEARN mode    
-    let [showHints, setShowHints] = useState(false);
 
 
     return (
@@ -79,20 +72,20 @@ export default function PlayVsHuman(props) {
             <Box className={classes.panelArea}>
                 <Panel
                     gameStatus={getStatus()}
-                    commentary={getCommentary()}
+                    record={record}
                     handleUndoClick={handleUndoClick}
-                    toggleShowHints={toggleShowHints}
+                    handleNewGameClick={handleNewGameClick}
                 />
             </Box>
         </Box>
-    );
+    )
 
-    // The <Game> holds all state and most helper and handler function definitions.
-    // It passes what it needs to to the board to render and to the panel.
+    ///////////////////////////////////////////////////
+    // Board and Panel Rendering Helpers
+    ///////////////////////////////////////////////////
 
-    // The board data to render is always the latest entry in history.  We will have an 'undo' but not a 'redo' button.  May add a Make Computer Move
     function getBoardIcons(ml = moveList) {
-        let data = Array(9).fill('');  // Start with an array representing a board of NINE empty squares
+        let data = Array(9).fill('_');  // Start with an array representing a board of NINE empty squares
 
         ml.forEach((squareId, turn) => {
             if (turn % 2 === 0) {
@@ -107,28 +100,29 @@ export default function PlayVsHuman(props) {
 
 
     function getBoardColors(ml = moveList) {
-        // If the game is won highlight the winning line(s), whether hints are turned on or off.
-        console.log(`getBoardData checking if there is a win to highlight`)
-        // if (gameOver() && !gameDrawn()) {
-        if (gameOver(ml)) {
-            return highlightWins();
-        }
-        console.log(`getBoardData DID NOT find a win to highlight`)
-
-        // If hints are turned off return colors [] filled with 'noColor' strings.
-        if (mode === 'play') {
-            return Array(9).fill('noColor');
-        }
-        // If hints are turned on return colors [] filled by getBoardHints().
-        if (mode === 'learn') {
-            // console.log(`Board Hints: ${getBoardHints()}`)
-            return (showHints === true) ? getBoardHints() : Array(9).fill('noColor');
-        }
+        return Array(9).fill('noColor');
     }
 
 
-    // list all squareIds not appearing in the history or an 
-    function emptySquares(ml = moveList) {
+    
+    ///////////////////////////////////////////////////
+    // Game Status Helpers
+    ///////////////////////////////////////////////////
+    function xWins(ml) {
+        return sumsOfThree(xNumbers(ml)).includes(15)
+    }
+    function oWins(ml) {
+        return sumsOfThree(oNumbers(ml)).includes(15)
+    }
+    function gameDrawn(ml) {
+        return (ml.length === 9 && !xWins(ml) && !oWins(ml))
+    }
+
+    ///////////////////////////////////////////////////
+    // Movelist Filters
+    ///////////////////////////////////////////////////
+
+    function emptySquares(ml) {
         let emptySquaresList = [];
         for (let i = 0; i < 9; i++) {
             if (!ml.includes(i)) {
@@ -138,51 +132,66 @@ export default function PlayVsHuman(props) {
         // console.log(`List Empty Squares: ${emptySquaresList}`)
         return emptySquaresList;
     }
-
-
-    //  Squares for which the value of the Hint is yet to be determined. 
-    function unknownSquares(hints) {
-        let unknownSquares = [];
-        hints.forEach((value, index) => {
-            if (value === 'unknown') {
-                unknownSquares.push(index)
+    function unclaimedNumbers(ml) {
+        let unclaimedNumbers = [];
+        for (let i = 1; i <= 9; i++) {
+            if (!ml.includes(i)) {
+                unclaimedNumbers.push(i)
             }
-        })
-        return unknownSquares;
+        }
+        // console.log(`List Empty Squares: ${emptySquaresList}`)
+        return unclaimedNumbers;
+    }
+    function xNumbers(ml) {
+        if (xGoesFirst()) {
+            return ml.filter((move, turn) => turn % 2 === 0)
+        }
+        else {
+            return ml.filter((move, turn) => turn % 2 === 1)
+        }
+    }
+    function oNumbers(ml) {
+        if (oGoesFirst()) {
+            return ml.filter((move, turn) => turn % 2 === 0)
+        }
+        else {
+            return ml.filter((move, turn) => turn % 2 === 1)
+        }
     }
 
-    // WON GAME defined: the player specified has all three squares in at least one line.
-    function wins(player, ml = moveList) {
-        return (lineCountsFor(player, ml).includes(3));
+    ///////////////////////////////////////////////////
+    // Whose Turn 
+    // 
+    // gameNumber is 1-indexed and x goes first in game 1.
+    ///////////////////////////////////////////////////
+    function xGoesFirst() {
+        return gameNumber % 2 === 1
     }
-    // function wins(player, ml = moveList) {
-    //     return (lineCountsFor(player, ml).includes(3));
-    // }
+    function oGoesFirst() {
+        return gameNumber % 2 === 0
+    }
 
 
-    function xWins(ml = moveList) {
-        lineCounts(ml).forEach(lineTuple => {
-            if (lineTuple[0] === 3) {
-                return true
-            }
-        })
-        return false
+    ///////////////////////////////////////////////////
+    // Low Level Helpers
+    ///////////////////////////////////////////////////
+    function intersect(listOne, listTwo) {
+        return listOne.filter(item => listTwo.includes(item))
     }
-    function oWins(ml = moveList) {
-        lineCounts(ml).forEach(lineTuple => {
-            if (lineTuple[1] === 3) {
-                return true
+    function sumsOfThree(moveSet) {
+        let sums = []
+        if (moveSet.length < 3) {
+            return sums
+        }
+        for (let i = 0; i < moveSet.length - 2; i++) {
+            for (let j = i + 1; j < moveSet.length - 1; j++) {
+                for (let k = j + 1; k < moveSet.length; k++) {
+                    let sum = moveSet[i] + moveSet[j] + moveSet[k]
+                    sums.push(sum)
+                }
             }
-        })
-        return false
-    }
-    function gameDrawn(ml = moveList) {
-        lineCounts(ml).forEach(lineTuple => {
-            if (lineTuple[0] === 0 && lineTuple[1] === 0) {
-                return false
-            }
-        })
-        return true
+        }
+        return sums
     }
 
     // IMMEDIATE WIN defined: the player whose turn it is has an un-blocked two-in-a-line
@@ -337,28 +346,7 @@ export default function PlayVsHuman(props) {
     }
 
 
-    // HIGH-LEVEL PANEL HELPERS no params
-    // function getStatus(ml = moveList) {
-    //     if (wins('x')) {
-    //         return (`X wins!`)
-    //     }
-    //     else if (wins('o')) {
-    //         return (`O wins!`)
-    //     }
-    //     else if (gameDrawn()) {
-    //         return (`Draw.`)
-    //     }
-    //     else if (history.length % 2 === 0) {
-    //         return (`X's turn.`)
-    //     }
-    //     else if (history.length % 2 === 1) {
-    //         return (`O's turn.`)
-    //     }
-    //     else {
-    //         console.error("A call to getStatus() did not work!");
-    //         return
-    //     }
-    // }
+    
     // HIGH-LEVEL PANEL HELPERS no params
     function getStatus(ml = moveList) {
         if (xWins(ml)) {
@@ -388,9 +376,7 @@ export default function PlayVsHuman(props) {
         if (gameOver()) {
             return `Game Over`
         }
-        if (mode === 'play') {
-            return `Coach's commentary would appear here in learn mode. TODO w-l-d record`
-        }
+        
 
         // If no moves have been made
         if (ml.length === 0) {
@@ -615,14 +601,7 @@ export default function PlayVsHuman(props) {
     function handleNewGameClick() {
         setMoveList([]);
     }
-    function toggleShowHints() {
-        // console.log(`toggleShowHintsSwitch called, setting  to ${!showHints}`);
-        setShowHints(!showHints)
-    }
-    // function toggleShowCommentarySwitch() {
-    //     setShowCommentary(!showCommentary)
-    // }
-
+    
 
     // TURN HELPERS
     // High-Level Methods that need to know whose turn it is can deduce that info by using these helpers to look at the history directly, rather than having to be invoked with a player param. 
