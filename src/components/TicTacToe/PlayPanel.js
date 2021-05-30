@@ -40,7 +40,6 @@ const useStyles = makeStyles((theme) => ({
         // border: 'solid green 1px',
         flex: '1 0 35%',
         display: 'flex',
-        flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'center',
     },
@@ -48,10 +47,11 @@ const useStyles = makeStyles((theme) => ({
     button: {
         color: theme.palette.common.white,
         backgroundColor: theme.palette.primary.main,
-        margin: '0.35rem',
-        width: '90%',
+        margin: '0.4rem',
+        width: 'calc(100% - 0.8rem)',
         height: '2.5rem',
         fontSize: '1.1rem',
+        
     },
     selectedButton: {
         color: theme.palette.common.white,
@@ -82,6 +82,11 @@ export default function Panel(props) {
     const handleLetBotGoFirstClick = props.handleLetBotGoFirstClick
     const difficultyMode = props.difficultyMode
     const handleDifficultyModeChange = props.handleDifficultyModeChange
+
+    
+    ///////////////////////////////////////////////////////////
+    // Simplest Components
+    ///////////////////////////////////////////////////////////
 
     const letBotGoFirstButton = (
         <Button
@@ -125,6 +130,29 @@ export default function Panel(props) {
         </Button>
     )
 
+    function NewGameButton(props) {
+        const classes = useStyles();
+        const handleNewGameClick = props.handleNewGameClick;
+
+        return (
+            <Button
+                className={classes.button}
+                variant="contained"
+                color="primary"
+                onClick={() => handleNewGameClick()}
+            // disabled={!props.gameOver}
+            >
+                <ReplayIcon className={classes.buttonIcon} />
+            New&nbsp;Game
+            </Button>
+        )
+    }
+
+    ///////////////////////////////////////////////////////////
+    // Groupings
+    ///////////////////////////////////////////////////////////
+
+
     const scoreBoard = (
         <React.Fragment>
             <Typography align='center' component='h1' variant='h4' noWrap gutterBottom>
@@ -136,10 +164,8 @@ export default function Panel(props) {
         </React.Fragment>
     )
 
-    
-
-    const playButtons = (
-        <Grid container>
+    const difficultyModeButtons = (
+        <Grid container className={classes.controls}>
             <Grid item xs={4}  >
                 {easyButton}
             </Grid>
@@ -149,6 +175,11 @@ export default function Panel(props) {
             <Grid item xs={4}  >
                 {hardButton}
             </Grid>
+        </Grid>
+    )
+
+    const playButtons = (
+        <Grid container className={classes.controls}>
             <Grid item xs={4}  >
                 <HelpModal />
             </Grid>
@@ -162,12 +193,17 @@ export default function Panel(props) {
         </Grid>
     )
 
+    
+
     return (
         <Box className={classes.panel}>
             <Box className={classes.infoArea} >
                 {scoreBoard}
             </Box>
-            <Box className={classes.controls} >
+            <Box  >
+                {difficultyModeButtons}
+            </Box>
+            <Box  >
                 {playButtons}
             </Box>
         </Box>
@@ -176,35 +212,19 @@ export default function Panel(props) {
 
 
 
-function NewGameButton(props) {
-    const classes = useStyles();
-    const handleNewGameClick = props.handleNewGameClick;
-
-    return (
-        <Button
-            className={classes.button}
-            variant="contained"
-            color="primary"
-            onClick={() => handleNewGameClick()}
-        // disabled={!props.gameOver}
-        >
-            <ReplayIcon className={classes.buttonIcon} />
-            New&nbsp;Game
-        </Button>
-    )
-}
-
-function HelpButton(props) {
-    const classes = useStyles();
-    const handleUndoButtonClick = props.handleUndoButtonClick
 
 
-    return (
-        <Box className={classes.button} >
-            <HelpModal />
-        </Box>
-    )
-}
+// function HelpButton(props) {
+//     const classes = useStyles();
+//     const handleUndoButtonClick = props.handleUndoButtonClick
+
+
+//     return (
+//         <Box className={classes.button} >
+//             <HelpModal />
+//         </Box>
+//     )
+// }
 
 // function SettingsButton(props) {
 //     const classes = useStyles();
