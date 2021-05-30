@@ -4,9 +4,9 @@ import './TicTacToe.css';
 
 // My Components
 import Board from "./Board";
-import Panel from "./Panel";
-import PlayPanel from "./PlayPanel";
-import LearnPanel from "./LearnPanel";
+import Panel from "./Panels/Panel";
+// import PlayPanel from "./Panels/PlayPanel";
+// import LearnPanel from "./LearnPanel";
 
 
 // MUI  components
