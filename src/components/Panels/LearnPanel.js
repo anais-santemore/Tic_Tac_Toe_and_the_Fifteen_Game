@@ -3,8 +3,8 @@
 import React, { useState } from 'react';
 
 // Custom Components
-import HelpModal from "./HelpModal";
-import TicTacToeSettingsModal from "./TicTacToeSettingsModal";
+import HelpModal from "../HelpModal";
+import TicTacToeSettingsModal from "../TicTacToeSettingsModal";
 
 // MUI Components
 import Box from '@material-ui/core/Box';
