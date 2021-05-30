@@ -24,11 +24,9 @@ const useStyles = makeStyles((theme) => ({
         height: '100%',
         display: 'flex',
         justifyContent: 'center',
+        alignItems: 'center',
     },
-    buttonIcon: {
-        marginRight: '1vmin',
-        fontSize: 'larger',
-    },
+    
     modal: {
         margin: '6.0rem 3.0rem'
 
@@ -42,10 +40,15 @@ const useStyles = makeStyles((theme) => ({
     button: {
         color: theme.palette.common.white,
         backgroundColor: theme.palette.primary.main,
-        margin: '0.5rem 1.0rem',
-        width: '50%',
-        height:  '3.0rem',
-        fontSize: '1.2rem',
+        margin: '0.35rem',
+        width: 'calc(100% - 0.8rem)',
+        height: '2.5rem',
+        fontSize: '1.1rem',
+    },
+    buttonIcon: {
+        marginRight: '1vmin',
+        fontSize: 'larger'
+        // fontSize: 'min(max(0.7rem, 3vmin), 22px)',
     },
 
 }));
