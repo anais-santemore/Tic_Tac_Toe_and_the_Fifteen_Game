@@ -117,6 +117,8 @@ const useStyles = makeStyles((theme) => ({
 export default function Board(props) {
     const classes = useStyles();
     const handleSquareClick = props.handleSquareClick
+    
+    const boardNumbers = [2,9,4,7,5,3,6,1,8]
     const boardIcons = props.boardIcons;
     const boardColors = props.boardColors; // Array of 9 strings 'noColor', 'unclaimed', 'claimed', 'win', 'draw', 'lose'.
             // Formerly and Array of 9 strings '', 'immediateWin', 'unavoidableDefeat', 'doubleAttackCreatingMove', 'urgentDefensiveMove', 'forcedWinCreatingMove', 'drawingMove'
@@ -127,12 +129,13 @@ export default function Board(props) {
             <Row
                 key={row}
                 rowId={row}
+                rowNumbers={boardNumbers.slice(3 * row, 3 * (row + 1))}
                 rowIcons={boardIcons.slice(3*row, 3*(row+1))}
                 rowColors={boardColors.slice(3*(row), 3*(row + 1))}
                 handleSquareClick={handleSquareClick}  
             />
         ;
-        rows = rows.concat(newRow);
+        rows.push(newRow);
     }
     return (
         <Box className={classes.board}>
@@ -144,22 +147,23 @@ export default function Board(props) {
 function Row(props) {
     const classes = useStyles();
     const rowId = props.rowId;
+    const rowNumbers = props.rowNumbers;
     const rowIcons = props.rowIcons;
     const rowColors = props.rowColors;
     const handleSquareClick = props.handleSquareClick
 
     let squares = [];
     for (let col = 0; col < 3; col++) {
-        let squareId = 3 * rowId + col;
+        // let squareId = 3 * rowId + col;
         let newSquare =
             <Square
-                key={squareId}
-                id={squareId}
+                key={rowNumbers[col]}
+                number={rowNumbers[col]}
                 symbol={rowIcons[col]}
                 color={rowColors[col]}
                 handleClick={handleSquareClick}
             />;
-        squares = squares.concat(newSquare);
+        squares.push(newSquare);
     }
     return (
         <Box className={classes.row}>
@@ -170,11 +174,10 @@ function Row(props) {
 
 function Square(props) {
     const classes = useStyles();
-    const id = props.id
+    const number = props.number
     const symbol = props.symbol
     const color = props.color  // String 'win', 'draw', 'lose', 'unknown', 'claimed',  
     const handleClick = props.handleClick
-
 
     let icon;
     switch (symbol) {
@@ -184,16 +187,12 @@ function Square(props) {
         case 'o':
             icon = <RadioButtonUncheckedIcon className={classes.iconO} />
             break;
-        case '':
+        case '_':
             icon = null;
             break;
         default:
-            console.error("Square passed symbol not 'x' 'o' or ''");
+            console.error("Square passed symbol not 'x' 'o' or '_'");
     }
-
-
-
-
 
     let className;
     switch (color) {
@@ -221,40 +220,12 @@ function Square(props) {
         default:
             className = `${classes.square} `
     }
-    // switch (color) {
-    //     case 'noColor':
-    //         className = `${classes.square} ${classes.noColor} `
-    //         break;
-    //     case 'drawingMove':
-    //         className = `${classes.square} ${classes.drawingMove} `
-    //         break;
-    //     case 'immediateWin':
-    //         className = `${classes.square} ${classes.immediateWin} `
-    //         break;
-    //     case 'unavoidableDefeat':
-    //         className = `${classes.square} ${classes.unavoidableDefeat} `
-    //         break;
-    //     case 'urgentDefensiveMove':
-    //         className = `${classes.square} ${classes.urgentDefensiveMove} `
-    //         break;
-    //     case 'doubleAttackCreatingMove':
-    //         className = `${classes.square} ${classes.doubleAttackCreatingMove} `
-    //         break;
-    //     case 'forcedWinCreatingMove':
-    //         className = `${classes.square} ${classes.forcedWinCreatingMove} `
-    //         break;
-    //     case 'gameLosingMove':
-    //         className = `${classes.square} ${classes.gameLosingMove} `
-    //         break;    
-    //     default:
-    //         className = `${classes.square} `
-    // }
 
     return (
         <Paper
             elevation={4}
             className={className}
-            onClick={() => handleClick(id)}
+            onClick={() => handleClick(number)}
         >
             {icon}
         </Paper>
