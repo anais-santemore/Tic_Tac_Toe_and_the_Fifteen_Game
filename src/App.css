@@ -1,0 +1,21 @@
+element {
+    --logo-bg-color: #4AC9FD;
+    --theme-bg-color: #BBFFFF;
+
+    --immediate-win-bg-color: #00bb00;
+    
+
+}
+
+
+
+.MuiButtonBase-root.MuiButton-contained.Mui-disabled {
+    color: #999999;
+    box-shadow: none;
+    background-color: rgba(46, 107, 18, 0.5)
+}
+
+
+.MuiButtonBase-root.MuiButton-root:hover {
+    background-color: rgba(46, 107, 18, 1.0);
+}
