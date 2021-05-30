@@ -7,14 +7,18 @@ import {
 } from "react-router-dom";
 
 import logo from './logo.svg';
-import './App.css';
+import './styles/App.css';
 
 // My Components & Pages
 import Navbar from './components/Navbar/Navbar';
 import WelcomePage from "./pages/WelcomePage";
-import TicTacToeGame from './components/TicTacToe/TicTacToeGame';
 import MagicSquares from "./pages/MagicSquares";
 import StrategyPage from "./pages/StrategyPage";
+
+import PlayVsHuman from './pages/PlayVsHuman';
+import PlayVsBot from './pages/PlayVsBot';
+import PlayWithCoach from './pages/PlayWithCoach';
+
 
 // MUI  components
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -75,18 +79,26 @@ export default function App() {
                                     <WelcomePage />
                                 </Route>
 
-                                <Route path="/play_tic_tac_toe">
+                                {/* <Route path="/play_tic_tac_toe">
                                     <Navbar pageTitle={"Play Tic Tac Toe"} />
                                     <TicTacToeGame 
                                         mode='play'
                                     />
+                                </Route> */}
+
+                                <Route path="/play_vs_human">
+                                    <Navbar pageTitle={"Play Tic Tac Toe"} />
+                                    <PlayVsHuman />
                                 </Route>
 
-                                <Route path="/learn_tic_tac_toe">
+                                <Route path="/play_vs_bot">
+                                    <Navbar pageTitle={"Play Tic Tac Toe"} />
+                                    <PlayVsBot />
+                                </Route>
+
+                                <Route path="/play_with_coach">
                                     <Navbar pageTitle={"Master Tic Tac Toe"} />
-                                    <TicTacToeGame
-                                        mode='learn'
-                                    />
+                                    <PlayWithCoach />
                                 </Route>    
 
                                 
