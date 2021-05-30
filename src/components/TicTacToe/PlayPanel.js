@@ -48,10 +48,18 @@ const useStyles = makeStyles((theme) => ({
     button: {
         color: theme.palette.common.white,
         backgroundColor: theme.palette.primary.main,
-        margin: '0.5rem 1.0rem',
-        width: '50%',
-        height: '3.0rem',
-        fontSize: '1.2rem',
+        margin: '0.35rem',
+        width: '90%',
+        height: '2.5rem',
+        fontSize: '1.1rem',
+    },
+    selectedButton: {
+        color: theme.palette.common.white,
+        backgroundColor: 'rgba(46, 107, 18, 1.0)',
+    },
+    unselectedButton: {
+        color: '#999999',
+        backgroundColor: 'rgba(46, 107, 18, 0.5)',
     },
     buttonIcon: {
         marginRight: '1vmin',
@@ -68,36 +76,54 @@ export default function Panel(props) {
 
     const gameStatus = props.gameStatus;
     const gameNumber = props.gameNumber;
-    const commentary = props.commentary;
+    const moveNumber = props.moveNumber;
 
-    const handleNewGameClick = props.handleNewGameClick
+    const handleNewGameClick = props.handleNewGameClick;
+    const handleLetBotGoFirstClick = props.handleLetBotGoFirstClick
+    const difficultyMode = props.difficultyMode
+    const handleDifficultyModeChange = props.handleDifficultyModeChange
 
+    const letBotGoFirstButton = (
+        <Button
+            variant="contained"
+            color="primary"
+            className={classes.button}
+            onClick={() => handleLetBotGoFirstClick()}
+            disabled={moveNumber !== 1}
+        >
+            Let&nbsp;Bot&nbsp;Go&nbsp;First
+        </Button>
+    )
 
-    // let difficultyModeButtons = (
-    //     <React.Fragment  >
-    //         <Button
-    //             className={difficultyMode === "easy" ? classes.selectedButton : classes.unselectedButton}
-    //             variant={'contained'}
-    //             onClick={() => handleDifficultyModeChange("easy")}
-    //         >
-    //             Easy
-    //         </Button>
-    //         <Button
-    //             className={difficultyMode === "medium" ? classes.selectedButton : classes.unselectedButton}
-    //             variant={'contained'}
-    //             onClick={() => handleDifficultyModeChange("medium")}
-    //         >
-    //             Medium
-    //         </Button>
-    //         <Button
-    //             className={difficultyMode === "hard" ? classes.selectedButton : classes.unselectedButton}
-    //             variant={'contained'}
-    //             onClick={() => handleDifficultyModeChange("hard")}
-    //         >
-    //             Hard
-    //         </Button>
-    //     </React.Fragment>
-    // )
+    let easyButton = (
+        <Button
+            className={`${classes.button} ${difficultyMode === "easy" ? classes.selectedButton : classes.unselectedButton} `}
+            variant={'contained'}
+            onClick={() => handleDifficultyModeChange("easy")}
+        >
+            Easy
+        </Button>
+    )
+
+    let mediumButton = (
+        <Button
+            className={`${classes.button} ${difficultyMode === "medium" ? classes.selectedButton : classes.unselectedButton} `}
+            variant={'contained'}
+            onClick={() => handleDifficultyModeChange("medium")}
+        >
+            Medium
+        </Button>
+    )
+
+    let hardButton = (
+        <Button
+            className={`${classes.button} ${difficultyMode === "hard" ? classes.selectedButton : classes.unselectedButton} `}
+            variant={'contained'}
+            onClick={() => handleDifficultyModeChange("hard")}
+        >
+            Hard
+        </Button>
+    )
 
     const scoreBoard = (
         <React.Fragment>
@@ -113,10 +139,27 @@ export default function Panel(props) {
     
 
     const playButtons = (
-        <React.Fragment>
-            <NewGameButton handleNewGameClick={handleNewGameClick} />
-            <HelpModal />
-        </React.Fragment>
+        <Grid container>
+            <Grid item xs={4}  >
+                {easyButton}
+            </Grid>
+            <Grid item xs={4}  >
+                {mediumButton}
+            </Grid>
+            <Grid item xs={4}  >
+                {hardButton}
+            </Grid>
+            <Grid item xs={4}  >
+                <HelpModal />
+            </Grid>
+            <Grid item xs={4}  >
+                {letBotGoFirstButton} 
+            </Grid> 
+            <Grid item xs={4}  >
+                <NewGameButton handleNewGameClick={handleNewGameClick} />
+            </Grid>
+            
+        </Grid>
     )
 
     return (
