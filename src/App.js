@@ -13,7 +13,6 @@ import './App.css';
 import Navbar from './components/Navbar/Navbar';
 import WelcomePage from "./pages/WelcomePage";
 import TicTacToeGame from './components/TicTacToe/TicTacToeGame';
-import FifteenGame from './components/FifteenGame/FifteenGame';
 import MagicSquares from "./pages/MagicSquares";
 import StrategyPage from "./pages/StrategyPage";
 
@@ -90,10 +89,7 @@ export default function App() {
                                     />
                                 </Route>    
 
-                                <Route path="/fifteen_game">
-                                    <Navbar pageTitle={"Play the Fifteen Game"} />
-                                    <FifteenGame />
-                                </Route>
+                                
 
                                 <Route path="/magic_squares">
                                     <Navbar pageTitle={"Learn about Magic Squares"} />

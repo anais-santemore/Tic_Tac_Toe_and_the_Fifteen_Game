@@ -105,25 +105,6 @@ export default function TeachingServicesList() {
                 />
             </ListItem>
 
-            <ListItem
-                key={'play the fifteen-game'}
-                className={classes.listItem}
-                button
-                component={RouterLink}
-                to={{
-                    pathname: '/fifteen_game',
-                }}
-            >
-                <Icon className={"far fa-play-circle fa-2x"}
-                    classes={{ root: classes.icon }}
-                />
-                <ListItemText
-                    primary={'Play the 15 Game'}
-                    primaryTypographyProps={{ variant: 'h5' }}
-                />
-            </ListItem>
-
-            
 
             <ListItem
                 key={'learn about magic squares'}
