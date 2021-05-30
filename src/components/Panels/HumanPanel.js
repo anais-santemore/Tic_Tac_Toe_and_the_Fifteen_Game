@@ -94,7 +94,7 @@ export default function HumanPanel(props) {
                 Player O: &ensp;{props.record[1]}
             </Typography>
             <Typography align='center' component='h3' variant='h5' noWrap gutterBottom>
-                Draw: &emsp; &emsp;  {props.record[2]}
+                Draw: &emsp; &ensp;  {props.record[2]}
             </Typography>
         </React.Fragment>
     )
@@ -135,7 +135,7 @@ function UndoButton(props) {
             variant="contained"
             color="primary"
             onClick={() => handleUndoClick()}
-        // disabled={gameOver || moveNumber < 1}
+            disabled={gameOver || moveNumber < 1}
         >
             <UndoIcon className={classes.buttonIcon} />
             Undo
