@@ -3,7 +3,7 @@
 import React from 'react';
 
 // Custom Components
-import HelpModal from "./HelpModal";
+import HelpModal from "../HelpModal";
 
 // MUI Components
 import Box from '@material-ui/core/Box';
