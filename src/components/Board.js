@@ -6,12 +6,12 @@ import React from 'react';
 // MUI  components
 import Box from '@material-ui/core/Box';
 import Paper from '@material-ui/core/Paper';
+import Typography from '@material-ui/core/Typography';
 import ClearIcon from '@material-ui/icons/Clear';
 import RadioButtonUncheckedIcon from '@material-ui/icons/RadioButtonUnchecked';
 
 // Custom Styling
 import { makeStyles } from '@material-ui/core/styles';
-
 const useStyles = makeStyles((theme) => ({
     board: {
         // border: 'solid blue 1px',
@@ -179,6 +179,7 @@ function Square(props) {
     const color = props.color  // String 'win', 'draw', 'lose', 'unknown', 'claimed',  
     const handleClick = props.handleClick
 
+
     let icon;
     switch (symbol) {
         case 'x':
@@ -188,7 +189,7 @@ function Square(props) {
             icon = <RadioButtonUncheckedIcon className={classes.iconO} />
             break;
         case '_':
-            icon = null;
+            icon = <Typography variant='h3' color='textSecondary' >{number}</Typography>;
             break;
         default:
             console.error("Square passed symbol not 'x' 'o' or '_'");
