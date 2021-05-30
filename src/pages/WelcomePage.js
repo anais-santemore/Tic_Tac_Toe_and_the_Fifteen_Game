@@ -50,36 +50,60 @@ export default function WelcomePage() {
     return (
         <Container className={classes.root} maxWidth='md' >
             <Typography align='center' color='textPrimary' component='h1' variant='h2' gutterBottom >
-                Tic-Tac-Toe and the Fifteen Game
+                Tic-Tac-Toe & Proof
             </Typography>
-            {/* <Typography align='center' color='textPrimary' component='h2' variant='h5' gutterBottom >
-                A math lesson taught through two classic games
-            </Typography> */}
             <Grid container>
                 <Typography align='left' color='textPrimary' component='h4' variant='h4' gutterBottom >
-                    Intro to Proof
+                    Proof: An Expression of Creativity
+                </Typography>
+                <Typography paragraph align='justify' color='textPrimary' component='body1' variant='body1' gutterBottom >
+                    Math is a creative endeavor that focuses on things that can be <em>proven</em> using logic.
+                    In the same way a song is an expression of a musician's creativity, a written proof is an expression of a mathematician's creativity.
+                    Mathematical proofs can be profoundly beautiful and elegant, however, to the untrained eye, this beauty and elegance can be difficult 
+                    to pick up on because proofs often involve a lot of abstraction and formal definitions.
+                </Typography>
+                
+                <Typography align='left' color='textPrimary' component='h4' variant='h4' gutterBottom >
+                    Tic-Tac-Toe as an Intro to Proof
                 </Typography>
                 {/* <Typography paragraph align='justify' color='textPrimary' component='body1' variant='body1' gutterBottom >
-                    Math is all about things that can be proven using logic.
-                    In the same way a song is an expression of a musician's creativity, a written proof is an expression of a mathematician's creativity.
-                    To the trained eye, mathematical proofs can be profoundly beautiful and elegant,
-                    however, they often involve a lot of abstraction and formality, making them inaccessible to beginners.
-                    The first goal of this lesson is to break that barrier and introduce the concept of proof in a way 
-                    that is accessible to young students and to beginners with little formal math training.
-                    In this lesson you will prove some interseting things about Tic-Tac-Toe,
-                    without relying on any mathematical jargon or algebra.
+                    Most math students are first asked to write proofs in the context of a highschool geometry class. Shortly after being introduced to 
+                    the concept of triangle similarity, students are asked to write arguements to prove two triangles are similar using Angle-Angle, Side-Side-Side,
+                    and Side-Angle-Side similarity. I think this is a mistake. Proof is such an important idea, it should be introduced in a context that is simpler 
+                    and much more familiar.
                 </Typography> */}
-                <Typography paragraph align='justify' color='textPrimary' variant='body1' gutterBottom >
-                    Math is all about things that can be proven using logic.
-                    Mathematical proofs can be profoundly beautiful, but they often deal with very abstract concepts and 
-                    involve a lot of technical jargon, making them inaccessible to beginners. 
-                    Let's break that barrier by writing a proof about something familiar and concrete. 
-                    Can you proove that the player who goes first can always win at Tic-Tac-Toe?
-                    If not, can you proove that the ends in a draw every time if neither player makes a mistake? 
-                    Extra Challenge: What exactly does the word "mistake" mean as used above? Don't settle for an intuitive 
-                    grasp of the meaning of that word, write as precise a definition as you can!  
-                    Is it possible to make a mistake on the first move of the game? How about the second move?
+                <Typography paragraph align='justify' color='textPrimary' component='body1' variant='body1' gutterBottom >
+                    Most math students are first asked to write proofs in the context of a highschool geometry class, dealing with triangle similarity.
+                    I think this is a mistake. Proof is such an important idea, it should be introduced in a context that is simpler and much more familiar.
+                    Most children have played Tic Tac Toe enough times to have realized that the game usually ends in a draw. I challenge them to come up with 
+                    a detatailed strategy (for either the first or second player) that will allow them to win every time. Often students think they have found such
+                    a winning strategy, and when they tell me that they have I challenge them to use it to beat me. It never works. Eventually, they formulate their 
+                    own twist on my original challenge and set out to prove that no win-forcing strategy exists for either player.
                 </Typography>
+                <Typography align='left' color='textPrimary' component='h4' variant='h4' gutterBottom >
+                    Defining Your Terms
+                </Typography>
+                <Typography paragraph align='justify' color='textPrimary' component='body1' variant='body1' gutterBottom >
+                    In this lesson we will use certain words that we have and intuitive grasp on: mistake, threat, double-attack. We need to go beyond our intuitive 
+                    understanding of these words and define them in a precice way. I leave writing and refining these definitions as an exercise for the student. 
+                    Keep in mind, a good definition is an "if and only if" statement, it outlines the conditions which are both necessary and sufficient. 
+                </Typography>
+                <Typography align='left' color='textPrimary' component='h4' variant='h4' gutterBottom >
+                    Proof on Paper
+                </Typography>
+                <Typography paragraph align='justify' color='textPrimary' component='body1' variant='body1' gutterBottom >
+                    It may take you several pages, but you can prove using an exhaustive tree-diagram that in classic Tic-Tac-Toe both players worst case scenario
+                    if they avoid making any mistakes is a draw. If you get stuck or want to check your answers, take a look at the "Learn Tic Tac Toe Strategy" page.
+                </Typography>
+                <Typography align='left' color='textPrimary' component='h4' variant='h4' gutterBottom >
+                    Taking It Further
+                </Typography>
+                <Typography paragraph align='justify' color='textPrimary' component='body1' variant='body1' gutterBottom >
+                    Is it possible for the player who goes first to make a mistake on the first move of the game? 
+                    Is is possible for the player who goes second to make a mistake on their first move?
+                </Typography>
+                
+                
                 <Box width="100%" mb={3} > 
                     <Button
                         className={classes.button}
@@ -101,66 +125,10 @@ export default function WelcomePage() {
                     </Button>
                 </Box>
                 
-                {/* <Typography paragraph align='justify' color='secondary' component='body1' variant='body1' gutterBottom >
-                    If you have played Tic-Tac-Toe much, you have probably observed that the player who goes first seems to have an advantage but the game usually ends in a draw.
-                    Try and take this casual observation to the next level by prooving that the game will <em>always</em> end in a draw unless one of the players makes a mistake.
-                    To do this you will need to articulate a move-by-move plan that you can use when you go second that anticipates
-                    every strategy that the first player might try to use against you and explains how you can respond to avoid defeat.
-                    As you work to develop your plan, it may help to try and test your ideas by playing against my bot.
-                    My bot will try a variety of strategies and it will never make a mistake,
-                    but when you have perfected your plan you won't make any mistakes either and you will never lose to my bot.
-                    When you have perfected your strategy for going second try this challenge question: Is it possible for the player who goes first
-                    to make a mistake on the first move of the game?
-                </Typography> */}
-                
                 <Typography align='left' color='textPrimary' component='h4' variant='h4' gutterBottom >
-
-                    Similarity Beneath the Surface
+                    Behind the Scenes
                 </Typography>
-                   
-                <Typography paragraph align='justify' color='textPrimary' variant='body1' >
-                    Many problems can be solved with less work if, instead of starting from scratch, you start
-                    with the solution to a different problem in mind and adapt that solution to the problem at hand. 
-                    The first, and most difficult, step in this process is realizing that the two problems have 
-                    something in common. Often, two real-world problems will seem unrelated on their surfaces' 
-                    even though at a deeper level they are behaving according to the same patterns. Being familiar 
-                    with mathematics makes you better at noticing when this is the case.
-                </Typography>
-                <Typography paragraph align='justify' color='textPrimary' variant='body1' >
-                    Experience this adaptive process for yourself!  Once you have mastered Tic-Tac-Toe and written up 
-                    a strategic plan that lets you guarantee you cannot be beaten, 
-                    try playing the Fifteen Game against my bot. 
-                    At first, you will probably think that these two games feel nothing alike.
-                    You would not guess that by mastering Tic-Tac-Toe you had taken a big step toward mastering the 
-                    Fifteen Game too, but you have! Once you are familiar with the mechanics of the Fifteen Game, 
-                    take a look at the lesson on Magic Squares, a mathematical curiosity first discovered in China 
-                    about 4200 years ago. Equipped with this mathematical knowledge, you will soon realize 
-                    that Tic-Tac-Toe and the Fifteen Game have a lot more in common that you thought at first!
-                </Typography>
-                <Box mb={2} >
-                    <Button
-                        className={classes.button}
-                        variant="contained"
-                        color="primary"
-                        component={RouterLink}
-                        to='/fifteen_game'
-                    >
-                        Play  the 15-Game!
-                    </Button>
-
-                    <Button
-                        className={classes.button}
-                        variant="contained"
-                        color="primary"
-                        component={RouterLink}
-                        to='/magic_squares'
-                    >
-                        Learn About Magic Squares
-                    </Button>
-                </Box>
-                
-                
-                <Typography variant='body2' color='textPrimary' className={classes.paragraph}>
+                <Typography variant='body1' color='textPrimary' className={classes.paragraph}>
                     This lesson is built with code that is open-source and available on my <a href="https://github.com/nolastemgarden">Github account</a>,
                     so if you have something to add, a bug to report, or simply want to see how it works you are welcome to open an issue or &nbsp;
                     <a href="https://github.com/nolastemgarden/tic-tac-toe-and-the-fifteen-game">clone the repository</a>!
