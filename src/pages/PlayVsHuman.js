@@ -57,6 +57,8 @@ export default function PlayVsHuman() {
     let [gameNumber, setGameNumber] = useState(1);     // In ODD numbered games X goes first
     let [record, setRecord] = useState([0, 0, 0]);     // 3 element counter for humanWins, botWins, and tieGames.
 
+    const trioList = generateTrioList()
+
 
     return (
         <Box className={classes.root} >
@@ -136,7 +138,7 @@ export default function PlayVsHuman() {
         let colors = Array(10).fill('noColor')
         let Xs = xNumbers(ml)
         let Os = oNumbers(ml)
-        let winningTrios = trioList().filter(trio =>
+        let winningTrios = trioList.filter(trio =>
             intersect(trio, Xs).length === 3 || intersect(trio, Os).length === 3
         )
 
@@ -284,7 +286,7 @@ export default function PlayVsHuman() {
         }
         return sums
     }
-    function trioList() {
+    function generateTrioList() {
         let trioList = []
         for (let i = 1; i <= 7; i++) {
             for (let j = i + 1; j <= 8; j++) {
