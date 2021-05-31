@@ -87,17 +87,17 @@ export default function App() {
                                 </Route> */}
 
                                 <Route path="/play_vs_human">
-                                    <Navbar pageTitle={"Play Tic Tac Toe"} />
+                                    <Navbar pageTitle={"Play Human vs. Human"} />
                                     <PlayVsHuman />
                                 </Route>
 
                                 <Route path="/play_vs_bot">
-                                    <Navbar pageTitle={"Play Tic Tac Toe"} />
+                                    <Navbar pageTitle={"Play Human vs. Bot"} />
                                     <PlayVsBot />
                                 </Route>
 
                                 <Route path="/play_with_coach">
-                                    <Navbar pageTitle={"Master Tic Tac Toe"} />
+                                    <Navbar pageTitle={"Play with Coach"} />
                                     <PlayWithCoach />
                                 </Route>    
 
