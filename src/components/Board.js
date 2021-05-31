@@ -41,7 +41,7 @@ const useStyles = makeStyles((theme) => ({
         width: 'min(30%, 15vh)',
         height: '100%',
         margin: '0.0rem 0.3rem',
-        backgroundColor: '#fff',
+        backgroundColor: theme.palette.common.white,
 
         display: 'flex',
         alignItems: 'center',
@@ -130,8 +130,8 @@ export default function Board(props) {
                 key={row}
                 rowId={row}
                 rowNumbers={boardNumbers.slice(3 * row, 3 * (row + 1))}
-                rowIcons={boardIcons.slice(3*row, 3*(row+1))}
-                rowColors={boardColors.slice(3*(row), 3*(row + 1))}
+                boardIcons={boardIcons}
+                boardColors={boardColors}
                 handleSquareClick={handleSquareClick}  
             />
         ;
@@ -148,19 +148,18 @@ function Row(props) {
     const classes = useStyles();
     const rowId = props.rowId;
     const rowNumbers = props.rowNumbers;
-    const rowIcons = props.rowIcons;
-    const rowColors = props.rowColors;
+    const boardIcons = props.boardIcons;
+    const boardColors = props.boardColors;
     const handleSquareClick = props.handleSquareClick
 
     let squares = [];
     for (let col = 0; col < 3; col++) {
-        // let squareId = 3 * rowId + col;
         let newSquare =
             <Square
                 key={rowNumbers[col]}
                 number={rowNumbers[col]}
-                symbol={rowIcons[col]}
-                color={rowColors[col]}
+                icon={boardIcons[rowNumbers[col]]}
+                color={boardColors[rowNumbers[col]]}
                 handleClick={handleSquareClick}
             />;
         squares.push(newSquare);
@@ -175,21 +174,22 @@ function Row(props) {
 function Square(props) {
     const classes = useStyles();
     const number = props.number
-    const symbol = props.symbol
+    const icon = props.icon
     const color = props.color  // String 'win', 'draw', 'lose', 'unknown', 'claimed',  
     const handleClick = props.handleClick
 
 
-    let icon;
-    switch (symbol) {
+    let squareIcon;
+    switch (icon) {
         case 'x':
-            icon = <ClearIcon className={classes.iconX} />
+            squareIcon = <ClearIcon className={classes.iconX} />
             break;
         case 'o':
-            icon = <RadioButtonUncheckedIcon className={classes.iconO} />
+            squareIcon = <RadioButtonUncheckedIcon className={classes.iconO} />
             break;
         case '_':
-            icon = <Typography variant='h3' color='textSecondary' >{number}</Typography>;
+            // squareIcon = null
+            squareIcon = <Typography variant='h3' color='textSecondary' >{number}</Typography>;
             break;
         default:
             console.error("Square passed symbol not 'x' 'o' or '_'");
@@ -228,7 +228,7 @@ function Square(props) {
             className={className}
             onClick={() => handleClick(number)}
         >
-            {icon}
+            {squareIcon}
         </Paper>
     )
 }
