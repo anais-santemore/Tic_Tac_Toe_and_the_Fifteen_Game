@@ -153,11 +153,35 @@ export default function PlayWithCoach(props) {
 
 
     }
-    function getXdoStatus(ml) {
-        let complete = ml.concat(unclaimed(ml))
+    
+    // Position is winning for player One or Two or else it is Drawing.
+    function getOneDrawTwoStatus(ml) {
+        if (ml.length === 8) {
+            let complete = ml.concat(unclaimed(ml))
+            if (!xWins(complete) && !oWins(complete)) {
+                return "draw"
+            }
+        }
+        else if (ml.length < 8) {
+            // Determine by looking at getOneDrawTwoStatus of all children.
+            // Dont get it functionally, pull it from the Map!
+            // That's why this map is being generated in reverse order. 
+            
+            let complete = ml.concat(unclaimed(ml))
+            if (!xWins(complete) && !oWins(complete)) {
+                return "draw"
+            }
+        }
+        
 
         for (let length = 5; length <= 9; length++) {
-            // examine sub strings 
+            // examine sub strings
+            if (length % 2 === 1 && xWins(ml.slice(0,length))) {
+
+            }
+            else if (oWins(ml.slice(0, length))) {
+
+            }
         }
 
 
