@@ -30,6 +30,10 @@ const theme = createMuiTheme({
         text: {
             primary: '#FFFFFF',
             secondary: '#000000'
+        },
+        action: {
+            disabledBackground: '#2e6b12',
+            disabledOpacity: '0.5'
         }
     },
     status: {
