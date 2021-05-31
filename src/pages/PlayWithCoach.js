@@ -1,22 +1,18 @@
 import React, { useState } from 'react';
 
+
 import '../styles/TicTacToe.css';
-
-
 // My Components
 import Board from "../components/Board";
 import Panel from "../components/Panels/CoachPanel";
-// import PlayPanel from "./PlayPanel";
-// import LearnPanel from "./LearnPanel";
-
 
 // MUI  components
 import Box from '@material-ui/core/Box';
 
 // Custom Styling
+import '../styles/TicTacToe.css';
 import { makeStyles } from '@material-ui/core/styles';
 const useStyles = makeStyles((theme) => ({
-
     root: {
         // border: 'solid purple 1px',
         width: '100%',
@@ -54,21 +50,20 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
+// In Play With Coach mode X always goes first
 
-export default function TicTacToeGame(props) {
+export default function PlayWithCoach(props) {
     const classes = useStyles();
     const mode = props.mode;
 
-    // State used in BOTH modes    
     let [moveList, setMoveList] = useState([]);
-
-    // State used ONLY in PLAY mode    
-    let [gameNumber, setGameNumber] = useState(1);
+    let [gameNumber, setGameNumber] = useState(1);     // In ODD numbered games X goes first
     let [record, setRecord] = useState([0, 0, 0]);     // 3 element counter for humanWins, botWins, and tieGames.
-
-    // State used ONLY in LEARN mode    
     let [showHints, setShowHints] = useState(false);
 
+    const trioList = generateTrioList()
+    
+    const positionMap = generatePositionMap()
 
     return (
         <Box className={classes.root} >
@@ -92,21 +87,201 @@ export default function TicTacToeGame(props) {
         </Box>
     );
 
-    // The <Game> holds all state and most helper and handler function definitions.
-    // It passes what it needs to to the board to render and to the panel.
+    
+    function generatePositionMap() {
+        // Returns an array of objects where the 
+        // Key is a moveList and the
+        // Value is that moveList's ndpStatus
+        
+        let positionsList = listOfPossiblePositions().flat(1)
+        
+        let postionMap = Array(positionsList.length)
+        for (let i = positionsList.length - 1; i >= 0; i--) {
+            let ml = positionsList[i]
+            positionMap.
+        }
+        
+
+        
+        let positionBlank = {
+            moveList: [],
+            ndpStatus: null
+        }
+
+        // We can safely omit move lists of length 9 from the map because the last move is always forced,
+        // There is s 1:1 correspondence between MLs of length 8 and 9.
+        let initialMoveList = []
+        positionMap.push(initialMoveList) // fills index 0 in the map to set up for the for loop
+
+        for (let length = 1; length > 9; length++) {
+            let prevLength = positionMap[length - 1]
+            positionMap.push(prevLength.forEach(position => positionMap.push(extendMoveListByOne(position))))
+        }
+        
+        
+        
+
+
+
+        // If a movelist was simply interpreted as a number there would be 10^9 possibilities
+        // This is vastly more than 9! the number of movelists not allowing duplicate entries
+
+        // Returns an array of objects.
+        // Array index = id
+        // {
+        //    moveList: []
+        //    ndpStatus: 'next' || 'draw' || 'prev'
+        // }
+
+        
+
+        return positionMap
+    }
+    function listOfPossiblePositions() {
+        // Returns an array of arrays of arrays
+        // Layer 1) indices 0 thru 8 correspond to the lengths of the move lists contained there
+        // Layer 2) an array of all the move lists of that length
+        // Layer 3) actual moveList arrays
+
+        // We can safely omit move lists of length 9 from the map because the last move is always forced,
+        // There is s 1:1 correspondence between MLs of length 8 and MLs of length 9.
+        let positionsList = []
+        let initialMoveList = [[]]
+        positionsList.push(initialMoveList) // fills index 0 in the map to set up for the for loop
+
+        for (let parentLength = 0; parentLength < 8; parentLength++) {
+            let parentPositions = positionsList[parentLength]
+            let childPositions = []
+            parentPositions.forEach(parent => childPositions.push(extendMoveListByOne(parent)))
+
+            positionsList.push(childPositions.flat())
+        }
+        return positionsList
+    }
+
+
+    // ML . get parent is easy --> just remove the last element off the end of the child. 
+
+    function firstIdOfMoveListsOfLength(num) { 
+        // AKA total numberOfMoveListsOfLengthLessThan(num) 
+        let count = 0
+        for (let i = 0; i < num; i++) {
+            count += numberOfMoveListsOfLength(i)
+        }
+        return count
+    }
+    function lastIdOfMoveListsOfLength(num) {
+        // AKA total numberOfMoveListsOfLengthLessThanOrEqualTo(num) 
+        let count = 0
+        for (let i = 0; i <= num; i++) {
+            count += numberOfMoveListsOfLength(i)
+        }
+    }
+    function lastIdOfMoveListsOfLength(num) {  // AKA First ID for moveList of length = num
+        // When looking for children start searcing the positionMap from this index
+    }
+    function moveListToId(ml) {
+        let startId = 0
+        if (ml.length === 0) { // 1 way
+            return 0
+        }
+        if (ml.length === 1) { // 9 ways
+            return ml[0]
+        }
+
+    }
+
+    function idToMoveList(id) {
+
+    }
+
+    // function numberOfMoveListsOfLengthLessThan(num) {  // AKA First ID for moveList of length = num
+    //     let count = 0
+    //     for (let i = 0; i <= num; i++) {
+    //         count += numberOfMoveListsOfLength(i)
+    //     }
+    //     // console.log(`There are ${count} MLs of length less than: ${num}  `)
+    //     return count
+    // }
+    function numberOfMoveListsOfLength(num) {
+        let count = (factorial(9) / factorial(9 - num))
+        // console.log(`There are ${count} MLs of length: ${num}  `)
+        return count
+    }
+    function moveListsOfLength(num) { // A Sorted array of arrays, placing low numbers near beginning of moveList
+        if (num === 0) {
+            return [[]]
+        }
+        
+        let prefixes = moveListsOfLength(num - 1)
+        console.log(`prefixes: [${prefixes}]`)
+        
+        let collection = []
+
+        prefixes.forEach(prefix => {
+            let available = unclaimed(prefix)
+            available.forEach(num => collection.push(prefix.concat(num)))
+        })
+
+        return collection
+    }
+    function extendMoveListByOne(prefixML) {
+        console.assert(Array.isArray(prefixML), `extendMoveListByOne called with a move list that is not an array.`)
+        let extension = []
+        unclaimed(prefixML).forEach(num => extension.push(prefixML.concat(num)))
+        return extension
+    }
+    function moveListsOfLengthOne() {
+        let completeSet = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+
+        let collection = completeSet.choose(1)
+
+        console.log(`MLs of length 1: [${collection}]`)
+
+    }
+
+
+    function nextMoveListOfSameLength(ml) { 
+        // If the last element is <9 increment it.
+
+        // If the last element is 9 
+
+
+    }
+    function moveListToNumber(ml) {
+        
+    }
+    function choose(n) { 
+        
+    }
+    function permutations() {
+
+    }
+    
+    function combinations(str) {
+        var fn = (active, rest, a) => {
+            if (!active && !rest)
+                return;
+            if (!rest) {
+                a.push(active);
+            } else {
+                fn(active + rest[0], rest.slice(1), a);
+                fn(active, rest.slice(1), a);
+            }
+            return a;
+        }
+        return fn("", str, []);
+    }
+    
+    combinations("abcd")
+
+
+
 
     // The board data to render is always the latest entry in history.  We will have an 'undo' but not a 'redo' button.  May add a Make Computer Move
     function getBoardIcons(ml = moveList) {
-        let data = Array(9).fill('_');  // Start with an array representing a board of NINE empty squares
-
-        ml.forEach((squareId, turn) => {
-            if (turn % 2 === 0) {
-                data[squareId] = 'x';
-            }
-            else {
-                data[squareId] = 'o';
-            }
-        })
+        let data = Array(10).fill('_');  // Start with an array representing a board of NINE empty squares
+        data[squareId] = (turn % 2 === 0) ? 'x' : 'o'
         return data;  // this method only deals with current board position, not hypotheticals.  Thus, it wants to use a version of helper squaresClaimedByPlayer() that does not require a moveList be explicitly passed in. 
     }
 
@@ -729,14 +904,11 @@ export default function TicTacToeGame(props) {
         return lines;
     }
 
-    function intersect(listOne, listTwo) {
-        let intersection = listOne.filter(number => listTwo.includes(number))
-        return intersection;
-    }
+    
 
     function unclaimed(ml = moveList) {
         let unclaimed = [];
-        for (let i = 0; i < 9; i++) {
+        for (let i = 1; i <= 9; i++) {
             if (!ml.includes(i)) {
                 unclaimed = unclaimed.concat(i)
             }
@@ -916,6 +1088,53 @@ export default function TicTacToeGame(props) {
             console.log(`gameOver() --> FALSE`)
             return false
         }
+    }
+
+
+    ///////////////////////////////////////////////////
+    // Low Level Helpers
+    ///////////////////////////////////////////////////
+    function intersect(listOne, listTwo) {
+        return listOne.filter(item => listTwo.includes(item))
+    }
+    function factorial(num) {
+        console.assert(num >= 0 && num <=9, `Factorial called with a number out of this game's range!`)
+        let product = 1
+        for (let i = 1; i <= num; i++) {
+            product = product * i
+        }
+        return product
+    }
+    function sumsOfThree(moveSet) {
+        let sums = []
+        if (moveSet.length < 3) {
+            return sums
+        }
+        for (let i = 0; i < moveSet.length - 2; i++) {
+            for (let j = i + 1; j < moveSet.length - 1; j++) {
+                for (let k = j + 1; k < moveSet.length; k++) {
+                    let sum = moveSet[i] + moveSet[j] + moveSet[k]
+                    sums.push(sum)
+                }
+            }
+        }
+        return sums
+    }
+    function generateTrioList() {
+        let trioList = []
+        for (let i = 1; i <= 7; i++) {
+            for (let j = i + 1; j <= 8; j++) {
+                let k = complementOf(i + j)
+                if (k > j && k <= 9) {
+                    let newTrio = [i, j, k]
+                    trioList.push(newTrio)
+                }
+            }
+        }
+        return trioList
+    }
+    function complementOf(sumOfTwo) {
+        return (15 - sumOfTwo)
     }
 
 }
