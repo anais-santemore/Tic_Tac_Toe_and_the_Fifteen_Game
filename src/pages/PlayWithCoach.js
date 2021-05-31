@@ -87,52 +87,29 @@ export default function PlayWithCoach(props) {
         </Box>
     );
 
-    
+    //////////////////////////////////////////////////
+    // Use a Map instead of an Object for faster lookup of the ndpStatus 
+    // of each child of a given position
+    // 
+    // 
+    ////////////////////////////////////////////////////
+
+
     function generatePositionMap() {
         // Returns an array of objects where the 
         // Key is a moveList and the
         // Value is that moveList's ndpStatus
         
         let positionsList = listOfPossiblePositions().flat(1)
-        
         let postionMap = Array(positionsList.length)
+        
         for (let i = positionsList.length - 1; i >= 0; i--) {
             let ml = positionsList[i]
-            positionMap.
+            let mlString = ml.toString()
+            let ndpStatus = getNdpStatus(ml)
+
+            positionMap.unshift({ml: ndpStatus})
         }
-        
-
-        
-        let positionBlank = {
-            moveList: [],
-            ndpStatus: null
-        }
-
-        // We can safely omit move lists of length 9 from the map because the last move is always forced,
-        // There is s 1:1 correspondence between MLs of length 8 and 9.
-        let initialMoveList = []
-        positionMap.push(initialMoveList) // fills index 0 in the map to set up for the for loop
-
-        for (let length = 1; length > 9; length++) {
-            let prevLength = positionMap[length - 1]
-            positionMap.push(prevLength.forEach(position => positionMap.push(extendMoveListByOne(position))))
-        }
-        
-        
-        
-
-
-
-        // If a movelist was simply interpreted as a number there would be 10^9 possibilities
-        // This is vastly more than 9! the number of movelists not allowing duplicate entries
-
-        // Returns an array of objects.
-        // Array index = id
-        // {
-        //    moveList: []
-        //    ndpStatus: 'next' || 'draw' || 'prev'
-        // }
-
         
 
         return positionMap
@@ -158,7 +135,33 @@ export default function PlayWithCoach(props) {
         }
         return positionsList
     }
+    function getNdpStatus(ml) {
+        // If game is not over after 8 moves, add the 9th move and sort as either 'xWins' or 'draw'
+        
+        
+        if (ml.length === 8 ) {
+            let complete = ml.concat(unclaimed(ml))
 
+        }
+
+        // If the game is over after 8 moves, check if X had won after 7.
+        // If not then O must have won on move 8
+
+        for (let length = 5; length <= 9; length++) {
+            // examine sub strings 
+        }
+
+
+    }
+    function getXdoStatus(ml) {
+        let complete = ml.concat(unclaimed(ml))
+
+        for (let length = 5; length <= 9; length++) {
+            // examine sub strings 
+        }
+
+
+    }
 
     // ML . get parent is easy --> just remove the last element off the end of the child. 
 
@@ -180,20 +183,7 @@ export default function PlayWithCoach(props) {
     function lastIdOfMoveListsOfLength(num) {  // AKA First ID for moveList of length = num
         // When looking for children start searcing the positionMap from this index
     }
-    function moveListToId(ml) {
-        let startId = 0
-        if (ml.length === 0) { // 1 way
-            return 0
-        }
-        if (ml.length === 1) { // 9 ways
-            return ml[0]
-        }
-
-    }
-
-    function idToMoveList(id) {
-
-    }
+    
 
     // function numberOfMoveListsOfLengthLessThan(num) {  // AKA First ID for moveList of length = num
     //     let count = 0
@@ -340,22 +330,16 @@ export default function PlayWithCoach(props) {
     // }
 
 
-    function xWins(ml = moveList) {
-        lineCounts(ml).forEach(lineTuple => {
-            if (lineTuple[0] === 3) {
-                return true
-            }
-        })
-        return false
+    function gameIsWon(ml = moveList) {
+        return (xWins(ml) || oWins(ml)) ? true : false
     }
-    function oWins(ml = moveList) {
-        lineCounts(ml).forEach(lineTuple => {
-            if (lineTuple[1] === 3) {
-                return true
-            }
-        })
-        return false
+    function xWins(ml) {
+        return sumsOfThree(xNumbers(ml)).includes(15)
     }
+    function oWins(ml) {
+        return sumsOfThree(oNumbers(ml)).includes(15)
+    }
+
     function gameDrawn(ml = moveList) {
         lineCounts(ml).forEach(lineTuple => {
             if (lineTuple[0] === 0 && lineTuple[1] === 0) {
