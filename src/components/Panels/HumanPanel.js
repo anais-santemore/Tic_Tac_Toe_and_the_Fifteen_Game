@@ -107,7 +107,9 @@ export default function HumanPanel(props) {
             </Box>
             <Grid container className={classes.buttonArea} >
                 <Grid item xs={12} sm={6}  >
-                    <NewGameButton handleNewGameClick={handleNewGameClick} />
+                    <NewGameButton gameOver={gameOver}
+                        handleNewGameClick={handleNewGameClick} 
+                    />
 
                 </Grid>
                 <Grid item xs={12} sm={6}   >
@@ -129,13 +131,15 @@ function UndoButton(props) {
     const gameOver = props.gameOver
     const moveNumber = props.moveNumber
     const handleUndoClick = props.handleUndoClick
+    console.log(`Move Number: ${moveNumber}`)
+    
     return (
         <Button
             className={classes.button}
             variant="contained"
             color="primary"
             onClick={() => handleUndoClick()}
-            disabled={gameOver || moveNumber < 1}
+            disabled={gameOver || moveNumber === 1}
         >
             <UndoIcon className={classes.buttonIcon} />
             Undo
@@ -154,7 +158,7 @@ function NewGameButton(props) {
             variant="contained"
             color="primary"
             onClick={() => handleNewGameClick()}
-        // disabled={!props.gameOver}
+            disabled={!props.gameOver}
         >
             <ReplayIcon className={classes.buttonIcon} />
             New&nbsp;Game
