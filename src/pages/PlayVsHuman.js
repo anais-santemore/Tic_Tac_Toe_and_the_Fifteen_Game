@@ -71,6 +71,9 @@ export default function PlayVsHuman() {
             </Box>
             <Box className={classes.panelArea}>
                 <Panel
+                    gameNumber={gameNumber}
+                    moveNumber={moveList.length + 1}
+                    gameOver={gameOver()}
                     gameStatus={gameStatus()}
                     record={record}
                     handleUndoClick={handleUndoClick}
@@ -83,36 +86,119 @@ export default function PlayVsHuman() {
     ///////////////////////////////////////////////////
     // Board and Panel Rendering Helpers
     ///////////////////////////////////////////////////
-
     function getBoardIcons(ml = moveList) {
-        let data = Array(9).fill('_');  // Start with an array representing a board of NINE empty squares
+        let data = Array(10).fill('_');  // Start with an array representing a board of NINE empty squares
 
         ml.forEach((squareId, turn) => {
-            if (turn % 2 === 0) {
-                data[squareId] = 'x';
+            if (xGoesFirst()) {
+                data[squareId] = (turn % 2 === 0) ? 'x' : 'o'
             }
             else {
-                data[squareId] = 'o';
+                data[squareId] = (turn % 2 === 0) ? 'o' : 'x'
             }
         })
         return data;  // this method only deals with current board position, not hypotheticals.  Thus, it wants to use a version of helper squaresClaimedByPlayer() that does not require a moveList be explicitly passed in. 
     }
-
-
     function getBoardColors(ml = moveList) {
-        let colors = Array(9).fill('noColor')
+        let colors = Array(10).fill('noColor')
         if (xWins(ml) || oWins(ml)) {
             colors = highlightWins(ml)
         }
         return colors
     }
+    function gameStatus(ml = moveList) {
+        if (xWins(ml)) {
+            return (`X wins!`)
+        }
+        else if (oWins(ml)) {
+            return (`O wins!`)
+        }
+        else if (gameDrawn(ml)) {
+            return (`Draw.`)
+        }
+        else if (ml.length === 0) {
+            return (xGoesFirst()) ? `X goes first this game.` : `O goes first this game.`
+        }
+        else if (ml.length % 2 === 0) {
+            return (xGoesFirst()) ? `X goes next.` : `O goes next.`
+        }
+        else if (ml.length % 2 === 1) {
+            return (xGoesFirst()) ? `O goes next.` : `X goes next.`
+        }
+        else {
+            console.error("A call to gameStatus() did not work!");
+            return `ERROR`
+        }
+    }
+    function highlightWins(ml) {
+        console.assert(!gameOver(), `highlightWins() was called but found that the game is not over`);
 
+        let colors = Array(10).fill('noColor')
+        let Xs = xNumbers(ml)
+        let Os = oNumbers(ml)
+        let winningTrios = trioList().filter(trio =>
+            intersect(trio, Xs).length === 3 || intersect(trio, Os).length === 3
+        )
+
+        winningTrios.flat().forEach(num => colors[num] = 'win')
+        return colors
+    }
+
+    ///////////////////////////////////////////////////
+    // CLICK HANDLERS
+    ///////////////////////////////////////////////////
+    function handleSquareClick(squareClicked) {
+        if (gameOver()) {
+            console.log("return without effects from handleSquareClick(). The Game is already over.")
+            return;
+        }
+        if (squareAlreadyClaimed(squareClicked)) {
+            console.log("return without effects from handleSquareClick(). That square has already been claimed.")
+            return;
+        }
+        // If we reach this point the clicked square is open and the game is not over yet ... 
+        let updatedMoveList = moveList.concat(squareClicked)
+        console.log(`MoveList: ${updatedMoveList}`)
+
+        setMoveList(updatedMoveList);
+
+        if (gameOver(updatedMoveList)) {
+            handleGameOver(updatedMoveList)
+        }
+    }
+    function handleUndoClick() {
+        const shortenedMoveList = moveList.slice(0, moveList.length - 1)
+        console.log(`handleUndoClick() removed ${moveList[moveList.length - 1]} . New Shortened history: ${shortenedMoveList}`);
+        setMoveList(shortenedMoveList);
+    }
+    function handleNewGameClick() {
+        const empty = [];
+        const nextGameNumber = ++gameNumber;
+        setMoveList(empty);
+        setGameNumber(nextGameNumber);
+    }
+
+    function handleGameOver(ml) {
+        console.assert(gameOver(ml) === true, `NO EFFECT. handleGameOver called but the game isn't actually over!`);
+        if (xWins(ml)) {
+            setRecord([++record[0], record[1], record[2]])
+        }
+        else if (oWins(ml)) {
+            setRecord([record[0], ++record[1], record[2]])
+        }
+        else if (gameDrawn(ml)) {
+            setRecord([record[0], record[1], ++record[2]])
+        }
+        else {
+            console.error(`handleGameOver called with invalid game result!`)
+        }
+    }
 
     
     ///////////////////////////////////////////////////
     // Game Over & Helpers
     ///////////////////////////////////////////////////
-    function gameOver(ml) {
+    function gameOver(ml = moveList) {
         if (ml.length < 5) {
             return false
         }
@@ -136,16 +222,8 @@ export default function PlayVsHuman() {
     ///////////////////////////////////////////////////
     // Movelist Filters
     ///////////////////////////////////////////////////
-
-    function emptySquares(ml) {
-        let emptySquaresList = [];
-        for (let i = 0; i < 9; i++) {
-            if (!ml.includes(i)) {
-                emptySquaresList.push(i)
-            }
-        }
-        // console.log(`List Empty Squares: ${emptySquaresList}`)
-        return emptySquaresList;
+    function squareAlreadyClaimed(squareNumber) {
+        return moveList.includes(squareNumber)
     }
     function unclaimedNumbers(ml) {
         let unclaimedNumbers = [];
@@ -222,148 +300,5 @@ export default function PlayVsHuman() {
     function complementOf(sumOfTwo) {
         return (15 - sumOfTwo)
     }
-
-    
-    
-    // HIGH-LEVEL PANEL HELPERS no params
-    function gameStatus(ml = moveList) {
-        if (xWins(ml)) {
-            return (`X wins!`)
-        }
-        else if (oWins(ml)) {
-            return (`O wins!`)
-        }
-        else if (gameDrawn(ml)) {
-            return (`Draw.`)
-        }
-        else if (ml.length === 0) {
-            return (xGoesFirst()) ? `X goes first this game.` : `O goes first this game.`
-        }
-        else if (ml.length % 2 === 0) {
-            return (xGoesFirst()) ? `X goes next.` : `O goes next.`
-        }
-        else {
-            console.error("A call to gameStatus() did not work!");
-            return `ERROR`
-        }
-    }
-
-
-    
-    // MID-LEVEL HELPERS for getBoardColors() and getBoardHints()
-    function highlightWins(ml) {
-        console.assert(!gameOver(), `highlightWins() was called but found that the game is not over`);
-        
-        let colors = Array(9).fill('noColor')
-        let Xs = xNumbers(ml)
-        let Os = oNumbers(ml)
-        let winningTrios = trioList().filter(trio => 
-            intersect(trio, Xs).length === 3 || intersect(trio, Os).length === 3
-        )
-
-        winningTrios.flat().forEach(num => colors[num] = 'win')
-        return colors
-    }
-
-    
-
-
-    
-    
-    // CLICK HANDLERS
-    function handleSquareClick(squareClicked) {
-        if (gameOver()) {
-            console.log("return without effects from handleSquareClick(). The Game is already over.")
-            return;
-        }
-        if (!squareIsEmpty(squareClicked)) {
-            console.log("return without effects from handleSquareClick(). That square has already been claimed.")
-            return;
-        }
-        // If we reach this point the clicked square is open and the game is not over yet ... 
-        let updatedMoveList = moveList.concat(squareClicked)
-        console.log(`MoveList: ${updatedMoveList}`)
-
-        setMoveList(updatedMoveList);
-        // This function does not pass along any of its results, it acts thru side-effects. It calls setHistory and use of that hook tells React it needs to re-render all components that depend on the state "history".
-    }
-    function handleUndoClick() {
-        const shortenedMoveList = moveList.slice(0, moveList.length - 1)
-        console.log(`handleUndoClick() removed ${moveList[moveList.length - 1]} . New Shortened history: ${shortenedMoveList}`);
-        setMoveList(shortenedMoveList);
-    }
-    function handleNewGameClick() {
-        setMoveList([]);
-    }
-    
-
-    // TURN HELPERS
-    // High-Level Methods that need to know whose turn it is can deduce that info by using these helpers to look at the history directly, rather than having to be invoked with a player param. 
-    function myTurn(ml = moveList) {
-        return (moveList.length % 2 === 0) ? 'x' : 'o';
-    }
-    function notMyTurn(ml = moveList) {
-        return (ml.length % 2 === 0) ? 'o' : 'x';
-    }
-    function other(player) {
-        if (player !== 'o' && player !== 'x') { console.error(`other(player) called with invalid player: ${player}`) }
-        return (player === 'o') ? 'x' : 'o';
-    }
-
-
-    // LOW-LEVEL HELPERS
-    // need to be told which player you care about b/c they may be used on EITHER the player whose turn it is or the other player.
-    function squaresClaimedByPlayer(player, ml = moveList) {
-        // let history = (alteredHistory === undefined) ? history : alteredHistory
-
-        if (player === 'x') {
-            return ml.filter((squareId, index) => index % 2 === 0);
-        }
-        else if (player === 'o') {
-            return ml.filter((squareId, index) => index % 2 === 1);
-        }
-        else {
-            console.error(`Method squaresClaimedByPlayer() called with invalid player: ${player}`)
-            return undefined;
-        }
-    }
-
-
-
-
-    function lineCountsFor(player, ml = moveList) {
-        // Based on the history state, return an array of 8 ints 0-3 indicating the number of X's or O's in each row, col, and diagonal
-        // const player = myTurn(moveList); 
-        let lines = Array(8).fill(0);
-
-        squaresClaimedByPlayer(player, ml).forEach(square => {
-            // Update Row
-            const row = Math.floor(square / 3)    // number 0, 1, or 2
-            lines[row]++;
-
-            // Update Col
-            const col = (square % 3)            // number 0, 1, or 2  +3 to account for the three indexes set asside for rows
-            lines[col + 3]++;
-
-            // UpSlash ?
-            if (square === 2 || square === 4 || square === 6) {
-                lines[6]++
-            }
-
-            // DownSlash ?
-            if (square === 0 || square === 4 || square === 8) {
-                lines[7]++
-            }
-        });
-        // console.log(`Status: ${status}`)
-        return lines;
-    }
-
-    
-    // BOOLEAN helpers for gameStatus() and handleSquareClick()
-    function squareIsEmpty(square, ml = moveList) {
-        return (!ml.includes(square))
-    }
-
 
 }
