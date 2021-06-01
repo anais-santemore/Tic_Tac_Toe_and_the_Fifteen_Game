@@ -60,11 +60,15 @@ export default function PlayWithCoach(props) {
     let [xGoesFirst, setXGoesFirst] = useState(true);
     let [gameNumber, setGameNumber] = useState(1);     // In ODD numbered games X goes first
     let [record, setRecord] = useState([0, 0, 0]);     // 3 element counter for humanWins, botWins, and tieGames.
-    let [showHints, setShowHints] = useState(false);
+    // let [showHints, setShowHints] = useState(false);
+    let [showHints, setShowHints] = useState(true);
+
 
     const trioList = generateTrioList()
-    
-    const positionMap = generatePositionMap()
+
+    let positionMap = new Map()
+    positionMap = generatePositionMap()
+
 
     return (
         <Box className={classes.root} >
@@ -79,9 +83,14 @@ export default function PlayWithCoach(props) {
             </Box>
             <Box className={classes.panelArea}>
                 <Panel
+                    gameNumber={gameNumber}
+                    moveNumber={moveList.length + 1}
+                    gameOver={gameOver(moveList)}
                     gameStatus={getStatus()}
                     commentary={getCommentary()}
+                    record={record}
                     handleUndoClick={handleUndoClick}
+                    handleNewGameClick={handleNewGameClick}
                     toggleShowHints={toggleShowHints}
                 />
             </Box>
@@ -97,6 +106,7 @@ export default function PlayWithCoach(props) {
     // 
     ////////////////////////////////////////////////////
 
+    
 
     function generatePositionMap() {
         // Returns an array of objects where the 
@@ -214,30 +224,20 @@ export default function PlayWithCoach(props) {
         return data; // this method only deals with current board position, not hypotheticals.  Thus, it wants to use a version of helper squaresClaimedByPlayer() that does not require a moveList be explicitly passed in.
     }
 
-
     function getBoardColors(ml = moveList) {
-        // If the game is won highlight the winning line(s), whether hints are turned on or off.
-        console.log(`getBoardData checking if there is a win to highlight`)
-        // if (gameOver() && !gameDrawn()) {
+        let colors = Array(10).fill('noColor')
         if (xWins(ml) || oWins(ml)) {
-            return highlightWins(ml);
+            colors = highlightWins(ml)
         }
-        console.log(`getBoardData DID NOT find a win to highlight`)
 
-        // If hints are turned off return colors [] filled with 'noColor' strings.
-        if (mode === 'play') {
-            return Array(9).fill('noColor');
-        }
-        // If hints are turned on return colors [] filled by getBoardHints().
         if (mode === 'learn') {
             // console.log(`Board Hints: ${getBoardHints()}`)
             return (showHints === true) ? getBoardHints() : Array(9).fill('noColor');
         }
+
+        return colors
     }
-
-
-   
-
+    
     
     // TODO
     function getBoardHints() {
@@ -272,7 +272,7 @@ export default function PlayWithCoach(props) {
 
     function getCommentary(ml = moveList) {
         // console.log(`getCommentary() called while showCommentary = ${showCommentary}`)
-        if (gameOver()) {
+        if (gameOver(ml)) {
             return `Game Over: ${getStatus(ml)}`
         }
         if (mode === 'play') {
