@@ -203,8 +203,15 @@ export default function PlayWithCoach(props) {
     // The board data to render is always the latest entry in history.  We will have an 'undo' but not a 'redo' button.  May add a Make Computer Move
     function getBoardIcons(ml = moveList) {
         let data = Array(10).fill('_');  // Start with an array representing a board of NINE empty squares
-        data[squareId] = (turn % 2 === 0) ? 'x' : 'o'
-        return data;  // this method only deals with current board position, not hypotheticals.  Thus, it wants to use a version of helper squaresClaimedByPlayer() that does not require a moveList be explicitly passed in. 
+        ml.forEach((squareId, turn) => {
+            if (xGoesFirst) {
+                data[squareId] = (turn % 2 === 0) ? 'x' : 'o'
+            }
+            else {
+                data[squareId] = (turn % 2 === 0) ? 'o' : 'x'
+            }
+        })
+        return data; // this method only deals with current board position, not hypotheticals.  Thus, it wants to use a version of helper squaresClaimedByPlayer() that does not require a moveList be explicitly passed in.
     }
 
 
@@ -212,8 +219,8 @@ export default function PlayWithCoach(props) {
         // If the game is won highlight the winning line(s), whether hints are turned on or off.
         console.log(`getBoardData checking if there is a win to highlight`)
         // if (gameOver() && !gameDrawn()) {
-        if (gameOver(ml)) {
-            return highlightWins();
+        if (xWins(ml) || oWins(ml)) {
+            return highlightWins(ml);
         }
         console.log(`getBoardData DID NOT find a win to highlight`)
 
@@ -247,7 +254,7 @@ export default function PlayWithCoach(props) {
         else if (oWins(ml)) {
             return (`O wins!`)
         }
-        else if (gameDrawn(ml)) {
+        else if (ml.length === 9) {
             return (`Draw.`)
         }
         else if (ml.length % 2 === 0) {
@@ -266,7 +273,7 @@ export default function PlayWithCoach(props) {
     function getCommentary(ml = moveList) {
         // console.log(`getCommentary() called while showCommentary = ${showCommentary}`)
         if (gameOver()) {
-            return `Game Over`
+            return `Game Over: ${getStatus(ml)}`
         }
         if (mode === 'play') {
             return `Coach's commentary would appear here in learn mode. TODO w-l-d record`
@@ -300,59 +307,59 @@ export default function PlayWithCoach(props) {
         }
 
         // If two moves has been made
-        if (ml.length === 2) {
-            let message = '';
-            if (thereIsADistantForcedWinCreatingMove()) {
-                message = `O's first move was a mistake and now X can ensure victory! But how?`
-            }
-            else {
-                let answer = (gameLosingMoves().length > 0) ? 'Yes! So be careful.' : 'No! You\'re safe no matter what.';
-                message = `O's first move was sound. None of X's current options ensure victory, but do any actually lose?  ${answer}`
-            }
-            return message;
-        }
+        // if (ml.length === 2) {
+        //     let message = '';
+        //     if (thereIsADistantForcedWinCreatingMove()) {
+        //         message = `O's first move was a mistake and now X can ensure victory! But how?`
+        //     }
+        //     else {
+        //         let answer = (gameLosingMoves().length > 0) ? 'Yes! So be careful.' : 'No! You\'re safe no matter what.';
+        //         message = `O's first move was sound. None of X's current options ensure victory, but do any actually lose?  ${answer}`
+        //     }
+        //     return message;
+        // }
 
         // If three moves have been made
-        if (ml.length >= 3) {
-            let message = '';
-            if (thereIsAnImmediateWin()) {
-                message = `You have a winning move! Defensive moves are irrelevant.`
-            }
-            else if (thisIsADoubleAttack()) {
-                message = `You cannot win right now and cannot block all of your opponent's threats. Which move led you to from a draw to defeat?`
-            }
-            else if (thereIsADoubleAttackCreatingMove()) {
-                message = `You can set up a winning double attack! Don't settle for empty threats, 
-                think hard and be sure that you are setting yourself up to win no matter what!`
-            }
-            else if (thereIsAnUrgentDefensiveMove()) {
-                message = `You cannot win right now so you must defend the one key square.`
-            }
+        // if (ml.length >= 3) {
+        //     let message = '';
+        //     if (thereIsAnImmediateWin()) {
+        //         message = `You have a winning move! Defensive moves are irrelevant.`
+        //     }
+        //     else if (thisIsADoubleAttack()) {
+        //         message = `You cannot win right now and cannot block all of your opponent's threats. Which move led you to from a draw to defeat?`
+        //     }
+        //     else if (thereIsADoubleAttackCreatingMove()) {
+        //         message = `You can set up a winning double attack! Don't settle for empty threats, 
+        //         think hard and be sure that you are setting yourself up to win no matter what!`
+        //     }
+        //     else if (thereIsAnUrgentDefensiveMove()) {
+        //         message = `You cannot win right now so you must defend the one key square.`
+        //     }
 
-            else {
-                let answer = (gameLosingMoves().length > 0) ?
-                    'Nonetheless, it is possible for you to make a mistake and lose right now. Play carefully!' :
-                    'You\'re on track for a draw no matter what move you play in this position.';
-                message = `You have neither a winning attack nor an urgent defensive move. ${answer}`
-            }
-            return message;
-        }
+        //     else {
+        //         let answer = (gameLosingMoves().length > 0) ?
+        //             'Nonetheless, it is possible for you to make a mistake and lose right now. Play carefully!' :
+        //             'You\'re on track for a draw no matter what move you play in this position.';
+        //         message = `You have neither a winning attack nor an urgent defensive move. ${answer}`
+        //     }
+        //     return message;
+        // }
 
     }
 
     // MID-LEVEL HELPERS for getBoardColors() and getBoardHints()
-    function highlightWins() {
+    function highlightWins(ml) {
         console.assert(!gameOver(), `highlightWins() was called but found that the game is not over`);
-        let highlightedSquares = Array(9).fill('noColor')
-        let data = lineData()
 
-        if (data.xSquares.length === 3) {
-            let squaresToHighlight = data.xSquares
-            squaresToHighlight.forEach(square => {
-                highlightedSquares[square] = 'win';
-            });
-        }
-        return highlightedSquares;
+        let colors = Array(10).fill('noColor')
+        let Xs = xNumbers(ml)
+        let Os = oNumbers(ml)
+        let winningTrios = trioList.filter(trio =>
+            intersect(trio, Xs).length === 3 || intersect(trio, Os).length === 3
+        )
+
+        winningTrios.flat().forEach(num => colors[num] = 'win')
+        return colors
     }
 
 
@@ -362,7 +369,7 @@ export default function PlayWithCoach(props) {
             console.log("return without effects from handleSquareClick(). The Game is already over.")
             return;
         }
-        if (!squareIsEmpty(squareClicked)) {
+        if (moveList.includes(squareClicked)) {
             console.log("return without effects from handleSquareClick(). That square has already been claimed.")
             return;
         }
@@ -392,7 +399,7 @@ export default function PlayWithCoach(props) {
     // Low Level Helpers
     ///////////////////////////////////////////////////
     function xNumbers(ml) {
-        if (xGoesFirst()) {
+        if (xGoesFirst) {
             return ml.filter((move, turn) => turn % 2 === 0)
         }
         else {
@@ -400,15 +407,18 @@ export default function PlayWithCoach(props) {
         }
     }
     function oNumbers(ml) {
-        if (oGoesFirst()) {
-            return ml.filter((move, turn) => turn % 2 === 0)
-        }
-        else {
+        if (xGoesFirst) {
             return ml.filter((move, turn) => turn % 2 === 1)
         }
+        else {
+            return ml.filter((move, turn) => turn % 2 === 0)
+        }
     }
-    function gameIsWon(ml = moveList) {
+    function gameIsWon(ml) {
         return (xWins(ml) || oWins(ml)) ? true : false
+    }
+    function gameOver(ml) {
+        return (ml.length === 9 || xWins(ml) || oWins(ml)) ? true : false
     }
     function xWins(ml) {
         return sumsOfThree(xNumbers(ml)).includes(15)
@@ -416,6 +426,7 @@ export default function PlayWithCoach(props) {
     function oWins(ml) {
         return sumsOfThree(oNumbers(ml)).includes(15)
     }
+    
     function oGoesNext(ml) {
         if (xGoesFirst) {
             return (ml.length % 2 === 1) ? true : false
@@ -445,7 +456,7 @@ export default function PlayWithCoach(props) {
         return children
     }
     function getParent(ml) {
-        return ml.slice(0, length - 1)
+        return ml.slice(0, ml.length - 1)
     }
     function intersect(listOne, listTwo) {
         return listOne.filter(item => listTwo.includes(item))
