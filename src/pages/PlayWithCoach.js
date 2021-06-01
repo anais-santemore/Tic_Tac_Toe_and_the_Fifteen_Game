@@ -57,6 +57,7 @@ export default function PlayWithCoach(props) {
     const mode = props.mode;
 
     let [moveList, setMoveList] = useState([]);
+    let [xGoesFirst, setXGoesFirst] = useState(true);
     let [gameNumber, setGameNumber] = useState(1);     // In ODD numbered games X goes first
     let [record, setRecord] = useState([0, 0, 0]);     // 3 element counter for humanWins, botWins, and tieGames.
     let [showHints, setShowHints] = useState(false);
@@ -91,6 +92,8 @@ export default function PlayWithCoach(props) {
     // Use a Map instead of an Object for faster lookup of the ndpStatus 
     // of each child of a given position
     // 
+    // We can safely omit move lists of length 9 from the map because the last move is always forced,
+    // There is s 1:1 correspondence between MLs of length 8 and MLs of length 9.
     // 
     ////////////////////////////////////////////////////
 
@@ -101,17 +104,14 @@ export default function PlayWithCoach(props) {
         // Value is that moveList's ndpStatus
         
         let positionsList = listOfPossiblePositions().flat(1)
-        let postionMap = Array(positionsList.length)
+        let postionMap = new Map()
         
-        for (let i = positionsList.length - 1; i >= 0; i--) {
+        for (let i = positionsList.length - 1; i >= 0; i--) { // Work backward thru the position list
             let ml = positionsList[i]
-            let mlString = ml.toString()
+            // let mlString = ml.toString()
             let ndpStatus = getNdpStatus(ml)
-
-            positionMap.unshift({ml: ndpStatus})
+            positionMap.set(ml, ndpStatus)
         }
-        
-
         return positionMap
     }
     function listOfPossiblePositions() {
@@ -119,39 +119,48 @@ export default function PlayWithCoach(props) {
         // Layer 1) indices 0 thru 8 correspond to the lengths of the move lists contained there
         // Layer 2) an array of all the move lists of that length
         // Layer 3) actual moveList arrays
-
-        // We can safely omit move lists of length 9 from the map because the last move is always forced,
-        // There is s 1:1 correspondence between MLs of length 8 and MLs of length 9.
-        let positionsList = []
-        let initialMoveList = [[]]
-        positionsList.push(initialMoveList) // fills index 0 in the map to set up for the for loop
-
+        let positionsList = [[[]]]
         for (let parentLength = 0; parentLength < 8; parentLength++) {
             let parentPositions = positionsList[parentLength]
-            let childPositions = []
-            parentPositions.forEach(parent => childPositions.push(extendMoveListByOne(parent)))
-
-            positionsList.push(childPositions.flat())
+            let childPositions = parentPositions.map(parent => getChildren(parent)).flat()
+            positionsList.push(childPositions)
         }
         return positionsList
     }
+    
+
     function getNdpStatus(ml) {
-        // If game is not over after 8 moves, add the 9th move and sort as either 'xWins' or 'draw'
-        
-        
-        if (ml.length === 8 ) {
-            let complete = ml.concat(unclaimed(ml))
-
+        // if BOTH players have a win get parent ml until only one player has a win
+        while (xWins(ml) && oWins(ml)) {
+            ml = getParent(ml)
         }
 
-        // If the game is over after 8 moves, check if X had won after 7.
-        // If not then O must have won on move 8
-
-        for (let length = 5; length <= 9; length++) {
-            // examine sub strings 
+        // if ONE player or the other has a win --> determining ndpStatus is simple
+        if (xWins(ml)) {
+            return (xGoesNext(ml)) ? "next" : "prev"
+        }
+        if (oWins(ml)) {
+            return (oGoesNext(ml)) ? "next" : "prev"
         }
 
-
+        // if NEITHER player has a win --> examine all children 
+        //      if npdStatus of ALL children is "next" the other player will win no matter what you do now. 
+        //          read: it is your turn and your opponent's "previous" move was a winning move.
+        //      if npdStatus of ANY children is "prev" creating that position now set you up to force a win 
+        //          read: it is your turn and your opponent's "previous" move was a winning move.
+        //      else there is no winning strategy and at least one drawing strategy so that is your 
+        //          best case outcome
+        let children = getChildren(ml)
+        let outcomes = children.map(child => positionMap.get(child))
+        if (outcomes.includes("prev")) {
+            return "next"
+        }
+        else if (outcomes.includes("draw")) {
+            return "draw"
+        }
+        else {
+            return "prev"
+        }
     }
     
     // Position is winning for player One or Two or else it is Drawing.
@@ -239,12 +248,12 @@ export default function PlayWithCoach(props) {
 
         return collection
     }
-    function extendMoveListByOne(prefixML) {
-        console.assert(Array.isArray(prefixML), `extendMoveListByOne called with a move list that is not an array.`)
-        let extension = []
-        unclaimed(prefixML).forEach(num => extension.push(prefixML.concat(num)))
-        return extension
-    }
+    // function extendMoveListByOne(prefixML) {
+    //     console.assert(Array.isArray(prefixML), `extendMoveListByOne called with a move list that is not an array.`)
+    //     let extension = []
+    //     unclaimed(prefixML).forEach(num => extension.push(prefixML.concat(num)))
+    //     return extension
+    // }
     function moveListsOfLengthOne() {
         let completeSet = [1, 2, 3, 4, 5, 6, 7, 8, 9]
 
@@ -354,15 +363,7 @@ export default function PlayWithCoach(props) {
     // }
 
 
-    function gameIsWon(ml = moveList) {
-        return (xWins(ml) || oWins(ml)) ? true : false
-    }
-    function xWins(ml) {
-        return sumsOfThree(xNumbers(ml)).includes(15)
-    }
-    function oWins(ml) {
-        return sumsOfThree(oNumbers(ml)).includes(15)
-    }
+    
 
     function gameDrawn(ml = moveList) {
         lineCounts(ml).forEach(lineTuple => {
@@ -1102,6 +1103,62 @@ export default function PlayWithCoach(props) {
     ///////////////////////////////////////////////////
     // Low Level Helpers
     ///////////////////////////////////////////////////
+    function xNumbers(ml) {
+        if (xGoesFirst()) {
+            return ml.filter((move, turn) => turn % 2 === 0)
+        }
+        else {
+            return ml.filter((move, turn) => turn % 2 === 1)
+        }
+    }
+    function oNumbers(ml) {
+        if (oGoesFirst()) {
+            return ml.filter((move, turn) => turn % 2 === 0)
+        }
+        else {
+            return ml.filter((move, turn) => turn % 2 === 1)
+        }
+    }
+    function gameIsWon(ml = moveList) {
+        return (xWins(ml) || oWins(ml)) ? true : false
+    }
+    function xWins(ml) {
+        return sumsOfThree(xNumbers(ml)).includes(15)
+    }
+    function oWins(ml) {
+        return sumsOfThree(oNumbers(ml)).includes(15)
+    }
+    function oGoesNext(ml) {
+        if (xGoesFirst) {
+            return (ml.length % 2 === 1) ? true : false
+        }
+        else {
+            return (ml.length % 2 === 0) ? false : true
+        }
+    }
+    function xGoesNext(ml) {
+        if (xGoesFirst) {
+            return (ml.length % 2 === 0) ? true : false
+        }
+        else {
+            return (ml.length % 2 === 1) ? false : true
+        }
+    }
+    function getChildren(ml) {
+        // Optimized by removing dependency on unclaimed?
+        // Could optimize further by creating a sorted ml and handling includes manually 
+        // with a for loop with a pointer to where to start scanning in the sorted ml.
+        let children = []
+        for (let n = 1; n <= 9; n++) {
+            if (!ml.includes(n)) {
+                children.push(ml.concat(n))
+            }
+        }
+        return children
+    }
+    function getParent(ml) {
+        return ml.slice(0, length - 1)
+    }
     function intersect(listOne, listTwo) {
         return listOne.filter(item => listTwo.includes(item))
     }
