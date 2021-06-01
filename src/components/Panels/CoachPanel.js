@@ -222,131 +222,48 @@ function SettingsButton(props) {
 }
 
 
-export default function LearnPanel(props) {
-    const classes = useStyles();
+    // const classes = useStyles();
 
-    const mode = props.mode
-    const gameType = props.gameType;
+    // const mode = props.mode
+    // const gameType = props.gameType;
 
-    const gameOver = props.gameOver;
-    const moveNumber = props.moveNumber;
-    const gameStatus = props.gameStatus;
-    const gameNumber = props.gameNumber;
-    const commentary = props.commentary;
+    // const gameOver = props.gameOver;
+    // const moveNumber = props.moveNumber;
+    // const gameStatus = props.gameStatus;
+    // const gameNumber = props.gameNumber;
+    // const commentary = props.commentary;
 
-    const handleNewGameClick = props.handleNewGameClick
-    const handleUndoClick = props.handleUndoClick
+    // const handleNewGameClick = props.handleNewGameClick
+    // const handleUndoClick = props.handleUndoClick
 
-    const showHints = props.showHints
-    const toggleShowHints = props.toggleShowHints
-
-
-    const showCommentary = props.showCommentary
-    const toggleShowCommentarySwitch = props.toggleShowCommentarySwitch
-
-    return (
-        <Box className={classes.panel}>
-            <Box className={classes.infoArea} >
-                {/* <Typography align='center' component='h1' variant='h4' noWrap gutterBottom>
-                {gameStatus}
-                </Typography> */}
-                <Typography align='justify' variant='body1' >
-                    {commentary}
-                </Typography>
-            </Box>
-            <Box className={classes.controls} >
-                <UndoButton
-                    handleUndoClick={handleUndoClick}
-                />
-                <ShowHintsButton
-                    toggleShowHints={toggleShowHints}
-                />
-            </Box>
-        </Box>
-    )
+    // const showHints = props.showHints
+    // const toggleShowHints = props.toggleShowHints
 
 
-    function UndoButton(props) {
-        const classes = useStyles();
-        const handleUndoClick = props.handleUndoClick
-        return (
-            <Button
-                className={classes.button}
-                variant="contained"
-                color="primary"
-                onClick={() => handleUndoClick()}
-            >
-                <UndoIcon className={classes.buttonIcon} />
-            Undo
-            </Button>
-        )
-    }
+    // const showCommentary = props.showCommentary
+    // const toggleShowCommentarySwitch = props.toggleShowCommentarySwitch
 
-    function ShowHintsButton(props) {
-        const classes = useStyles();
-        const toggleShowHints = props.toggleShowHints
-
-        return (
-            <Button
-                className={classes.button}
-                variant="contained"
-                color="primary"
-                onClick={() => toggleShowHints()}
-            >
-                <HelpOutlineIcon className={classes.buttonIcon} />
-            Show Hints
-            </Button>
-        )
-    }
-}
+    // return (
+    //     <Box className={classes.panel}>
+    //         <Box className={classes.infoArea} >
+    //             {/* <Typography align='center' component='h1' variant='h4' noWrap gutterBottom>
+    //             {gameStatus}
+    //             </Typography> */}
+    //             <Typography align='justify' variant='body1' >
+    //                 {commentary}
+    //             </Typography>
+    //         </Box>
+    //         <Box className={classes.controls} >
+    //             <UndoButton
+    //                 handleUndoClick={handleUndoClick}
+    //             />
+    //             <ShowHintsButton
+    //                 toggleShowHints={toggleShowHints}
+    //             />
+    //         </Box>
+    //     </Box>
+    // )
 
 
+   
 
-
-
-function NewGameButton(props) {
-    const classes = useStyles();
-    const handleNewGameClick = props.handleNewGameClick;
-
-    return (
-        <Button
-            className={classes.button}
-            variant="contained"
-            color="primary"
-            onClick={() => handleNewGameClick()}
-        // disabled={!props.gameOver}
-        >
-            <ReplayIcon className={classes.buttonIcon} />
-            New&nbsp;Game
-        </Button>
-    )
-}
-
-function HelpButton(props) {
-    const classes = useStyles();
-    const handleUndoButtonClick = props.handleUndoButtonClick
-
-
-    return (
-        <Box className={classes.button} >
-            <HelpModal />
-        </Box>
-    )
-}
-
-function SettingsButton(props) {
-    const classes = useStyles();
-    const handleUndoButtonClick = props.handleUndoButtonClick
-
-
-    return (
-        <Box className={classes.button} >
-            <TicTacToeSettingsModal
-                showMoves={props.showMoves}
-                showCommentary={props.showCommentary}
-                toggleShowMovesSwitch={props.toggleShowMovesSwitch}
-                toggleShowCommentarySwitch={props.toggleShowCommentarySwitch}
-            />
-        </Box>
-    )
-}
