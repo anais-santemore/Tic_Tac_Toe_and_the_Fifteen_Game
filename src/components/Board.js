@@ -84,6 +84,13 @@ const useStyles = makeStyles((theme) => ({
         // backgroundColor: '#88ee33'
         backgroundColor: '#F44'
     },
+    prev: {
+        backgroundColor: '#3B3'
+    },
+    next: {
+        // backgroundColor: '#88ee33'
+        backgroundColor: '#F44'
+    },
 
 
     immediateWin: {
