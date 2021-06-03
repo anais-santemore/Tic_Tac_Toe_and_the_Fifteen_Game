@@ -97,6 +97,7 @@ export default function MobileMenu() {
                 anchor={'right'} 
                 open={state['open']} 
                 onClose={toggleDrawer('open', false)}
+                onClick={toggleDrawer('open', false)}
             >
                     {list('right')}
             </Drawer>
