@@ -16,16 +16,30 @@ const useStyles = makeStyles((theme) => ({
 export default function WinLossDrawRecord(props) {
     const classes = useStyles();
 
-    const record = props.record;
+    const record = props.record
+    const playMode = props.playMode
 
-
+    let playerOne = ""
+    let playerTwo = ""
+    if (playMode === "humanVsHuman") {
+        playerOne = "Player X"
+        playerTwo = "Player O"
+    } 
+    else if (playMode === "humanVsBot") {
+        playerOne = "Human X"
+        playerTwo = "Bot O"
+    }
+    else {
+        console.error(`WinLossDrawRecord tried to render with invalid playMode prop: ${playMode}`)
+    }
+    
     return (
         <React.Fragment>
             <Typography align='center' component='h3' variant='h5' noWrap >
-                Player X: &ensp;{record[0]}
+                {playerOne}: &ensp;{record[0]}
             </Typography>
             <Typography align='center' component='h3' variant='h5' noWrap >
-                Player O: &ensp;{record[1]}
+                {playerTwo}: &ensp;{record[1]}
             </Typography>
             <Typography align='center' component='h3' variant='h5' noWrap gutterBottom>
                 Draw: &emsp; &ensp;  {record[2]}
