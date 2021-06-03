@@ -64,6 +64,7 @@ export default function HumanPanel(props) {
                 />
 
                 <WinLossDrawRecord
+                    playMode="humanVsHuman"
                     record={record}
                 />
             </Box>
