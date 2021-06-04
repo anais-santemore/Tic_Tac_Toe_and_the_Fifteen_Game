@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import '../styles/TicTacToe.css';
 // My Components
 import Board from "../components/Board";
-import Panel from "../components/Panels/CoachPanel";
+import CoachPanel from "../components/Panels/CoachPanel";
 
 // MUI  components
 import Box from '@material-ui/core/Box';
@@ -12,6 +12,7 @@ import Box from '@material-ui/core/Box';
 // Custom Styling
 import '../styles/TicTacToe.css';
 import { makeStyles } from '@material-ui/core/styles';
+import { WifiTwoTone } from '@material-ui/icons';
 const useStyles = makeStyles((theme) => ({
     root: {
         // border: 'solid purple 1px',
@@ -54,7 +55,6 @@ const useStyles = makeStyles((theme) => ({
 
 export default function PlayWithCoach(props) {
     const classes = useStyles();
-    const mode = props.mode;
 
     let [moveList, setMoveList] = useState([]);
     let [xGoesFirst, setXGoesFirst] = useState(true);
@@ -82,12 +82,13 @@ export default function PlayWithCoach(props) {
                 </Box>
             </Box>
             <Box className={classes.panelArea}>
-                <Panel
+                <CoachPanel
                     gameNumber={gameNumber}
                     moveNumber={moveList.length + 1}
                     gameOver={gameOver(moveList)}
                     gameStatus={getStatus()}
-                    commentary={getCommentary()}
+                    // commentary={getCommentary()}
+                    commentLabel={getCommentLabel(moveList)}
                     record={record}
                     handleUndoClick={handleUndoClick}
                     handleNewGameClick={handleNewGameClick}
@@ -113,14 +114,81 @@ export default function PlayWithCoach(props) {
         // Key is a moveList and the
         // Value is that moveList's ndpStatus
         
-        let positionsList = listOfPossiblePositions().flat(1)
-        let postionMap = new Map()
+        let outcomeUnknown = moveListsOfLengthNine()
+
+        let winningForX = []
+        let winningForO = []
+        let drawing = []
+
+
+        let positionMap = new Map()
         
-        for (let i = positionsList.length - 1; i >= 0; i--) { // Work backward thru the position list
-            let ml = positionsList[i]
+        // Each movelist of length 9 is either 
+        // - "unreachable"- meaning both players have a winning trio, this would never occur in real play. 
+        // - "prev" meaning winning for X xor O, depending on who went last
+        // - "draw" if neither xWins nor oWins
+        
+        while (outcomeUnknown.length > 0) { // Work backward thru the position list
+            
+            let ml = outcomeUnknown.pop()
+
+            if (ml.length === 9 && !xWins(ml) && !oWins(ml)) {  // Game over, neither player won. 
+                positionMap.set(ml, "draw")  
+                drawing.push(ml)    
+            }
+            if (ml.length % 2 === 1) {  // Move Number is Odd -- X went last
+                if (!oWins(ml)) {
+                    if (xWins(ml)) {
+                        positionMap.set(ml, "prev")
+                    }
+                    else {
+                        console.assert(ml.length === 9, `Incomplete list being labeled "draw" for reason neither player has won yet.`)
+                        positionMap.set(ml, "draw") // - "draw" if neither xWins nor oWins
+                    }
+                }
+            }
+            else {                      // Move Number is Even -- O went last
+                if (!xWins(ml)) {
+                    if (oWins(ml)) {
+                        positionMap.set(ml, "prev")
+                    }
+                    else {
+                        console.assert(ml.length === 9, `Incomplete list being labeled "draw" for reason neither player has won yet.`)
+                        positionMap.set(ml, "draw") // - "draw" if neither xWins nor oWins
+                    }
+                }
+            }
+        
+        // for (let i = children9.length - 1; i >= 0; i--) { // Work backward thru the position list
+        //     let ml = children9[i]
+            
+        //     if (ml.length % 2 === 1) {  // Move Number is Odd -- X went last
+        //         if (!oWins(ml)) {
+        //             if (xWins(ml)) {
+        //                 positionMap.set(ml, "prev")
+        //             }
+        //             else {
+        //                 console.assert(ml.length === 9, `Incomplete list being labeled "draw" for reason neither player has won yet.`)
+        //                 positionMap.set(ml, "draw") // - "draw" if neither xWins nor oWins
+        //             }
+        //         }
+        //     }
+        //     else {                      // Move Number is Even -- O went last
+        //         if (!xWins(ml)) {
+        //             if (oWins(ml)) {
+        //                 positionMap.set(ml, "prev")
+        //             }
+        //             else {
+        //                 console.assert(ml.length === 9, `Incomplete list being labeled "draw" for reason neither player has won yet.`)
+        //                 positionMap.set(ml, "draw") // - "draw" if neither xWins nor oWins
+        //             }
+        //         }
+        //     }
+
+            
             // let mlString = ml.toString()
-            let ndpStatus = getNdpStatus(ml)
-            positionMap.set(ml, ndpStatus)
+            // let ndpStatus = getNdpStatus(ml)
+            // positionMap.set(ml, ndpStatus)
         }
         return positionMap
     }
@@ -130,12 +198,17 @@ export default function PlayWithCoach(props) {
         // Layer 2) an array of all the move lists of that length
         // Layer 3) actual moveList arrays
         let positionsList = [[[]]]
-        for (let parentLength = 0; parentLength < 8; parentLength++) {
+        for (let parentLength = 0; parentLength <= 8; parentLength++) {
             let parentPositions = positionsList[parentLength]
             let childPositions = parentPositions.map(parent => getChildren(parent)).flat()
             positionsList.push(childPositions)
         }
         return positionsList
+    }
+
+    function moveListsOfLengthNine() {
+        let allLengths = listOfPossiblePositions()
+        return allLengths[9]
     }
     
 
@@ -173,42 +246,6 @@ export default function PlayWithCoach(props) {
         }
     }
     
-    // Position is winning for player One or Two or else it is Drawing.
-    function getOneDrawTwoStatus(ml) {
-        
-    }
-
-    // ML . get parent is easy --> just remove the last element off the end of the child. 
-
-    function firstIdOfMoveListsOfLength(num) { 
-        // AKA total numberOfMoveListsOfLengthLessThan(num) 
-        let count = 0
-        for (let i = 0; i < num; i++) {
-            count += numberOfMoveListsOfLength(i)
-        }
-        return count
-    }
-    function lastIdOfMoveListsOfLength(num) {
-        // AKA total numberOfMoveListsOfLengthLessThanOrEqualTo(num) 
-        let count = 0
-        for (let i = 0; i <= num; i++) {
-            count += numberOfMoveListsOfLength(i)
-        }
-    }
-    function lastIdOfMoveListsOfLength(num) {  // AKA First ID for moveList of length = num
-        // When looking for children start searcing the positionMap from this index
-    }
-    
-
-    function numberOfMoveListsOfLength(num) {
-        let count = (factorial(9) / factorial(9 - num))
-        // console.log(`There are ${count} MLs of length: ${num}  `)
-        return count
-    }
-    
-
-    
-    
 
     // The board data to render is always the latest entry in history.  We will have an 'undo' but not a 'redo' button.  May add a Make Computer Move
     function getBoardIcons(ml = moveList) {
@@ -229,19 +266,22 @@ export default function PlayWithCoach(props) {
         if (xWins(ml) || oWins(ml)) {
             colors = highlightWins(ml)
         }
-
-        if (mode === 'learn') {
-            // console.log(`Board Hints: ${getBoardHints()}`)
-            return (showHints === true) ? getBoardHints() : Array(9).fill('noColor');
-        }
-
-        return colors
+        return (showHints === true) ? getBoardHints(ml) : colors
     }
     
     
     // TODO
-    function getBoardHints() {
+    function getBoardHints(ml) {
+        let colors = Array(10).fill('noColor')
+        let available = unclaimedNumbers(ml)
+        available.forEach(num => colors[num] = positionMap.get(ml.concat(num)))
         
+        // let children = getChildren(ml)
+        // console.log(`CHILDREN: ${children}`)
+
+        // children.forEach(child => colors[child.length - 1] = positionMap.get(child)[child.length - 1])
+        console.log(`COLORS: ${colors}`)
+        return colors
     }
 
 
@@ -275,10 +315,7 @@ export default function PlayWithCoach(props) {
         if (gameOver(ml)) {
             return `Game Over: ${getStatus(ml)}`
         }
-        if (mode === 'play') {
-            return `Coach's commentary would appear here in learn mode. TODO w-l-d record`
-        }
-
+        
         // If no moves have been made
         if (ml.length === 0) {
             return `It may look like X has  9 different options but 
@@ -345,6 +382,12 @@ export default function PlayWithCoach(props) {
         //     return message;
         // }
 
+    }
+    function getCommentLabel(ml = moveList) {
+        // TODO 
+        // Will return "mistake" or "sound" or "wasTooLate" or "winningChance" or "gameOver"
+        
+        return "mistake"
     }
 
     // MID-LEVEL HELPERS for getBoardColors() and getBoardHints()
@@ -443,6 +486,22 @@ export default function PlayWithCoach(props) {
             return (ml.length % 2 === 1) ? false : true
         }
     }
+    function xWentLast(ml) {
+        if (xGoesFirst) {
+            return (ml.length % 2 === 1) ? true : false
+        }
+        else {
+            return (ml.length % 2 === 0) ? false : true
+        }
+    }
+    function oWentLast(ml) {
+        if (xGoesFirst) {
+            return (ml.length % 2 === 0) ? true : false
+        }
+        else {
+            return (ml.length % 2 === 1) ? false : true
+        }
+    }
     function getChildren(ml) {
         // Optimized by removing dependency on unclaimed?
         // Could optimize further by creating a sorted ml and handling includes manually 
@@ -499,6 +558,16 @@ export default function PlayWithCoach(props) {
     }
     function complementOf(sumOfTwo) {
         return (15 - sumOfTwo)
+    }
+    function unclaimedNumbers(ml) {
+        let unclaimedNumbers = [];
+        for (let i = 1; i <= 9; i++) {
+            if (!ml.includes(i)) {
+                unclaimedNumbers.push(i)
+            }
+        }
+        // console.log(`List Empty Squares: ${emptySquaresList}`)
+        return unclaimedNumbers;
     }
 
 }
