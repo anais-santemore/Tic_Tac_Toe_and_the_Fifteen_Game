@@ -1,52 +1,24 @@
 import React, { useState } from 'react';
-
-
-import '../styles/TicTacToe.css';
 // My Components
-import Board from "../components/Board";
-import CoachPanel from "../components/Panels/CoachPanel";
 
 // MUI  components
 import Box from '@material-ui/core/Box';
+import Typography from '@material-ui/core/Typography';
+
 
 // Custom Styling
-import '../styles/TicTacToe.css';
+import '../../styles/TicTacToe.css';
 import { makeStyles } from '@material-ui/core/styles';
-import { WifiTwoTone } from '@material-ui/icons';
 const useStyles = makeStyles((theme) => ({
-    root: {
-        // border: 'solid purple 1px',
-        width: '100%',
-        height: 'calc(100% - 3.8rem)',
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'space-between',
-    },
-    boardContainer: {
-        // border: 'solid orange 1px',
-        width: '100%',
-        paddingTop: 'min(100%, 50vh)',
-        height: '0',
-        position: 'relative',
-    },
-    boardArea: {
-        // border: 'solid yellow 1px',
-        width: '100%',
-        height: '100%',
-        position: 'absolute',
-        top: '0',
-        left: '0',
-
-    },
-    panelArea: {
-        // border: 'solid yellow 1px',
+    commetaryBox: {
+        border: 'solid yellow 1px',
         color: theme.palette.common.white,
-        backgroundColor: theme.palette.common.black,
+        // backgroundColor: theme.palette.common.black,
         width: '100%',
         // width: '50vh',
         padding: '1.0rem',
-        flex: '2 1 35vh',
-        margin: '0rem auto',
+        // flex: '2 1 35vh',
+        // margin: '0rem auto',
 
     },
 }));
@@ -63,47 +35,17 @@ export default function CoachsCommentary(props) {
     // let [showHints, setShowHints] = useState(false);
     let [showHints, setShowHints] = useState(true);
 
-    let commentary = props.commentary
-
-
-    const trioList = generateTrioList()
-
-    let positionMap = new Map()
-    positionMap = generatePositionMap()
-
-
     return (
-        <Box className={classes.root} >
-            <Box className={classes.boardContainer}>
-                <Box className={classes.boardArea} >
-                    <Board
-                        boardIcons={getBoardIcons()}
-                        boardColors={getBoardColors()}
-                        handleSquareClick={handleSquareClick}
-                    />
-                </Box>
-            </Box>
-            <Box className={classes.panelArea}>
-                <CoachPanel
-                    gameNumber={gameNumber}
-                    moveNumber={moveList.length + 1}
-                    gameOver={gameOver(moveList)}
-                    gameStatus={getStatus()}
-                    commentary={getCommentary()}
-                    record={record}
-                    handleUndoClick={handleUndoClick}
-                    handleNewGameClick={handleNewGameClick}
-                    toggleShowHints={toggleShowHints}
-                />
-            </Box>
+        <Box className={classes.commetaryBox} >
+            <Typography align='center' component='h1' variant='h4' noWrap gutterBottom>
+                commentary={getCommentary()}
+            </Typography>
         </Box>
-    );
+    )
 
     function getCommentary(ml = moveList) {
         // console.log(`getCommentary() called while showCommentary = ${showCommentary}`)
-        if (gameOver(ml)) {
-            return `Game Over: ${getStatus(ml)}`
-        }
+        
 
         // If no moves have been made
         if (ml.length === 0) {
@@ -178,35 +120,7 @@ export default function CoachsCommentary(props) {
     ///////////////////////////////////////////////////
     // Low Level Helpers
     ///////////////////////////////////////////////////
-    function xNumbers(ml) {
-        if (xGoesFirst) {
-            return ml.filter((move, turn) => turn % 2 === 0)
-        }
-        else {
-            return ml.filter((move, turn) => turn % 2 === 1)
-        }
-    }
-    function oNumbers(ml) {
-        if (xGoesFirst) {
-            return ml.filter((move, turn) => turn % 2 === 1)
-        }
-        else {
-            return ml.filter((move, turn) => turn % 2 === 0)
-        }
-    }
-    function gameIsWon(ml) {
-        return (xWins(ml) || oWins(ml)) ? true : false
-    }
-    function gameOver(ml) {
-        return (ml.length === 9 || xWins(ml) || oWins(ml)) ? true : false
-    }
-    function xWins(ml) {
-        return sumsOfThree(xNumbers(ml)).includes(15)
-    }
-    function oWins(ml) {
-        return sumsOfThree(oNumbers(ml)).includes(15)
-    }
-
+    
     function oGoesNext(ml) {
         if (xGoesFirst) {
             return (ml.length % 2 === 1) ? true : false
