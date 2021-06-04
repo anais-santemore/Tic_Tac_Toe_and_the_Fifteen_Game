@@ -3,67 +3,250 @@
 
 
 
-const positionMap = generatePositionMap()
+// const positionMap = generatePositionMap()
 
+
+// function generatePositionMap() {
+//     // Returns an array of objects where the 
+//     // Key is a moveList and the
+//     // Value is that moveList's ndpStatus
+    
+//     // let positionList = reachablePositions().flat(1)
+
+//     // Filter to get Final Positions separated out from the Still Playing Positions
+//     let allPositions = reachablePositions()
+//     let gameContinues = allPositions.gameContinues
+//     let gameComplete = allPositions.gameComplete
+
+//     let xWinsOnTurnFive = gameComplete[5] 
+//     let xWinsOnTurnSeven = gameComplete[7] 
+//     let xWinsOnTurnNine = gameComplete[9].filter(game => xWins(game))
+//     console.log(`Number of xWinsOnTurnNine: ${xWinsOnTurnNine.length}`)
+//     let xsWinningPositions = xWinsOnTurnFive.concat(xWinsOnTurnSeven).concat(xWinsOnTurnNine) 
+    
+//     let oWinsOnTurnSix = gameComplete[6]
+//     let oWinsOnTurnEight = gameComplete[8]
+//     let osWinningPositions = oWinsOnTurnSix.concat(oWinsOnTurnEight) 
+
+//     let drawingPositions = gameComplete[9].filter(game => (!xWins(game) && oWins(game)))
+
+//     for (let i = gameContinues.length - 1; i >= 0; i--) {
+//         let position = gameContinues.pop()
+//         let children = getChildren(position)
+
+//         if (xGoesNext(position)) {
+//             if (intersect(children, xsWinningPositions).length > 0) {  // xGoesNext and has a win
+//                 xsWinningPositions.unshift(position)
+//             }
+//             else if (intersect(children, drawingPositions).length > 0) {  // xGoesNext and best is to draw
+//                 drawingPositions.unshift(position)
+//             }
+//             else if (intersect(children, osWinningPositions).length === children.length) {  // xGoesNext and all children are winning for O
+//                 osWinningPositions.unshift(position)
+//             }
+//             else {
+//                 console.error(`Uh oh. I didn't think this line would ever print.`)
+//             }
+//         }
+//         else if (oGoesNext(position)) {
+//             if (intersect(children, osWinningPositions).length > 0) {  // xGoesNext and has a win
+//                 osWinningPositions.unshift(position)
+//             }
+//             else if (intersect(children, drawingPositions).length > 0) {  // xGoesNext and best is to draw
+//                 drawingPositions.unshift(position)
+//             }
+//             else if (intersect(children, xsWinningPositions).length === children.length) {  // xGoesNext and all children are winning for O
+//                 xsWinningPositions.unshift(position)
+//             }
+//             else {
+//                 console.error(`Uh oh. I didn't think this line would ever print.`)
+//             }
+//         }
+//         else {
+//             console.error(`Uh oh. Neither X nor O thinks it's their turn.`)
+//         }
+
+//         console.assert(reachablePositions.length === xsWinningPositions.length + drawingPositions.length + osWinningPositions.length, `It seems not all positions got sorted.`)
+        
+        
+//     }
+    
+//     return {
+//         "X Winning": xsWinningPositions,
+//         "O Winning": osWinningPositions,
+//         "Drawing": drawingPositions
+//     }
+    
+//     // let postionMap = new Map()
+
+// }
 
 function generatePositionMap() {
-    // Returns an array of objects where the 
-    // Key is a moveList and the
-    // Value is that moveList's ndpStatus
+    let sorted = sortedPositionObject()
 
-    let positionsList = listOfPossiblePositions().flat(1)
-    let postionMap = new Map()
+    // let gameContinues = allPositions.gameContinues
+    // let gameComplete = allPositions.gameComplete
 
-    for (let i = positionsList.length - 1; i >= 0; i--) { // Work backward thru the position list
-        let ml = positionsList[i]
-        // let mlString = ml.toString()
-        let ndpStatus = getNdpStatus(ml)
-        positionMap.set(ml, ndpStatus)
-    }
-    return positionMap
-}
+    
+    let xsWinningPositions = sorted.turnFive.winningForX.concat(sorted.turnSeven.winningForX).concat(sorted.turnNine.winningForX)
+    let osWinningPositions = sorted.turnSix.winningForO.concat(sorted.turnEight.winningForO)
+    let drawingPositions = sorted.turnNine.drawing
 
-
-
-
-
-
-
-function getChildren(ml) {
-    // Optimized by removing dependency on unclaimed?
-    // Could optimize further by creating a sorted ml and handling includes manually 
-    // with a for loop with a pointer to where to start scanning in the sorted ml.
-    let children = []
-    for (let n = 1; n <= 9; n++) {
-        if (!ml.includes(n)) {
-            children.push(ml.concat(n))
+    sorted.turnEight.gameContinues.forEach(parent => {
+        if (intersect(getChildren(parent), sorted.turnNine.winningForX).length > 0) {
+            sorted.turnEight.winningForX.push(parent)
         }
-    }
-    return children
+    })
+
+
+    
+    return sorted
 }
-function getPositionsArray() {
+
+
+
+function sortedPositionObject() {
+    let zeroThruFour = reachableInFourMoves()
+    let turnFive = validExtensions(zeroThruFour[4])
+    let turnSix = validExtensions(turnFive.gameContinues)
+    let turnSeven = validExtensions(turnSix.gameContinues)
+    let turnEight = validExtensions(turnSeven.gameContinues)
+    let turnNine = validExtensions(turnEight.gameContinues)
+    
+    let sorted = {
+        "turnZero": zeroThruFour[0],
+        "turnOne": zeroThruFour[1],
+        "turnTwo": zeroThruFour[2],
+        "turnThree": zeroThruFour[3],
+        "turnFour": zeroThruFour[4],
+        "turnFive": turnFive,
+        "turnSix": turnSix,
+        "turnSeven": turnSeven,
+        "turnEight": turnEight,
+        "turnNine": turnNine,
+    }
+    return sorted
+}
+
+
+function reachablePositions() {
     // Returns an array of arrays of arrays
     // Layer 1) indices 0 thru 8 correspond to the lengths of the move lists contained there
     // Layer 2) an array of all the move lists of that length
     // Layer 3) actual moveList arrays
-    let positionsList = [[[],[],[],[],[],[],[],[],[],[]]]
-    for (let moveListLength = 0; moveListLength < 9; moveListLength++) {
-        let parentList = positionsList[moveListLength]
-        let childrenList = positionsList[moveListLength + 1]
-        
-        for (let p = 0; p < parentList.length; p++) {
-            let parent = parentList[p]
-            if (gameOver(parent)) {
-                continue
-            }
-            let children = getChildren(parent)
-            childrenList.push(children)
-        }
+    let reachablePositions = [[[]]]
+    let gameContinues = [[[]]]
+    let gameComplete = [[[]]]
 
-        positionsList[moveListLength + 1] = childrenList
+
+    for (let parentLength = 0; parentLength < 9; parentLength++) {
+        let parentPositions = reachablePositions[parentLength]
+        let continuableParentPositions = parentPositions.filter(parent => !gameOver(parent))
+        
+        let childPositions = continuableParentPositions.map(parent => getChildren(parent)).flat()
+        reachablePositions.push(childPositions)
+        
+        gameContinues.push(childPositions.filter(child => !gameOver(child)))
+        gameComplete.push(childPositions.filter(child => gameOver(child)))
     }
-    return positionsList
+    return {
+        "Reachable Positions": reachablePositions,
+        "Game Continues": gameContinues,
+        "Game Complete": gameComplete
+    }
 }
+
+
+
+function reachableInFourMoves() {  // Each index of the returnd array holds a list of allp movelists of length equal to that index
+    let positions = [[[]]]
+    for (let parentLength = 0; parentLength < 4; parentLength++) {
+        let parents = positions[parentLength]
+        let children = parents.map(parent => getChildren(parent)).flat()
+        positions.push(children)
+    }
+    return positions
+}
+
+function validExtensions(parents) {
+    let extensions = []
+    for (let p = 0; p < parents.length; p++) {
+        let parent = parents[p]
+        if (gameOver(parent)) {
+            continue
+        }
+        getChildren(parent).forEach(child => extensions.push(child))
+    }
+    return extensions
+}
+
+function sortedValidExtensions(parents) {
+    let extensions = {
+        "gameContinues": new Array(),
+        "winningForX": new Array(),
+        "winningForO": new Array(),
+        "drawing": new Array(),
+    }
+    for (let p = 0; p < parents.length; p++) {
+        let parent = parents[p]
+        let children = getChildren(parent)
+        for (let c = 0; c < children.length; c++) {
+            let child = children[c]
+            if (child.length % 2 === 1 && xWins(child)) {
+                extensions.winningForX.push(child)
+            }
+            else if (child.length % 2 === 0 && oWins(child)) {
+                extensions.winningForO.push(child)
+            }
+            else if (child.length === 9) {  // neither player has won yet and there are still unclaimed squares
+                extensions.drawing.push(child)
+            }
+            else { // neither player has won yet and there are still unclaimed squares
+                extensions.gameContinues.push(child)
+            }
+        }
+    }
+    return extensions
+}
+
+
+function reachablePositionsObject() {
+    
+    let reachablePositions = {
+        "gameContinues": new Array([[]]),
+        "gameComplete": new Array([]),
+        "winningForX": new Array([]),
+        "winningForO": new Array([]),
+        "drawing": new Array([]),
+    }
+   
+    
+    for (let parentLength = 0; parentLength < 9; parentLength++) {
+        let childLength = parentLength + 1
+        let parentPositions = reachablePositions.gameContinues[parentLength]
+        console.log(`parentPositions = ${reachablePositions.gameContinues[parentLength]}`);
+        let childPositions = parentPositions.flatMap(parent => getChildren(parent))
+        childPositions.forEach(child => {
+            if (xWins(child)) {
+                reachablePositions.gameComplete.push(child)
+                reachablePositions.winningForX.push(child)
+            }
+            else if (oWins(child)) {
+                reachablePositions.gameComplete.push(child)
+                reachablePositions.winningForO.push(child)
+            }
+            else if (child.length === 9) {
+                reachablePositions.gameComplete.push(child)
+                reachablePositions.drawing.push(child)
+            }
+            else {
+                reachablePositions.gameContinues.push(child)
+            }
+        })
+    }
+    return reachablePositions
+}
+
 
 function completedPositions() {
     return getPositionsArray()[9]
@@ -71,6 +254,9 @@ function completedPositions() {
 
 function unreachable(ml) {
     return (xWins(ml) && oWins(ml))
+}
+function reachable(ml) {
+    return (!xWins(ml) && !oWins(ml))
 }
 
 function listUnreachable() {
