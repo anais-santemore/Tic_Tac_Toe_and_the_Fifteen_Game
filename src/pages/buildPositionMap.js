@@ -76,33 +76,119 @@ function expectedOutcomes() {
     let outcomes = new Map()
     let reachable = reachablePositionsMap()
 
-    let nine = reachable.get(9)
-    nine.forEach(ml => {
-        if (xWins(ml)) {
-            outcomes.set(ml, 'winningForX')
-        }
-        else {
-            outcomes.set(ml, 'drawing')
-        }
-    })
+    // REWRITE THIS COMMENTED BIT 
+    // Use a reverse for loop from 9 to 0
+    // Use "prev" and "next" or x vs o
 
-    let eight = reachable.get(8)
-    eight.forEach(ml => {
-        if (oWins(ml)) {
-            outcomes.set(ml, 'winningForO')
-        }
-        else if (allChildrenAreLosing(ml)) {
-            outcomes.set(ml, 'winningForX')
-        } 
-        else {
-            outcomes.set(ml, 'drawing')
-        }
-    })
+    // let nine = reachable.get(9)
+    // nine.forEach(ml => {
+    //     if (nextPlayerCanWin(ml)) {
+    //         outcomes.set(ml, 'winningForX')
+    //     }
+    //     else {
+    //         outcomes.set(ml, 'drawing')
+    //     }
+    // })
+
+    // let eight = reachable.get(8)
+    // eight.forEach(ml => {
+    //     if (oWins(ml)) {
+    //         outcomes.set(ml, 'winningForO')
+    //     }
+    //     else if (nextPlayerCanGetADraw(ml)) {
+    //         outcomes.set(ml, 'drawing')
+    //     } 
+    //     else {
+    //         outcomes.set(ml, 'winningForX')
+    //     }
+    // })
 
 
 
     return outcomes
+
+
+    function allChildrenAreLosing(parent) {
+        let children = getChildren(parent)
+        let childrensOutcomes = children.map(child => outcomes.get(child))
+        for (let i = 0; i < outcomes.length; i++) {
+            if (childrensOutcomes[i] !== "") {
+
+            }
+        }
+
+    }
+
+    function nextPlayerCanGetADraw(parent) {
+        let children = getChildren(parent)
+        let childrensOutcomes = children.map(child => outcomes.get(child))
+        return childrensOutcomes.includes("drawing")
+        // for (let i = 0; i < outcomes.length; i++) {
+        //     if (childrensOutcomes[i] === "drawing") {
+        //         return true
+        //     }
+        // }
+
+    }
+
+    function nextPlayerCanWin(parent) {
+        let drawing = []
+        let children = getChildren(parent)
+        let childrensOutcomes = children.map(child => outcomes.get(child))
+        // for (let i = 0; i < outcomes.length; i++) {
+        //     if (childrensOutcomes[i] === "drawing") {
+        //         return true
+        //     }
+        // }
+        if (xGoesNext(parent)) {
+            return childrensOutcomes.includes("winningForX")
+        }
+        else if (oGoesNext(parent)) {
+            return childrensOutcomes.includes("winningForO")
+        }
+        else {
+            console.error(`Neither X nor O think they go next!`)
+        }
+    }
+
+    function nextPlayerLoses(parent) {
+        let drawing = []
+        let children = getChildren(parent)
+        let childrensOutcomes = children.map(child => outcomes.get(child))
+        if (xGoesNext(parent)) {
+            childrensOutcomes.forEach(outcome => {
+                if (outcome !== "winningForO") {
+                    return false
+                }
+            })
+            return true
+        }
+        else if (oGoesNext(parent)) {
+            childrensOutcomes.forEach(outcome => {
+                if (outcome !== "winningForX") {
+                    return false
+                }
+            })
+            return true
+        }
+        else {
+            console.error(`Neither X nor O think they go next!`)
+        }
+
+    }
+
 }
+
+// function allChildrenAreLosing(parent) {
+//     let children = getChildren(parent)
+//     let outcomes = children.map(child => outcomes.get(child))
+//     for (let i = 0; i < outcomes.length; i++) {
+//         if (outcomes[i] !== "") {
+
+//         }
+//     }
+
+// }
 
 function getExpectedOutcome(ml) {
     
