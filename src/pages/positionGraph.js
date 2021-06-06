@@ -167,6 +167,58 @@ function generatePositionToOutcomeMap() {
         return (ml.length % 2 === 0) ? true : false
     }
 
+    
+    function winningNextMove(ml) {
+        if (xGoesNext(ml)) {
+            return intersect(complementOf(sumsOfTwo(xNumbers(ml))), availableNumbers(ml))
+        }
+        else {
+            return intersect(complementOf(sumsOfTwo(oNumbers(ml))), availableNumbers(ml))
+        }
+    }
+
+    function forcedNextMove(ml) {
+        console.assert(winningNextMove(ml).length === 0, `error`)
+        if (xGoesNext(ml)) {
+            return intersect(complementOf(sumsOfTwo(xNumbers(ml))), availableNumbers(ml))
+        }
+        else {
+            return intersect(complementOf(sumsOfTwo(oNumbers(ml))), availableNumbers(ml))
+        }
+        
+    }
+
+    function sumsOfTwo(moveSet) {
+        let sums = []
+        if (moveSet.length < 2) {
+            return sums
+        }
+        for (let i = 0; i < moveSet.length - 1; i++) {
+            for (let j = i + 1; j < moveSet.length; j++) {
+                let sum = moveSet[i] + moveSet[j]
+                sums.push(sum)
+            }
+        }
+        return sums
+    }
+    const trios = generateTrioList()
+    function generateTrioList() {
+        let trioList = []
+        for (let i = 1; i <= 7; i++) {
+            for (let j = i + 1; j <= 8; j++) {
+                let k = complementOf(i + j)
+                if (k > j && k <= 9) {
+                    let newTrio = [i, j, k]
+                    trioList.push(newTrio)
+                }
+            }
+        }
+        return trioList
+    }
+    function complementOf(sumOfTwo) {
+        return (15 - sumOfTwo)
+    }
+
     return outcomeMap
 
 
