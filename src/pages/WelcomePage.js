@@ -80,6 +80,34 @@ export default function WelcomePage() {
                     a winning strategy, and when they tell me that they have I challenge them to use it to beat me. It never works. Eventually, they formulate their 
                     own twist on my original challenge and set out to prove that no win-forcing strategy exists for either player.
                 </Typography>
+                <Box width="100%" mb={3} >
+                    <Button
+                        className={classes.button}
+                        variant="contained"
+                        color="primary"
+                        component={RouterLink}
+                        to='/play_vs_human'
+                    >
+                        Play Human vs. Human
+                    </Button>
+                    <Button
+                        className={classes.button}
+                        variant="contained"
+                        color="primary"
+                        component={RouterLink}
+                        to='/play_vs_bot'
+                    >
+                        Play Human vs. Bot
+                    </Button><Button
+                        className={classes.button}
+                        variant="contained"
+                        color="primary"
+                        component={RouterLink}
+                        to='/play_with_coach'
+                    >
+                        Play with Coach
+                    </Button>
+                </Box>
                 <Typography align='left' color='textPrimary' component='h4' variant='h4' gutterBottom >
                     Defining Your Terms
                 </Typography>
@@ -104,26 +132,7 @@ export default function WelcomePage() {
                 </Typography>
                 
                 
-                <Box width="100%" mb={3} > 
-                    <Button
-                        className={classes.button}
-                        variant="contained"
-                        color="primary"
-                        component={RouterLink}
-                        to='/play_tic_tac_toe'
-                    >
-                        Play Tic-Tac-Toe!
-                    </Button>
-                    <Button
-                        className={classes.button}
-                        variant="contained"
-                        color="primary"
-                        component={RouterLink}
-                        to='/learn_tic_tac_toe'
-                    >
-                        Learn Tic-Tac-Toe
-                    </Button>
-                </Box>
+                
                 
                 <Typography align='left' color='textPrimary' component='h4' variant='h4' gutterBottom >
                     Behind the Scenes
