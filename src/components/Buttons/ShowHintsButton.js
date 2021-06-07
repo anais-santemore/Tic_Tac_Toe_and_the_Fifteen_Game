@@ -32,9 +32,7 @@ const useStyles = makeStyles((theme) => ({
 export default function ShowHintsButton(props) {
     const classes = useStyles();
     const toggleShowHints = props.toggleShowHints
-    const showHints = props.showHints // ???? 
-
-
+    // const showHints = props.showHints // ???? 
 
     return (
         <Button
