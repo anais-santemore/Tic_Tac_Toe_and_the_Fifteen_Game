@@ -11,15 +11,12 @@ import '../../styles/TicTacToe.css';
 import { makeStyles } from '@material-ui/core/styles';
 const useStyles = makeStyles((theme) => ({
     commetaryBox: {
-        border: 'solid yellow 1px',
+        // border: 'solid yellow 1px',
         color: theme.palette.common.white,
-        // backgroundColor: theme.palette.common.black,
         width: '100%',
-        // width: '50vh',
-        padding: '1.0rem',
-        // flex: '2 1 35vh',
-        // margin: '0rem auto',
-
+        padding: '0rem 1.0rem',
+        flex: '2 1 10vh',
+        // margin: '1rem auto',
     },
 }));
 
@@ -37,7 +34,7 @@ export default function CoachsCommentary(props) {
 
     return (
         <Box className={classes.commetaryBox} >
-            <Typography align='center' component='h1' variant='h4' noWrap gutterBottom>
+            <Typography align='center' component='p' variant='body1' gutterBottom>
                 commentary={getCommentary()}
             </Typography>
         </Box>
