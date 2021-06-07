@@ -40,7 +40,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default function HumanPanel(props) {
+export default function CoachPanel(props) {
     const classes = useStyles();
 
     const gameNumber = props.gameNumber;
@@ -78,14 +78,13 @@ export default function HumanPanel(props) {
             <Grid container className={classes.buttonArea} >
                 <Grid item xs={12} sm={6}  >
                     <UndoButton 
-                        gameOver={gameOver}
+                        gameOver={false}
                         moveNumber={moveNumber}
                         handleUndoClick={handleUndoClick}
                     />
                 </Grid>
                 <Grid item xs={12} sm={6}   >
                     <ShowHintsButton 
-                        gameOver={gameOver}
                         toggleShowHints={toggleShowHints}
                     />
                 </Grid>
