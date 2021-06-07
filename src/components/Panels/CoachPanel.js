@@ -60,7 +60,6 @@ export default function HumanPanel(props) {
 
     const handleNewGameClick = props.handleNewGameClick
     const handleUndoClick = props.handleUndoClick
-    const handleShowHintsClick = props.handleShowHintsClick
 
 
     return (
@@ -87,8 +86,7 @@ export default function HumanPanel(props) {
                 <Grid item xs={12} sm={6}   >
                     <ShowHintsButton 
                         gameOver={gameOver}
-                        toggleShowHints={handleShowHintsClick}
-                        showHints={showHints}
+                        toggleShowHints={toggleShowHints}
                     />
                 </Grid>
 
