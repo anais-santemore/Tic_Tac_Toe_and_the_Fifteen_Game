@@ -12,7 +12,6 @@ import Box from '@material-ui/core/Box';
 // Custom Styling
 import '../styles/TicTacToe.css';
 import { makeStyles } from '@material-ui/core/styles';
-import { WifiTwoTone } from '@material-ui/icons';
 const useStyles = makeStyles((theme) => ({
     root: {
         // border: 'solid purple 1px',
@@ -63,7 +62,7 @@ export default function PlayWithCoach(props) {
     // let [showHints, setShowHints] = useState(false);
     let [showHints, setShowHints] = useState(true);
 
-
+    const positionMap = positionToOutcomeMap()
     const trioList = generateTrioList()
 
 
@@ -106,142 +105,7 @@ export default function PlayWithCoach(props) {
 
     
 
-    function generatePositionMap() {
-        // Returns an array of objects where the 
-        // Key is a moveList and the
-        // Value is that moveList's ndpStatus
-        
-        let outcomeUnknown = moveListsOfLengthNine()
-
-        let winningForX = []
-        let winningForO = []
-        let drawing = []
-
-
-        let positionMap = new Map()
-        
-        // Each movelist of length 9 is either 
-        // - "unreachable"- meaning both players have a winning trio, this would never occur in real play. 
-        // - "prev" meaning winning for X xor O, depending on who went last
-        // - "draw" if neither xWins nor oWins
-        
-        while (outcomeUnknown.length > 0) { // Work backward thru the position list
-            
-            let ml = outcomeUnknown.pop()
-
-            if (ml.length === 9 && !xWins(ml) && !oWins(ml)) {  // Game over, neither player won. 
-                positionMap.set(ml, "draw")  
-                drawing.push(ml)    
-            }
-            if (ml.length % 2 === 1) {  // Move Number is Odd -- X went last
-                if (!oWins(ml)) {
-                    if (xWins(ml)) {
-                        positionMap.set(ml, "prev")
-                    }
-                    else {
-                        console.assert(ml.length === 9, `Incomplete list being labeled "draw" for reason neither player has won yet.`)
-                        positionMap.set(ml, "draw") // - "draw" if neither xWins nor oWins
-                    }
-                }
-            }
-            else {                      // Move Number is Even -- O went last
-                if (!xWins(ml)) {
-                    if (oWins(ml)) {
-                        positionMap.set(ml, "prev")
-                    }
-                    else {
-                        console.assert(ml.length === 9, `Incomplete list being labeled "draw" for reason neither player has won yet.`)
-                        positionMap.set(ml, "draw") // - "draw" if neither xWins nor oWins
-                    }
-                }
-            }
-        
-        // for (let i = children9.length - 1; i >= 0; i--) { // Work backward thru the position list
-        //     let ml = children9[i]
-            
-        //     if (ml.length % 2 === 1) {  // Move Number is Odd -- X went last
-        //         if (!oWins(ml)) {
-        //             if (xWins(ml)) {
-        //                 positionMap.set(ml, "prev")
-        //             }
-        //             else {
-        //                 console.assert(ml.length === 9, `Incomplete list being labeled "draw" for reason neither player has won yet.`)
-        //                 positionMap.set(ml, "draw") // - "draw" if neither xWins nor oWins
-        //             }
-        //         }
-        //     }
-        //     else {                      // Move Number is Even -- O went last
-        //         if (!xWins(ml)) {
-        //             if (oWins(ml)) {
-        //                 positionMap.set(ml, "prev")
-        //             }
-        //             else {
-        //                 console.assert(ml.length === 9, `Incomplete list being labeled "draw" for reason neither player has won yet.`)
-        //                 positionMap.set(ml, "draw") // - "draw" if neither xWins nor oWins
-        //             }
-        //         }
-        //     }
-
-            
-            // let mlString = ml.toString()
-            // let ndpStatus = getNdpStatus(ml)
-            // positionMap.set(ml, ndpStatus)
-        }
-        return positionMap
-    }
-    function listOfPossiblePositions() {
-        // Returns an array of arrays of arrays
-        // Layer 1) indices 0 thru 8 correspond to the lengths of the move lists contained there
-        // Layer 2) an array of all the move lists of that length
-        // Layer 3) actual moveList arrays
-        let positionsList = [[[]]]
-        for (let parentLength = 0; parentLength <= 8; parentLength++) {
-            let parentPositions = positionsList[parentLength]
-            let childPositions = parentPositions.map(parent => getChildren(parent)).flat()
-            positionsList.push(childPositions)
-        }
-        return positionsList
-    }
-
-    function moveListsOfLengthNine() {
-        let allLengths = listOfPossiblePositions()
-        return allLengths[9]
-    }
     
-
-    function getNdpStatus(ml) {
-        // if BOTH players have a win get parent ml until only one player has a win
-        while (xWins(ml) && oWins(ml)) {
-            ml = getParent(ml)
-        }
-
-        // if ONE player or the other has a win --> determining ndpStatus is simple
-        if (xWins(ml)) {
-            return (xGoesNext(ml)) ? "next" : "prev"
-        }
-        if (oWins(ml)) {
-            return (oGoesNext(ml)) ? "next" : "prev"
-        }
-
-        // if NEITHER player has a win --> examine all children 
-        //      if npdStatus of ALL children is "next" the other player will win no matter what you do now. 
-        //          read: it is your turn and your opponent's "previous" move was a winning move.
-        //      if npdStatus of ANY children is "prev" creating that position now set you up to force a win 
-        //          read: it is your turn and your opponent's "previous" move was a winning move.
-        //      else there is no winning strategy and at least one drawing strategy so that is your 
-        //          best case outcome
-        let children = getChildren(ml)
-        let outcomes = children.map(child => positionMap.get(child))
-        if (outcomes.includes("prev")) {
-            return "next"
-        }
-        else if (outcomes.includes("draw")) {
-            return "draw"
-        }
-        else {
-            return "prev"
-        }
-    }
     
 
     // The board data to render is always the latest entry in history.  We will have an 'undo' but not a 'redo' button.  May add a Make Computer Move
@@ -271,7 +135,12 @@ export default function PlayWithCoach(props) {
     function getBoardHints(ml) {
         let colors = Array(10).fill('noColor')
         let available = unclaimedNumbers(ml)
-        available.forEach(num => colors[num] = positionMap.get(ml.concat(num)))
+        
+        
+        available.forEach(num => {
+            let outcome = positionMap.get(moveListArrayToString(ml.concat(num)))
+            colors[num] = getColorByOutcome(outcome)
+        })
         
         // let children = getChildren(ml)
         // console.log(`CHILDREN: ${children}`)
@@ -281,7 +150,24 @@ export default function PlayWithCoach(props) {
         return colors
     }
 
+    function getColorByOutcome(outcome) {
+        if (outcome = "draw") {
+            return "draw"
+        }
+        else if (xGoesNext(moveList)) {
+            return (outcome = "xWins") ? "win" : "lose"
+        }
+        else {
+            return (outcome = "oWins") ? "win" : "lose"
+        }
+    }
 
+    function moveListStringToArray(mls) {               // "123" --> [1,2,3]
+        return Array.from(mls).map(e => Number(e))
+    }
+    function moveListArrayToString(mla) {               // [1,2,3] --> "123"
+        return mla.toString().replaceAll(",", "")
+    }
     
     // HIGH-LEVEL PANEL HELPERS no params
     function getStatus(ml = moveList) {
@@ -405,7 +291,7 @@ export default function PlayWithCoach(props) {
 
     // CLICK HANDLERS
     function handleSquareClick(squareClicked) {
-        if (gameOver()) {
+        if (gameOver(moveList)) {
             console.log("return without effects from handleSquareClick(). The Game is already over.")
             return;
         }
