@@ -92,33 +92,6 @@ const useStyles = makeStyles((theme) => ({
         backgroundColor: '#F44'
     },
 
-
-    immediateWin: {
-        backgroundColor: '#00bb00'
-    },
-    doubleAttackCreatingMove: {
-        // backgroundColor: '#55bb00',
-        backgroundColor: '#00bb00'
-    },
-    forcedWinCreatingMove: {
-        // backgroundColor: '#88ee33'
-        backgroundColor: '#00bb00'
-    },
-
-    urgentDefensiveMove: {
-        backgroundColor: '#ff6600'
-    },
-    unavoidableDefeat: {
-        backgroundColor: '#ff4433'
-    },
-    gameLosingMove: {
-        // backgroundColor: '#EEDD11'
-    },
-
-    drawingMove: {
-        backgroundColor: '#EEDD11'
-    }
-
 }));
 
 export default function Board(props) {
@@ -233,7 +206,7 @@ function Square(props) {
         <Paper
             elevation={4}
             className={className}
-            onClick={() => handleClick(number)}
+            onClick={() => handleClick(number.toString())}
         >
             {squareIcon}
         </Paper>
