@@ -1,6 +1,6 @@
 // X ALWAYS GOES FIRST
 
-export default positionToOutcomeMap = generatePositionToOutcomeMap()
+export default generatePositionToOutcomeMap
 
 function testMapGenerator() {
     console.time("makingMap")
@@ -44,6 +44,7 @@ function generatePositionToOutcomeMap() {
     return outcomeMap
 
     function result(mls) {
+        let outcome = "error"
         if (xHasWon(mls)) {
             outcome = "xWins"
         }
@@ -62,9 +63,12 @@ function generatePositionToOutcomeMap() {
     }
 
     function prediction(parent) {
+        let outcome = "error"
+
         let childrensOutcomes = getChildren(parent).map(child => outcomeMap.get(child))
         // console.log(`Position: ${position} --> childrensOutcomes: ${childrensOutcomes}`)
         if (xGoesNext(parent)) {
+
             if (childrensOutcomes.includes("xWins")) {
                 // console.log(`X found a way to win.`);
                 outcome = "xWins"
@@ -79,6 +83,7 @@ function generatePositionToOutcomeMap() {
             }
         }
         else {
+
             // console.log(`O is going Next.`);
             if (childrensOutcomes.includes("oWins")) {
                 // console.log(`O found a way to win.`);
@@ -101,18 +106,18 @@ function generatePositionToOutcomeMap() {
 }
 
 
-function anyChildHasStatus(parent, status) {
-    console.assert(status === "xWins" || status === "oWins" || status === "draws", `anyChildHasStatus called with invalid status: ${status}`)
-    let searchSet = (status === "xWins") ? xCanWin : (status === "oWins") ? oCanWin : draws
-    let children = getChildren(parent)
-    children.forEach(child => {
-        if (searchSet.has(child)) {
-            return true
-        }
-    })
-    return false
+// function anyChildHasStatus(parent, status) {
+//     console.assert(status === "xWins" || status === "oWins" || status === "draws", `anyChildHasStatus called with invalid status: ${status}`)
+//     let searchSet = (status === "xWins") ? xCanWin : (status === "oWins") ? oCanWin : draws
+//     let children = getChildren(parent)
+//     children.forEach(child => {
+//         if (searchSet.has(child)) {
+//             return true
+//         }
+//     })
+//     return false
 
-}
+// }
 
 
 
