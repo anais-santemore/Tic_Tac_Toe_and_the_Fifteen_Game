@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 
 
-import '../styles/TicTacToe.css';
 // My Components
 import Board from "../components/Board";
 import CoachPanel from "../components/Panels/CoachPanel";
+import positionToOutcomeMap from "../pages/positionToOutcomeMap";
 
 // MUI  components
 import Box from '@material-ui/core/Box';
@@ -65,9 +65,6 @@ export default function PlayWithCoach(props) {
 
 
     const trioList = generateTrioList()
-
-    let positionMap = new Map()
-    positionMap = generatePositionMap()
 
 
     return (
