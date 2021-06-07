@@ -233,7 +233,7 @@ function Square(props) {
         <Paper
             elevation={4}
             className={className}
-            onClick={() => handleClick(number)}
+            onClick={() => handleClick(number.toString())}
         >
             {squareIcon}
         </Paper>
