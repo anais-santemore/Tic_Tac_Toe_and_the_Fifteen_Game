@@ -59,6 +59,26 @@ export default function PlayWithCoach(props) {
     const positionMap = positionToOutcomeMap()
     const trioList = generateTrioList()
 
+    class MoveList {
+        constructor(mls) {
+            this.asString = mls
+            this.asArray = this.asArray(mls)
+        }
+        get asString() {
+            return this.asString
+        }
+        get asArray() {
+            return this.asArray
+        }
+        toArray(mls) {
+            return Array.from(mls).map(e => Number(e))   // "123" --> [1,2,3]
+        }
+        toString(mla) {
+            return mla.toString().replaceAll(",", "")    // [1,2,3] --> "123"
+        }
+        
+    }
+
 
     return (
         <Box className={classes.root} >
