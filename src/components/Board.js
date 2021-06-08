@@ -98,13 +98,41 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Board(props) {
-    const classes = useStyles();
-    const handleSquareClick = props.handleSquareClick
-    
+    const classes = useStyles();    
     const boardNumbers = [2,9,4,7,5,3,6,1,8]
-    const boardIcons = props.boardIcons;
-    const boardColors = props.boardColors; // Array of 9 strings 'noColor', 'unclaimed', 'claimed', 'win', 'draw', 'lose'.
-            // Formerly and Array of 9 strings '', 'immediateWin', 'unavoidableDefeat', 'doubleAttackCreatingMove', 'urgentDefensiveMove', 'forcedWinCreatingMove', 'drawingMove'
+    // const boardIcons = props.boardIcons;
+    // const boardColors = props.boardColors; // Array of 9 strings 'noColor', 'unclaimed', 'claimed', 'win', 'draw', 'lose'.
+    let moveList = props.moveList
+    let status = props.status
+    let outcome = props.outcome
+    let handleSquareClick = props.handleSquareClick
+
+    function getBoardIcons(mls) {
+        let data = Array(10).fill('_');  // Start with an array representing a board of NINE empty squares
+        let mla = moveListStringToArray(mls)
+        mla.forEach((squareId, turn) => {
+            data[squareId] = (turn % 2 === 0) ? 'x' : 'o'
+        })
+        return data;  // this method only deals with current board position, not hypotheticals.  Thus, it wants to use a version of helper squaresClaimedByPlayer() that does not require a moveList be explicitly passed in. 
+    }
+    function getBoardColors(ml) {
+        let colors = Array(10).fill('noColor')
+        if (status === "xWins" || status === "oWins") {
+            colors = highlightWins(ml)
+        }
+        return colors
+    }
+    function highlightWins(ml) {
+        let colors = Array(10).fill('noColor')
+        let Xs = xNumbers(ml)
+        let Os = oNumbers(ml)
+        let winningTrios = trioList.filter(trio =>
+            intersect(trio, Xs).length === 3 || intersect(trio, Os).length === 3
+        )
+
+        winningTrios.flat().forEach(num => colors[num] = 'win')
+        return colors
+    }
     
     let rows = [];
     for (let row = 0; row < 3; row++) {
@@ -113,8 +141,8 @@ export default function Board(props) {
                 key={row}
                 rowId={row}
                 rowNumbers={boardNumbers.slice(3 * row, 3 * (row + 1))}
-                boardIcons={boardIcons}
-                boardColors={boardColors}
+                boardIcons={getBoardIcons(moveList)}
+                boardColors={getBoardColors(moveList)}
                 handleSquareClick={handleSquareClick}  
             />
         ;
@@ -126,6 +154,8 @@ export default function Board(props) {
         </Box>
     )
 }
+
+
 
 function Row(props) {
     const classes = useStyles();
