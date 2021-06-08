@@ -1,5 +1,7 @@
 import React from 'react';
 
+import { moveNumber } from "../logic/GameLogic";
+
 // Custom Components
 import StatusHeader from './StatusHeader';
 import WinLossDrawRecord from "./WinLossDrawRecord";

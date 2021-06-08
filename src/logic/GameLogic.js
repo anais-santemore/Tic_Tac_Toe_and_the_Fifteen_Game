@@ -11,7 +11,7 @@
 ////////////////////////////////////////////////////////////////
 //  Current Game Status: "xWins", "oWins", "draw",  "xNext", or "oNext"
 ////////////////////////////////////////////////////////////////
-function status(mls) {
+export function status(mls) {
     if (xHasWon(mls)) {
         return ("xWins")
     }
@@ -31,7 +31,7 @@ function status(mls) {
 function nextPlayer(mls) {
     return (mls.length % 2 === 0) ? "xNext" : "oNext"
 }
-function gameOver(mls) {
+export function gameOver(mls) {
     return (mls.length === 9 || gameHasBeenWon(mls)) ? true : false
 }
 function gameHasBeenWon(mls) {
@@ -46,13 +46,16 @@ function oHasWon(mls) {
 function gameWillBeDrawn(mls) {
     // TODO
 }
+export function moveNumber(mls) {
+    return (mls.length + 1)
+}
 
 
 ////////////////////////////////////////////////////////////////
 //  Predicted and Final Game Outcomes: "xWins", "oWins", "draw"
 ////////////////////////////////////////////////////////////////
 export function outcome(mls, outcomeMap) {
-    return (gameOver(mls)) ? finalOutcome(mls) : predictedOutcome(mls)
+    return (gameOver(mls)) ? finalOutcome(mls) : predictedOutcome(mls, outcomeMap)
 }
 function finalOutcome(mls) {
     let outcome = "error"
@@ -103,23 +106,23 @@ function predictedOutcome(mls, outcomeMap) {
 ////////////////////////////////////////////////////////////////
 // Isolate each players' claimed numbers: ARRAY(NUM)
 ////////////////////////////////////////////////////////////////
-function xNumbers(mls) {
+export function xNumbers(mls) {
     return moveListStringToArray(mls).filter((move, turn) => turn % 2 === 0)
 }
-function oNumbers(mls) {
+export function oNumbers(mls) {
     return moveListStringToArray(mls).filter((move, turn) => turn % 2 === 1)
 }
-function playerOneNumbers(mls) {  // Always the Human
-    return (playerOneIsX) ? xNumbers(mls) : oNumbers(mls)
-}
-function playerTwoNumbers(mls) {  // Human or Bot, Depending on mode
-    return (playerOneIsX) ? oNumbers(mls) : xNumbers(mls)
-}
+// function playerOneNumbers(mls) {  // Always the Human
+//     return (playerOneIsX) ? xNumbers(mls) : oNumbers(mls)
+// }
+// function playerTwoNumbers(mls) {  // Human or Bot, Depending on mode
+//     return (playerOneIsX) ? oNumbers(mls) : xNumbers(mls)
+// }
 
 ////////////////////////////////////////////////////////////////
 // Convert Move List Representations:   String <--> Array
 ////////////////////////////////////////////////////////////////
-function moveListStringToArray(mls) {               // "123" --> [1,2,3]
+export function moveListStringToArray(mls) {               // "123" --> [1,2,3]
     return Array.from(mls).map(e => Number(e))
 }
 function moveListArrayToString(mla) {               // [1,2,3] --> "123"
@@ -162,7 +165,7 @@ export function getParent(ml) {
 ////////////////////////////////////////////////////////////////
 // Lowest Level Logic
 ////////////////////////////////////////////////////////////////
-function intersect(listOne, listTwo) {
+export function intersect(listOne, listTwo) {
     return listOne.filter(item => listTwo.includes(item))
 }
 function sumsOfThree(moveSet) {
@@ -226,7 +229,7 @@ function generatePositionToOutcomeMap() {
         let positions = list[length]
         for (let p = 0; p < positions.length; p++) {
             let mls = positions[p]
-            outcomeMap.set(parent, outcome(mls, outcomeMap))
+            outcomeMap.set(mls, outcome(mls, outcomeMap))
         }
     }
     return outcomeMap
