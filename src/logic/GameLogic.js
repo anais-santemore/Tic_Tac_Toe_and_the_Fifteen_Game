@@ -37,11 +37,14 @@ export function gameOver(mls) {
 function gameHasBeenWon(mls) {
     return (xHasWon(mls) || oHasWon(mls)) ? true : false
 }
-function xHasWon(mls) {
+export function xHasWon(mls) {
     return sumsOfThree(xNumbers(mls)).includes(15)
 }
-function oHasWon(mls) {
+export function oHasWon(mls) {
     return sumsOfThree(oNumbers(mls)).includes(15)
+}
+export function gameDrawn(mls) {
+    return (mls.length === 9 && !gameHasBeenWon(mls))
 }
 function gameWillBeDrawn(mls) {
     // TODO
