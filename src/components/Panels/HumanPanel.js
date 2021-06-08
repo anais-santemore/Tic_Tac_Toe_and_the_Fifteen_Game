@@ -3,8 +3,9 @@ import React from 'react';
 import { moveNumber } from "../../logic/GameLogic";
 
 // Custom Components
-import StatusHeader from './StatusHeader';
-import WinLossDrawRecord from "./WinLossDrawRecord";
+import StatusHeader from './Parts/StatusHeader';
+import GameNumber from './Parts/GameNumber';
+import WinLossDrawRecord from "./Parts/WinLossDrawRecord";
 
 import NewGameButton from "../Buttons/NewGameButton";
 import UndoButton from "../Buttons/UndoButton";
@@ -56,10 +57,11 @@ export default function HumanPanel(props) {
     return (
         <Container maxWidth='sm' className={classes.panel} >
             <Box className={classes.infoArea} >
-                <StatusHeader
+                <GameNumber 
                     gameNumber={gameNumber}
+                />
+                <StatusHeader
                     moveList={moveList}
-                    status={status}
                 />
                 <WinLossDrawRecord
                     playMode="humanVsHuman"
