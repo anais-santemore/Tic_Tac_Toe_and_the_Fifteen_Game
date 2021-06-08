@@ -23,12 +23,6 @@ function testPossiblePositionListGenerator() {
 function generatePositionToOutcomeMap() {
     let outcomeMap = new Map()
     let list = listOfPossiblePositions()
-    // let xCanWin = new Set()
-    // let draws = new Set()
-    // let oCanWin = new Set()
-    
-    // let turnNineMap = new Map()
-
     for (let length = 9; length >= 0; length--) {
         let parents = list[length]
 
