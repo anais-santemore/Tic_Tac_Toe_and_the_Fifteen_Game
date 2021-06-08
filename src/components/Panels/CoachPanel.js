@@ -1,5 +1,8 @@
 import React from 'react';
 
+import { status } from "../../logic/GameLogic";
+
+
 // Custom Components
 import StatusHeader from './Parts/StatusHeader';
 import GameNumber from './Parts/GameNumber';
@@ -44,17 +47,12 @@ const useStyles = makeStyles((theme) => ({
 export default function CoachPanel(props) {
     const classes = useStyles();
 
-    const gameNumber = props.gameNumber;
+    let moveList = props.moveList
 
-    const gameOver = props.gameOver;
-    const moveNumber = props.moveNumber; 
-    const gameStatus = props.gameStatus;
-
+    const currentStatus = status(moveList);
 
     // const commentLabel = props.commentary;
     const commentLabel = props.commentLabel;
-
-
 
     const showHints = props.showHints
     const toggleShowHints = props.toggleShowHints
@@ -67,20 +65,18 @@ export default function CoachPanel(props) {
         <Container maxWidth='sm' className={classes.panel} >
             <Box className={classes.infoArea} >
                 <StatusHeader
-                    // gameNumber={gameNumber}
-                    gameStatus={gameStatus}
+                    moveList={moveList}
                 />
                 <CoachsCommentary
-                    gameStatus={gameStatus}
+                    moveList={moveList}
                     commentLabel={commentLabel}
-                    // gameStatus={gameStatus}
                 /> 
             </Box>
             <Grid container className={classes.buttonArea} >
                 <Grid item xs={12} sm={6}  >
                     <UndoButton 
                         gameOver={false}
-                        moveNumber={moveNumber}
+                        moveList={moveList}
                         handleUndoClick={handleUndoClick}
                     />
                 </Grid>
