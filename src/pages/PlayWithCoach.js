@@ -63,8 +63,7 @@ export default function PlayWithCoach(props) {
             <Box className={classes.boardContainer}>
                 <Box className={classes.boardArea} >
                     <Board
-                        boardIcons={getBoardIcons(moveListString)}
-                        boardColors={getBoardColors(moveListString)}
+                        moveList={moveList}
                         handleSquareClick={handleSquareClick}
                     />
                 </Box>
@@ -129,4 +128,4 @@ export default function PlayWithCoach(props) {
     function toggleShowHints() {
         setShowHints(!showHints)
     }
-
+}
