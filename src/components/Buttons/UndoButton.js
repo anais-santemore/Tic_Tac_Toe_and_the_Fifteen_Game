@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import { getParent } from "../../logic/GameLogic";
+import { getParent, gameOver, moveNumber } from "../../logic/GameLogic";
 
 
 // MUI Components
@@ -32,8 +32,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function UndoButton(props) {
     const classes = useStyles();
-    const gameOver = props.gameOver
-    const moveNumber = props.moveNumber
+    const moveList = props.moveList
     const handleUndoClick = props.handleUndoClick
 
     return (
