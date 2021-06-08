@@ -133,6 +133,28 @@ export default function Board(props) {
         winningTrios.flat().forEach(num => colors[num] = 'win')
         return colors
     }
+    function getBoardHints(mls) {
+        let colors = Array(10).fill('noColor')
+        availableNumbers(mls).forEach(num => {
+            let outcome = positionMap.get(mls + num.toString())
+            colors[num] = getHintColor(outcome)
+        })
+        console.log(`COLORS: ${colors}`)
+        return colors
+    }
+
+    function getHintColor(outcome) {
+        if (outcome === "draw") {
+            return "draw"
+        }
+        else if (xGoesNext(moveListString)) {
+            return (outcome === "xWins") ? "win" : "lose"
+        }
+        else {
+            return (outcome === "oWins") ? "win" : "lose"
+        }
+    }
+
     
     let rows = [];
     for (let row = 0; row < 3; row++) {

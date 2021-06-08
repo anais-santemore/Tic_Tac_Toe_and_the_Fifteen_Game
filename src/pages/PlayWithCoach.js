@@ -122,50 +122,6 @@ export default function PlayWithCoach(props) {
 
     
 
-    function getBoardIcons(mls) {
-        let data = Array(10).fill('_');  // Start with an array representing a board of NINE empty squares
-        moveListStringToArray(mls).forEach((squareId, turn) => {
-            if (xGoesFirst) {
-                data[squareId] = (turn % 2 === 0) ? 'x' : 'o'
-            }
-            else {
-                data[squareId] = (turn % 2 === 0) ? 'o' : 'x'
-            }
-        })
-        return data; // this method only deals with current board position, not hypotheticals.  Thus, it wants to use a version of helper squaresClaimedByPlayer() that does not require a moveList be explicitly passed in.
-    }
-
-    function getBoardColors(mls) {
-        let colors = Array(10).fill('noColor')
-        if (xHasWon(mls) || oHasWon(mls)) {
-            colors = highlightWins(mls)
-        }
-        return (showHints === true) ? getBoardHints(mls) : colors
-    }
-    
-    
-    // TODO
-    function getBoardHints(mls) {
-        let colors = Array(10).fill('noColor')
-        availableNumbers(mls).forEach(num => {
-            let outcome = positionMap.get(mls + num.toString())
-            colors[num] = getHintColor(outcome)
-        })
-        console.log(`COLORS: ${colors}`)
-        return colors
-    }
-
-    function getHintColor(outcome) {
-        if (outcome === "draw") {
-            return "draw"
-        }
-        else if (xGoesNext(moveListString)) {
-            return (outcome === "xWins") ? "win" : "lose"
-        }
-        else {
-            return (outcome === "oWins") ? "win" : "lose"
-        }
-    }
 
     function moveListStringToArray(mls) {               // "123" --> [1,2,3]
         return Array.from(mls).map(e => Number(e))
