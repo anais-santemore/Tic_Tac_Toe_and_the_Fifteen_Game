@@ -7,7 +7,7 @@ import Typography from '@material-ui/core/Typography';
 
 
 // Custom Styling
-import '../../styles/TicTacToe.css';
+// import '../../styles/TicTacToe.css';
 import { makeStyles } from '@material-ui/core/styles';
 const useStyles = makeStyles((theme) => ({
     commetaryBox: {
