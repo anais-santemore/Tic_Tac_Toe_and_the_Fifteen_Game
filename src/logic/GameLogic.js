@@ -8,10 +8,10 @@
 // Most functions here assume they will be called with a Move List String as the sole parameter. (just the exported ones?)
 
 
-
-
-
-function gameStatus(mls) {
+////////////////////////////////////////////////////////////////
+//  Current Game Status: "xWins", "oWins", "draw",  "xNext", or "oNext"
+////////////////////////////////////////////////////////////////
+function status(mls) {
     if (xHasWon(mls)) {
         return ("xWins")
     }
@@ -25,14 +25,12 @@ function gameStatus(mls) {
         return nextPlayer(mls)  // "xNext" || "oNext"
     }
 }
+////////////////////////////////////////////////////////////////
+// Game Status Helpers: BOOLEAN
+////////////////////////////////////////////////////////////////
 function nextPlayer(mls) {
     return (mls.length % 2 === 0) ? "xNext" : "oNext"
 }
-
-
-////////////////////////////////////////////////////////////////
-// Check if Game is Over, has been Won or Drawn: BOOLEAN
-////////////////////////////////////////////////////////////////
 function gameOver(mls) {
     return (mls.length === 9 || gameHasBeenWon(mls)) ? true : false
 }
@@ -51,18 +49,70 @@ function gameWillBeDrawn(mls) {
 
 
 ////////////////////////////////////////////////////////////////
+//  Predicted and Final Game Outcomes: "xWins", "oWins", "draw"
+////////////////////////////////////////////////////////////////
+export function outcome(mls, outcomeMap) {
+    return (gameOver(mls)) ? finalOutcome(mls) : predictedOutcome(mls)
+}
+function finalOutcome(mls) {
+    let outcome = "error"
+    if (xHasWon(mls)) {
+        outcome = "xWins"
+    }
+    else if (oHasWon(mls)) {
+        outcome = "oWins"
+    }
+    else if (mls.length === 9) {
+        outcome = "draw"
+    }
+    return outcome
+}
+function predictedOutcome(mls, outcomeMap) {
+    let outcome = "error"
+    let childrensOutcomes = getChildren(mls).map(child => outcomeMap.get(child))
+    // console.log(`Position: ${position} --> childrensOutcomes: ${childrensOutcomes}`)
+    if (nextPlayer(mls) === "xNext") {
+        if (childrensOutcomes.includes("xWins")) {
+            outcome = "xWins"
+        }
+        else if (childrensOutcomes.includes("draw")) {
+            outcome = "draw"
+        }
+        else {
+            outcome = "oWins"
+        }
+    }
+    else {
+        if (childrensOutcomes.includes("oWins")) {
+            outcome = "oWins"
+        }
+        else if (childrensOutcomes.includes("draw")) {
+            outcome = "draw"
+        }
+        else {
+            outcome = "xWins"
+        }
+    }
+    return outcome
+}
+
+
+
+
+
+////////////////////////////////////////////////////////////////
 // Isolate each players' claimed numbers: ARRAY(NUM)
 ////////////////////////////////////////////////////////////////
-export function xNumbers(mls) {
+function xNumbers(mls) {
     return moveListStringToArray(mls).filter((move, turn) => turn % 2 === 0)
 }
-export function oNumbers(mls) {
+function oNumbers(mls) {
     return moveListStringToArray(mls).filter((move, turn) => turn % 2 === 1)
 }
-export export function playerOneNumbers(mls) {  // Always the Human
+function playerOneNumbers(mls) {  // Always the Human
     return (playerOneIsX) ? xNumbers(mls) : oNumbers(mls)
 }
-export function playerTwoNumbers(mls) {  // Human or Bot, Depending on mode
+function playerTwoNumbers(mls) {  // Human or Bot, Depending on mode
     return (playerOneIsX) ? oNumbers(mls) : xNumbers(mls)
 }
 
@@ -132,7 +182,7 @@ function sumsOfThree(moveSet) {
 }
 
 ////////////////////////////////////////////////////////////////
-// Constants: Trio List & Outcome Maps
+// Constants: Trio List & Possible Positions & Outcome Maps
 ////////////////////////////////////////////////////////////////
 export const trioList = generateTrioList()
 function generateTrioList() {
@@ -150,6 +200,38 @@ function generateTrioList() {
 }
 function complementOf(sumOfTwo) {
     return (15 - sumOfTwo)
+}
+
+const listOfPossiblePositions = getListOfPossiblePositions()
+function getListOfPossiblePositions() {
+    // Returns an array of arrays of strings
+    // Layer 1) indices 0 thru 9 correspond to the lengths of the move lists contained there
+    // Layer 2) an array containing all valid move lists of that length
+    // Layer 3) Move List string representations
+    let positionsList = [[""]]
+    for (let parentLength = 0; parentLength < 9; parentLength++) {
+        let parentPositions = positionsList[parentLength]
+        let childPositions = parentPositions.map(parent => getChildren(parent)).flat()
+        positionsList.push(childPositions)
+    }
+    return positionsList
+}
+
+
+let outcomeMap = generatePositionToOutcomeMap()
+function generatePositionToOutcomeMap() {
+    let outcomeMap = new Map()
+    let list = listOfPossiblePositions
+    for (let length = 9; length >= 0; length--) {
+        let positions = list[length]
+        for (let p = 0; p < positions.length; p++) {
+            let mls = positions[p]
+            outcomeMap.set(parent, outcome(mls, outcomeMap))
+        }
+    }
+    return outcomeMap
+
+    
 }
 
 // function factorial(num) {
