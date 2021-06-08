@@ -1,5 +1,8 @@
 import React from 'react';
 
+// My Logical Components
+import { xNumbers, oNumbers, trioList, intersect, moveListStringToArray} from "../logic/GameLogic";
+
 // My Components
 // import Square from "./Square";
 
