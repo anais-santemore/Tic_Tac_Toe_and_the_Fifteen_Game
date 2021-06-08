@@ -112,7 +112,7 @@ export default function Board(props) {
     // const boardIcons = props.boardIcons;
     // const boardColors = props.boardColors; // Array of 9 strings 'noColor', 'unclaimed', 'claimed', 'win', 'draw', 'lose'.
     let moveList = props.moveList
-    let status = status(moveList)
+    let gameStatus = status(moveList)
     let outcome = props.outcome
     let handleSquareClick = props.handleSquareClick
 
@@ -126,7 +126,7 @@ export default function Board(props) {
     }
     function getBoardColors(ml) {
         let colors = Array(10).fill('noColor')
-        if (status === "xWins" || status === "oWins") {
+        if (gameStatus === "xWins" || gameStatus === "oWins") {
             colors = highlightWins(ml)
         }
         return colors
@@ -156,10 +156,10 @@ export default function Board(props) {
         if (outcome === "draw") {
             return "draw"
         }
-        else if (status === "xNext") {
+        else if (gameStatus === "xNext") {
             return (outcome === "xWins") ? "win" : "lose"
         }
-        else if (status === "oNext") {
+        else if (gameStatus === "oNext") {
             return (outcome === "oWins") ? "win" : "lose"
         }
         else {
