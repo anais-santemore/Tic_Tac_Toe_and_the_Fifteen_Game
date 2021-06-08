@@ -66,7 +66,7 @@ export default function CoachPanel(props) {
         <Container maxWidth='sm' className={classes.panel} >
             <Box className={classes.infoArea} >
                 <StatusHeader
-                    gameNumber={gameNumber}
+                    // gameNumber={gameNumber}
                     gameStatus={gameStatus}
                 />
                 <CoachsCommentary
