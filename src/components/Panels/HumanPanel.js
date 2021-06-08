@@ -42,13 +42,10 @@ const useStyles = makeStyles((theme) => ({
 export default function HumanPanel(props) {
     const classes = useStyles();
     
-    const gameNumber = props.gameNumber;
-    const record = props.record;
-
-
-    const gameOver = props.gameOver;
-    const moveNumber = props.moveNumber;
-    const gameStatus = props.gameStatus;
+    let gameNumber = props.gameNumber
+    let moveList = props.moveList
+    let status = props.status
+    let record = props.record;
 
     const handleNewGameClick = props.handleNewGameClick
     const handleUndoClick = props.handleUndoClick
