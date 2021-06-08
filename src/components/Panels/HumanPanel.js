@@ -8,8 +8,7 @@ import NewGameButton from "../Buttons/NewGameButton";
 import UndoButton from "../Buttons/UndoButton";
 
 // MUI Components
-import Box from '@material-ui/core/Box';
-import Container from '@material-ui/core/Container';
+import {Box, Grid, Container} from '@material-ui/core';
 
 // Custom Styling
 import { makeStyles } from '@material-ui/core/styles';
