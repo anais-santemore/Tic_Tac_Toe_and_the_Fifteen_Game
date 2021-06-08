@@ -78,7 +78,6 @@ export default function HumanPanel(props) {
                     <UndoButton 
                         gameOver={gameOver()}
                         moveNumber={moveNumber(moveList)}
-                        // moveNumber={6}
                         handleUndoClick={handleUndoClick}
                     />
                 </Grid>

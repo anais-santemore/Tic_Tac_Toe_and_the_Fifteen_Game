@@ -19,8 +19,24 @@ const useStyles = makeStyles((theme) => ({
 export default function StatusHeader(props) {
     const classes = useStyles();
     const gameNumber = props.gameNumber;
-    const gameStatus = props.gameStatus;
-    // const moveNumber = props.moveNumber;
+    const status = props.status;
+
+    function statusMessage(status) {
+        switch (status) {
+            case "xWins":
+                return "Game Over. X Wins!"
+            case "oWins":
+                return "Game Over. O Wins!"
+            case "draw":
+                return "Game Over! Draw."
+            case "xNext":
+                return "It is X's turn."
+            case "oNext":
+                return "It is O's turn."
+            default:
+                return "Error";
+        }
+    }
 
     return (
         <Box className={classes.root}>
@@ -28,7 +44,7 @@ export default function StatusHeader(props) {
                 Game&nbsp;{gameNumber}
             </Typography>
             <Typography align='center' component='h1' variant='h4' noWrap gutterBottom>
-                {gameStatus}
+                {statusMessage(status)}
             </Typography>
         </Box>
     )
