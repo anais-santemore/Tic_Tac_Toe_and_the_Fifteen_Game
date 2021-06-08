@@ -10,3 +10,25 @@
 
 
 
+
+function gameStatus(mls) {
+    if (xHasWon(mls)) {
+        return ("xWins")
+    }
+    else if (oHasWon(mls)) {
+        return ("oWins")
+    }
+    else if (mls.length === 9) {
+        return ("draw")
+    }
+    else if (xGoesNext(mls)) {
+        return ("xNext")
+    }
+    else if (!xGoesNext(mls)) {
+        return ("oNext")
+    }
+    else {
+        console.error("A call to gameStatus() did not work!");
+        return (`Error in gameStatus()`)
+    }
+}
