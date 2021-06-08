@@ -55,9 +55,6 @@ export default function PlayWithCoach(props) {
     // let [showHints, setShowHints] = useState(false);
     let [showHints, setShowHints] = useState(true);
 
-    const positionMap = positionToOutcomeMap()
-    const trioList = generateTrioList()
-
     return (
         <Box className={classes.root} >
             <Box className={classes.boardContainer}>
