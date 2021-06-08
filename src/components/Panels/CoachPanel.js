@@ -1,11 +1,10 @@
 import React from 'react';
 
-import { status } from "../../logic/GameLogic";
+import { status, getParent } from "../../logic/GameLogic";
 
 
 // Custom Components
 import StatusHeader from './Parts/StatusHeader';
-import GameNumber from './Parts/GameNumber';
 import CoachsCommentary from "./Parts/CoachsCommentary";
 
 import UndoButton from "../Buttons/UndoButton";
@@ -48,12 +47,12 @@ export default function CoachPanel(props) {
     const classes = useStyles();
 
     let moveList = props.moveList
-    let currentStatus = status(moveList);
     let commentLabel = props.commentLabel;
-    let showHints = props.showHints
     let toggleShowHints = props.toggleShowHints
     let handleUndoClick = props.handleUndoClick
-
+    
+    let currentStatus = status(moveList);
+    let previousStatus = status(getParent(moveList));
 
     return (
         <Container maxWidth='sm' className={classes.panel} >
