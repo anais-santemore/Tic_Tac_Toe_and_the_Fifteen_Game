@@ -18,6 +18,8 @@ const useStyles = makeStyles((theme) => ({
 
 export default function StatusHeader(props) {
     const classes = useStyles();
+    
+    const playMode = props.playMode
     const gameNumber = props.gameNumber;
     const status = props.status;
 
@@ -38,11 +40,25 @@ export default function StatusHeader(props) {
         }
     }
 
+    function GameNumber(props) {
+        if (playMode === "PlayWithCoach") {
+            return null
+        } 
+        else {
+            return (
+                <Typography align='center' component='h1' variant='h4' noWrap gutterBottom>
+                    Game&nbsp;{gameNumber}
+                </Typography>
+            )
+        }
+    }
+    
     return (
         <Box className={classes.root}>
-            <Typography align='center' component='h1' variant='h4' noWrap gutterBottom>
-                Game&nbsp;{gameNumber}
-            </Typography>
+            <GameNumber 
+                playMode={playMode}
+                gameNumber={gameNumber}
+            />
             <Typography align='center' component='h1' variant='h4' noWrap gutterBottom>
                 {statusMessage(status)}
             </Typography>
