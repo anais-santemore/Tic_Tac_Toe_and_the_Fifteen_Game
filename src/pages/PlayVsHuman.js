@@ -69,8 +69,8 @@ export default function PlayVsHuman() {
             <Box className={classes.boardContainer}>
                 <Box className={classes.boardArea} >
                     <Board
-                        boardIcons={getBoardIcons()}
-                        boardColors={getBoardColors()}
+                        moveList={moveList}
+                        status={status(moveList)}
                         handleSquareClick={handleSquareClick}
                     />
                 </Box>
