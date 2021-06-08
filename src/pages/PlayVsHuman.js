@@ -56,7 +56,7 @@ const useStyles = makeStyles((theme) => ({
 export default function PlayVsHuman() {
     const classes = useStyles();
 
-    let [moveList, setMoveList] = useState([]);
+    let [moveList, setMoveList] = useState("");
     let [gameNumber, setGameNumber] = useState(1);     // In ODD numbered games X goes first
     let [record, setRecord] = useState([0, 0, 0]);     // 3 element counter for humanWins, botWins, and tieGames.
 
