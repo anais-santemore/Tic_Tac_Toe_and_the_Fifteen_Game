@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { moveNumber } from "../logic/GameLogic";
+import { moveNumber } from "../../logic/GameLogic";
 
 // Custom Components
 import StatusHeader from './StatusHeader';
@@ -77,7 +77,7 @@ export default function HumanPanel(props) {
                 <Grid item xs={12} sm={6}   >
                     <UndoButton 
                         gameOver={gameOver()}
-                        moveNumber={moveNumber()}
+                        moveNumber={moveNumber(moveList)}
                         // moveNumber={6}
                         handleUndoClick={handleUndoClick}
                     />
