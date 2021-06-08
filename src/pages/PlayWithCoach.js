@@ -50,9 +50,6 @@ export default function PlayWithCoach(props) {
     let startingPosition = ""  // vs []
     let [moveListString, setMoveListString] = useState(startingPosition);
 
-    let [gameNumber, setGameNumber] = useState(1);  
-    let [record, setRecord] = useState([0, 0, 0]);     // 3 element counter for humanWins, botWins, and tieGames.
-    
     // let [showHints, setShowHints] = useState(false);
     let [showHints, setShowHints] = useState(true);
 
