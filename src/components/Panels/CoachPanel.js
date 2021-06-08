@@ -1,8 +1,9 @@
 import React from 'react';
 
 // Custom Components
-import StatusHeader from './StatusHeader';
-import CoachsCommentary from "./CoachsCommentary";
+import StatusHeader from './Parts/StatusHeader';
+import GameNumber from './Parts/GameNumber';
+import CoachsCommentary from "./Parts/CoachsCommentary";
 
 import UndoButton from "../Buttons/UndoButton";
 import ShowHintsButton from "../Buttons/ShowHintsButton";
