@@ -99,20 +99,7 @@ export default function PlayWithCoach(props) {
         }
     }
 
-    // MID-LEVEL HELPERS for getBoardColors() and getBoardHints()
-    function highlightWins(mls) {
-        console.assert(!gameOver(mls), `highlightWins() was called but found that the game is not over`);
-        let colors = Array(10).fill('noColor')
-        let Xs = xNumbers(mls)
-        let Os = oNumbers(mls)
-        let winningTrios = trioList.filter(trio =>
-            intersect(trio, Xs).length === 3 || intersect(trio, Os).length === 3
-        )
-
-        winningTrios.flat().forEach(num => colors[num] = 'win')
-        return colors
-    }
-
+    
 
     // CLICK HANDLERS
     function handleSquareClick(squareClickedString) {
