@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import { getParent } from "../logic/GameLogic";
+import { getParent } from "../../logic/GameLogic";
 
 
 // MUI Components
