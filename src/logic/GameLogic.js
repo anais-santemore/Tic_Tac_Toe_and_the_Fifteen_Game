@@ -21,17 +21,14 @@ function gameStatus(mls) {
     else if (mls.length === 9) {
         return ("draw")
     }
-    else if (xGoesNext(mls)) {
-        return ("xNext")
-    }
-    else if (!xGoesNext(mls)) {
-        return ("oNext")
-    }
     else {
-        console.error("A call to gameStatus() did not work!");
-        return (`Error in gameStatus()`)
+        return nextPlayer(mls)  // "xNext" || "oNext"
     }
 }
+function nextPlayer(mls) {
+    return (mls.length % 2 === 0) ? "xNext" : "oNext"
+}
+
 
 ////////////////////////////////////////////////////////////////
 // Check if Game is Over, has been Won or Drawn: BOOLEAN
