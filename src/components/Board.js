@@ -1,7 +1,16 @@
 import React from 'react';
 
 // My Logical Components
-import { xNumbers, oNumbers, trioList, intersect, moveListStringToArray} from "../logic/GameLogic";
+import { 
+    status,
+    xNumbers, 
+    oNumbers, 
+    trioList, 
+    outcomeMap,
+    intersect, 
+    availableNumbers,
+    moveListStringToArray
+} from "../logic/GameLogic";
 
 // My Components
 // import Square from "./Square";
@@ -103,7 +112,7 @@ export default function Board(props) {
     // const boardIcons = props.boardIcons;
     // const boardColors = props.boardColors; // Array of 9 strings 'noColor', 'unclaimed', 'claimed', 'win', 'draw', 'lose'.
     let moveList = props.moveList
-    let status = props.status
+    let status = status(moveList)
     let outcome = props.outcome
     let handleSquareClick = props.handleSquareClick
 
@@ -136,7 +145,7 @@ export default function Board(props) {
     function getBoardHints(mls) {
         let colors = Array(10).fill('noColor')
         availableNumbers(mls).forEach(num => {
-            let outcome = positionMap.get(mls + num.toString())
+            let outcome = outcomeMap.get(mls + num.toString())
             colors[num] = getHintColor(outcome)
         })
         console.log(`COLORS: ${colors}`)
@@ -147,11 +156,14 @@ export default function Board(props) {
         if (outcome === "draw") {
             return "draw"
         }
-        else if (xGoesNext(moveListString)) {
+        else if (status === "xNext") {
             return (outcome === "xWins") ? "win" : "lose"
         }
-        else {
+        else if (status === "oNext") {
             return (outcome === "oWins") ? "win" : "lose"
+        }
+        else {
+            console.error(`Error in Get Hint Color`);
         }
     }
 
