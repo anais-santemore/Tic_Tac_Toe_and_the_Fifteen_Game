@@ -88,67 +88,7 @@ export default function PlayVsHuman() {
         </Box>
     )
 
-    ///////////////////////////////////////////////////
-    // Board and Panel Rendering Helpers
-    ///////////////////////////////////////////////////
-    function getBoardIcons(ml = moveList) {
-        let data = Array(10).fill('_');  // Start with an array representing a board of NINE empty squares
-
-        ml.forEach((squareId, turn) => {
-            if (xGoesFirst()) {
-                data[squareId] = (turn % 2 === 0) ? 'x' : 'o'
-            }
-            else {
-                data[squareId] = (turn % 2 === 0) ? 'o' : 'x'
-            }
-        })
-        return data;  // this method only deals with current board position, not hypotheticals.  Thus, it wants to use a version of helper squaresClaimedByPlayer() that does not require a moveList be explicitly passed in. 
-    }
-    function getBoardColors(ml = moveList) {
-        let colors = Array(10).fill('noColor')
-        if (xWins(ml) || oWins(ml)) {
-            colors = highlightWins(ml)
-        }
-        return colors
-    }
-    function gameStatus(ml = moveList) {
-        if (xWins(ml)) {
-            return (`X wins!`)
-        }
-        else if (oWins(ml)) {
-            return (`O wins!`)
-        }
-        else if (gameDrawn(ml)) {
-            return (`Draw.`)
-        }
-        else if (ml.length === 0) {
-            return (xGoesFirst()) ? `X goes first this game.` : `O goes first this game.`
-        }
-        else if (ml.length % 2 === 0) {
-            return (xGoesFirst()) ? `X goes next.` : `O goes next.`
-        }
-        else if (ml.length % 2 === 1) {
-            return (xGoesFirst()) ? `O goes next.` : `X goes next.`
-        }
-        else {
-            console.error("A call to gameStatus() did not work!");
-            return `ERROR`
-        }
-    }
-    function highlightWins(ml) {
-        console.assert(!gameOver(), `highlightWins() was called but found that the game is not over`);
-
-        let colors = Array(10).fill('noColor')
-        let Xs = xNumbers(ml)
-        let Os = oNumbers(ml)
-        let winningTrios = trioList.filter(trio =>
-            intersect(trio, Xs).length === 3 || intersect(trio, Os).length === 3
-        )
-
-        winningTrios.flat().forEach(num => colors[num] = 'win')
-        return colors
-    }
-
+    
     ///////////////////////////////////////////////////
     // CLICK HANDLERS
     ///////////////////////////////////////////////////
