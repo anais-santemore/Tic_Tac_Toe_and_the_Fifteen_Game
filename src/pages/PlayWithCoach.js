@@ -70,12 +70,9 @@ export default function PlayWithCoach(props) {
             </Box>
             <Box className={classes.panelArea}>
                 <CoachPanel
-                    gameNumber={gameNumber}
-                    record={record}
-                    moveNumber={moveListString.length + 1}
-                    gameOver={gameOver(moveListString)}
-                    gameStatus={getStatus(moveListString)}
-                    commentLabel={getCommentLabel(moveListString)}
+                    moveList={moveList}
+                    moveNumber={moveList.length + 1}
+                    commentLabel={getCommentLabel(moveList)}
                     handleUndoClick={handleUndoClick}
                     toggleShowHints={toggleShowHints}
                 />
