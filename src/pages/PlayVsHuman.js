@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 
-import '../styles/TicTacToe.css';
+// My Logical Components
+import positionToOutcomeMap from "../pages/positionToOutcomeMap";
+import {status, outcome, trioList, gameOver, xHasWon, oHasWon, gameDrawn} from "../logic/GameLogic";
 
 // My Components
 import Board from "../components/Board";
@@ -10,6 +12,7 @@ import Panel from "../components/Panels/HumanPanel";
 import Box from '@material-ui/core/Box';
 
 // Custom Styling
+import '../styles/TicTacToe.css';
 import { makeStyles } from '@material-ui/core/styles';
 const useStyles = makeStyles((theme) => ({
     root: {
