@@ -65,7 +65,6 @@ export default function PlayVsHuman() {
                 <Box className={classes.boardArea} >
                     <Board
                         moveList={moveList}
-                        status={status(moveList)}
                         handleSquareClick={handleSquareClick}
                     />
                 </Box>
