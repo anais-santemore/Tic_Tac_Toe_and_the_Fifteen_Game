@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
 
 // My Logical Components
-import positionToOutcomeMap from "../pages/positionToOutcomeMap";
-import {status, outcome, trioList, gameOver, xHasWon, oHasWon, gameDrawn} from "../logic/GameLogic";
+import {status, gameOver, xHasWon, oHasWon, gameDrawn} from "../logic/GameLogic";
 
-// My Components
+// My React  Components
 import Board from "../components/Board";
 import Panel from "../components/Panels/HumanPanel";
 
@@ -59,10 +58,6 @@ export default function PlayVsHuman() {
     let [moveList, setMoveList] = useState("");
     let [gameNumber, setGameNumber] = useState(1);     // In ODD numbered games X goes first
     let [record, setRecord] = useState([0, 0, 0]);     // 3 element counter for humanWins, botWins, and tieGames.
-
-
-    console.log(typeof moveList)
-
 
     return (
         <Box className={classes.root} >
