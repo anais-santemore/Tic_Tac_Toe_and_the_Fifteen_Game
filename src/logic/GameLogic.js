@@ -69,3 +69,13 @@ export function playerTwoNumbers(mls) {  // Human or Bot, Depending on mode
     return (playerOneIsX) ? oNumbers(mls) : xNumbers(mls)
 }
 
+////////////////////////////////////////////////////////////////
+// Convert Move List Representations:   String <--> Array
+////////////////////////////////////////////////////////////////
+function moveListStringToArray(mls) {               // "123" --> [1,2,3]
+    return Array.from(mls).map(e => Number(e))
+}
+function moveListArrayToString(mla) {               // [1,2,3] --> "123"
+    return mla.toString().replaceAll(",", "")
+}
+
