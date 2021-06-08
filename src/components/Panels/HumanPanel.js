@@ -59,9 +59,9 @@ export default function HumanPanel(props) {
             <Box className={classes.infoArea} >
                 <StatusHeader
                     gameNumber={gameNumber}
-                    gameStatus={gameStatus}
+                    moveList={moveList}
+                    status={status}
                 />
-
                 <WinLossDrawRecord
                     playMode="humanVsHuman"
                     record={record}
