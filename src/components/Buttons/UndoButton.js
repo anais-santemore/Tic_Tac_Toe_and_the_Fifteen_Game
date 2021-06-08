@@ -33,6 +33,7 @@ const useStyles = makeStyles((theme) => ({
 export default function UndoButton(props) {
     const classes = useStyles();
     const moveList = props.moveList
+    
     const handleUndoClick = props.handleUndoClick
 
     return (
@@ -41,7 +42,7 @@ export default function UndoButton(props) {
             variant="contained"
             color="primary"
             onClick={() => handleUndoClick()}
-            disabled={gameOver || moveNumber === 1}
+            disabled={gameOver(moveList) || moveNumber(moveList) === 1}
         >
             <UndoIcon className={classes.buttonIcon} />
             Undo
