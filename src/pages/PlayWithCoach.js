@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 
 // My Logical Components
 import positionToOutcomeMap from "../pages/positionToOutcomeMap";
+import { status, outcome, gameOver, xHasWon, oHasWon, gameDrawn } from "../logic/GameLogic";
+
 
 // My React Components
 import Board from "../components/Board";
