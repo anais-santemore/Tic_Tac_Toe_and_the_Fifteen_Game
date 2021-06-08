@@ -78,10 +78,9 @@ export default function PlayVsHuman() {
             <Box className={classes.panelArea}>
                 <Panel
                     gameNumber={gameNumber}
-                    moveNumber={moveList.length + 1}
-                    gameOver={gameOver()}
-                    gameStatus={gameStatus()}
                     record={record}
+                    moveList={moveList}
+                    status={status(moveList)}
                     handleUndoClick={handleUndoClick}
                     handleNewGameClick={handleNewGameClick}
                 />
