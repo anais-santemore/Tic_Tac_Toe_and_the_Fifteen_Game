@@ -109,3 +109,67 @@ export function getParent(ml) {
     return ml.slice(0, ml.length - 1)
 }
 
+////////////////////////////////////////////////////////////////
+// Lowest Level Logic
+////////////////////////////////////////////////////////////////
+function intersect(listOne, listTwo) {
+    return listOne.filter(item => listTwo.includes(item))
+}
+function sumsOfThree(moveSet) {
+    let sums = []
+    if (moveSet.length < 3) {
+        return sums
+    }
+    for (let i = 0; i < moveSet.length - 2; i++) {
+        for (let j = i + 1; j < moveSet.length - 1; j++) {
+            for (let k = j + 1; k < moveSet.length; k++) {
+                let sum = moveSet[i] + moveSet[j] + moveSet[k]
+                sums.push(sum)
+            }
+        }
+    }
+    return sums
+}
+
+////////////////////////////////////////////////////////////////
+// Constants: Trio List & Outcome Maps
+////////////////////////////////////////////////////////////////
+export const trioList = generateTrioList()
+function generateTrioList() {
+    let trioList = []
+    for (let i = 1; i <= 7; i++) {
+        for (let j = i + 1; j <= 8; j++) {
+            let k = complementOf(i + j)
+            if (k > j && k <= 9) {
+                let newTrio = [i, j, k]
+                trioList.push(newTrio)
+            }
+        }
+    }
+    return trioList
+}
+function complementOf(sumOfTwo) {
+    return (15 - sumOfTwo)
+}
+
+// function factorial(num) {
+//     console.assert(num >= 0 && num <=9, `Factorial called with a number out of this game's range!`)
+//     let product = 1
+//     for (let i = 1; i <= num; i++) {
+//         product = product * i
+//     }
+//     return product
+//     // This led to a fun research rabbit hole about how to more efficiently compute factorials using Paschals Triangle
+// }
+
+// function inEfficientUnclaimedNumbers(ml) {
+//     let unclaimedNumbers = [];
+//     for (let i = 1; i <= 9; i++) {
+//         if (!ml.includes(i)) {
+//             unclaimedNumbers.push(i)
+//         }
+//     }
+//     // console.log(`List Empty Squares: ${emptySquaresList}`)
+//     return unclaimedNumbers;
+// }
+
