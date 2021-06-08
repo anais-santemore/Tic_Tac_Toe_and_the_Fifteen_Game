@@ -60,7 +60,8 @@ export default function PlayVsHuman() {
     let [gameNumber, setGameNumber] = useState(1);     // In ODD numbered games X goes first
     let [record, setRecord] = useState([0, 0, 0]);     // 3 element counter for humanWins, botWins, and tieGames.
 
-    const trioList = generateTrioList()
+
+    console.log(typeof moveList)
 
 
     return (
