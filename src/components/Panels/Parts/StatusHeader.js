@@ -40,7 +40,7 @@ export default function StatusHeader(props) {
 
      
     return (
-        <Typography align='center' component='h1' variant='h4' noWrap gutterBottom>
+        <Typography color="textPrimary" align='center' component='h1' variant='h4' noWrap gutterBottom>
             {statusMessage(gameStatus)}
         </Typography>
     )
