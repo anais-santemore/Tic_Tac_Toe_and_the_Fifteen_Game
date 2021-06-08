@@ -32,3 +32,24 @@ function gameStatus(mls) {
         return (`Error in gameStatus()`)
     }
 }
+
+////////////////////////////////////////////////////////////////
+// Check if Game is Over, has been Won or Drawn: BOOLEAN
+////////////////////////////////////////////////////////////////
+function gameOver(mls) {
+    return (mls.length === 9 || gameHasBeenWon(mls)) ? true : false
+}
+function gameHasBeenWon(mls) {
+    return (xHasWon(mls) || oHasWon(mls)) ? true : false
+}
+function xHasWon(mls) {
+    return sumsOfThree(xNumbers(mls)).includes(15)
+}
+function oHasWon(mls) {
+    return sumsOfThree(oNumbers(mls)).includes(15)
+}
+function gameWillBeDrawn(mls) {
+    // TODO
+}
+
+
