@@ -151,11 +151,9 @@ function getValidMoves(mls) {
         return availableNumbers(mls)
     }
 }
-function availableNumbers(mls) {
+export function availableNumbers(mls) {
     let availableNumbers = new Set([1, 2, 3, 4, 5, 6, 7, 8, 9])
     for (let i = 0; i < mls.length; i++) {
-        // availableNumbers.delete(Number(mls.charAt(i)))
-        // availableNumbers.delete(mls.charAt(i).parseInt())
         availableNumbers.delete(parseInt(mls.charAt(i)))
     }
     // console.log(`Available Squares: ${availableNumbers}`)
@@ -224,7 +222,7 @@ function getListOfPossiblePositions() {
 }
 
 
-let outcomeMap = generatePositionToOutcomeMap()
+export const outcomeMap = generatePositionToOutcomeMap()
 function generatePositionToOutcomeMap() {
     let outcomeMap = new Map()
     let list = listOfPossiblePositions
