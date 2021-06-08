@@ -1,5 +1,7 @@
 import React from 'react';
 
+import { status } from "../../../logic/GameLogic";
+
 // Custom Components
 
 // MUI Components
@@ -17,7 +19,7 @@ import { makeStyles } from '@material-ui/core/styles';
 
 export default function StatusHeader(props) {
     // const classes = useStyles();
-    const status = status(props.moveList);
+    const gameStatus = status(props.moveList);
 
     function statusMessage(status) {
         switch (status) {
@@ -39,7 +41,7 @@ export default function StatusHeader(props) {
      
     return (
         <Typography align='center' component='h1' variant='h4' noWrap gutterBottom>
-            {statusMessage(status)}
+            {statusMessage(gameStatus)}
         </Typography>
     )
 }
