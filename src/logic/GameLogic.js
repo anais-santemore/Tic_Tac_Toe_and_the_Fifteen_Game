@@ -53,3 +53,19 @@ function gameWillBeDrawn(mls) {
 }
 
 
+////////////////////////////////////////////////////////////////
+// Isolate each players' claimed numbers: ARRAY(NUM)
+////////////////////////////////////////////////////////////////
+export function xNumbers(mls) {
+    return moveListStringToArray(mls).filter((move, turn) => turn % 2 === 0)
+}
+export function oNumbers(mls) {
+    return moveListStringToArray(mls).filter((move, turn) => turn % 2 === 1)
+}
+export export function playerOneNumbers(mls) {  // Always the Human
+    return (playerOneIsX) ? xNumbers(mls) : oNumbers(mls)
+}
+export function playerTwoNumbers(mls) {  // Human or Bot, Depending on mode
+    return (playerOneIsX) ? oNumbers(mls) : xNumbers(mls)
+}
+
