@@ -93,11 +93,11 @@ export default function PlayVsHuman() {
     // CLICK HANDLERS
     ///////////////////////////////////////////////////
     function handleSquareClick(squareClicked) {
-        if (gameOver()) {
+        if (gameOver(moveList)) {
             console.log("return without effects from handleSquareClick(). The Game is already over.")
             return;
         }
-        if (squareAlreadyClaimed(squareClicked)) {
+        if (moveList.includes(squareClicked.toString())) {
             console.log("return without effects from handleSquareClick(). That square has already been claimed.")
             return;
         }
@@ -123,15 +123,15 @@ export default function PlayVsHuman() {
         setGameNumber(nextGameNumber);
     }
 
-    function handleGameOver(ml) {
-        console.assert(gameOver(ml) === true, `NO EFFECT. handleGameOver called but the game isn't actually over!`);
-        if (xWins(ml)) {
+    function handleGameOver(mls) {
+        // console.assert(gameOver(ml) === true, `NO EFFECT. handleGameOver called but the game isn't actually over!`);
+        if (xHasWon(mls)) {
             setRecord([++record[0], record[1], record[2]])
         }
-        else if (oWins(ml)) {
+        else if (oHasWon(mls)) {
             setRecord([record[0], ++record[1], record[2]])
         }
-        else if (gameDrawn(ml)) {
+        else if (gameDrawn(mls)) {
             setRecord([record[0], record[1], ++record[2]])
         }
         else {
