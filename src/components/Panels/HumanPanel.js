@@ -12,7 +12,6 @@ import {Box, Grid, Container} from '@material-ui/core';
 
 // Custom Styling
 import { makeStyles } from '@material-ui/core/styles';
-import { Grid } from '@material-ui/core';
 const useStyles = makeStyles((theme) => ({
     panel: {
         // border: 'solid orange 1px',
@@ -20,22 +19,17 @@ const useStyles = makeStyles((theme) => ({
         height: '100%',
         display: 'flex',
         flexDirection: 'column',
-
     },
     infoArea: {
         // border: 'solid red 1px',
         flex: '1 0 55%',
         display: 'flex',
         flexDirection: 'column',
-        // padding: '1.0rem 2.0rem 0.0rem ',
-
     },
     buttonArea: {
         // border: 'solid red 1px',
         flex: '1 0 45%',
         display: 'flex',
-        // padding: '1.0rem 2.0rem 0.0rem ',
-
     },
 }));
 
@@ -50,7 +44,13 @@ export default function HumanPanel(props) {
     const handleNewGameClick = props.handleNewGameClick
     const handleUndoClick = props.handleUndoClick
 
+
+    function gameOver(s = status) {
+        return (s === "xWins" || s === "oWins" || s === "draw")
+    }
     
+
+
     return (
         <Container maxWidth='sm' className={classes.panel} >
             <Box className={classes.infoArea} >

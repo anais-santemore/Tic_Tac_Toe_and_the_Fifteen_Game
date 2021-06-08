@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 
-// My Components
+import { getParent } from "../logic/GameLogic";
+
 
 // MUI Components
 import Box from '@material-ui/core/Box';
