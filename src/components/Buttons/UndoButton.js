@@ -42,7 +42,7 @@ export default function UndoButton(props) {
             variant="contained"
             color="primary"
             onClick={() => handleUndoClick()}
-            disabled={gameOver(moveList) || moveNumber(moveList) === 1}
+            disabled={props.gameOver || moveNumber(moveList) === 1}
         >
             <UndoIcon className={classes.buttonIcon} />
             Undo
