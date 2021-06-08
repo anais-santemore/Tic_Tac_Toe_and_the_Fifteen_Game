@@ -76,3 +76,36 @@ function moveListArrayToString(mla) {               // [1,2,3] --> "123"
     return mla.toString().replaceAll(",", "")
 }
 
+
+
+////////////////////////////////////////////////////////////////
+// Get Children and Helpers:  An Array of move list Strings
+////////////////////////////////////////////////////////////////
+export function getChildren(mls) {
+    let children = []
+    getValidMoves(mls).forEach(move => children.push(mls + move))
+    // this.validMoves(mls).forEach(move => children.push(mls + move))
+    return children
+}
+function getValidMoves(mls) {
+    if (gameOver(mls)) {
+        return []
+    }
+    else {
+        return availableNumbers(mls)
+    }
+}
+function availableNumbers(mls) {
+    let availableNumbers = new Set([1, 2, 3, 4, 5, 6, 7, 8, 9])
+    for (let i = 0; i < mls.length; i++) {
+        // availableNumbers.delete(Number(mls.charAt(i)))
+        // availableNumbers.delete(mls.charAt(i).parseInt())
+        availableNumbers.delete(parseInt(mls.charAt(i)))
+    }
+    // console.log(`Available Squares: ${availableNumbers}`)
+    return Array.from(availableNumbers)
+}
+export function getParent(ml) {
+    return ml.slice(0, ml.length - 1)
+}
+
