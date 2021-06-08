@@ -69,14 +69,17 @@ export default function HumanPanel(props) {
             </Box>
             <Grid container className={classes.buttonArea} >
                 <Grid item xs={12} sm={6}  >
-                    <NewGameButton gameOver={gameOver}
+                    <NewGameButton 
+                        gameOver={gameOver()}
                         handleNewGameClick={handleNewGameClick} 
                     />
 
                 </Grid>
                 <Grid item xs={12} sm={6}   >
-                    <UndoButton gameOver={gameOver}
-                        moveNumber={moveNumber}
+                    <UndoButton 
+                        gameOver={gameOver()}
+                        moveNumber={moveNumber()}
+                        // moveNumber={6}
                         handleUndoClick={handleUndoClick}
                     />
                 </Grid>
