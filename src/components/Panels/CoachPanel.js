@@ -48,17 +48,11 @@ export default function CoachPanel(props) {
     const classes = useStyles();
 
     let moveList = props.moveList
-
-    const currentStatus = status(moveList);
-
-    // const commentLabel = props.commentary;
-    const commentLabel = props.commentLabel;
-
-    const showHints = props.showHints
-    const toggleShowHints = props.toggleShowHints
-
-    const handleNewGameClick = props.handleNewGameClick
-    const handleUndoClick = props.handleUndoClick
+    let currentStatus = status(moveList);
+    let commentLabel = props.commentLabel;
+    let showHints = props.showHints
+    let toggleShowHints = props.toggleShowHints
+    let handleUndoClick = props.handleUndoClick
 
 
     return (
