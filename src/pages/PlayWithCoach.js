@@ -50,7 +50,7 @@ export default function PlayWithCoach(props) {
     const xGoesFirst = true  // X always goes first in Play with Coach Mode
 
     let startingPosition = ""  // vs []
-    let [moveListString, setMoveListString] = useState(startingPosition);
+    let [moveList, setmoveList] = useState(startingPosition);
 
     // let [showHints, setShowHints] = useState(false);
     let [showHints, setShowHints] = useState(true);
@@ -81,7 +81,7 @@ export default function PlayWithCoach(props) {
 
     function getCommentLabel(mls) {
         if (gameOver(mls)) {
-            return `Game Over: ${getStatus(mls)}`
+            return `Game Over: ${status(mls)}`
         }
         // If no moves have been made
         if (mls.length === 0) {
@@ -96,28 +96,28 @@ export default function PlayWithCoach(props) {
 
     // CLICK HANDLERS
     function handleSquareClick(squareClickedString) {
-        if (gameOver(moveListString)) {
+        if (gameOver(moveList)) {
             console.log("return without effects from handleSquareClick(). The Game is already over.")
             return;
         }
-        if (moveListString.includes(squareClickedString)) {
+        if (moveList.includes(squareClickedString)) {
             console.log("return without effects from handleSquareClick(). That square has already been claimed.")
             return;
         }
         // If we reach this point the clicked square is open and the game is not over yet ... 
-        let updatedMoveList = moveListString.concat(squareClickedString)
+        let updatedMoveList = moveList.concat(squareClickedString)
         console.log(`MoveList: ${updatedMoveList}`)
 
-        setMoveListString(updatedMoveList);
+        setmoveList(updatedMoveList);
         // This function does not pass along any of its results, it acts thru side-effects. It calls setHistory and use of that hook tells React it needs to re-render all components that depend on the state "history".
     }
     function handleUndoClick() {
-        const shortenedMoveList = moveListString.slice(0, moveListString.length - 1)
-        console.log(`handleUndoClick() removed ${moveListString[moveListString.length - 1]} . New Shortened history: ${shortenedMoveList}`);
-        setMoveListString(shortenedMoveList);
+        const shortenedMoveList = moveList.slice(0, moveList.length - 1)
+        console.log(`handleUndoClick() removed ${moveList[moveList.length - 1]} . New Shortened history: ${shortenedMoveList}`);
+        setmoveList(shortenedMoveList);
     }
     function handleNewGameClick() {
-        setMoveListString(startingPosition);
+        setmoveList(startingPosition);
     }
     function toggleShowHints() {
         setShowHints(!showHints)
