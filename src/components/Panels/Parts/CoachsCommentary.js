@@ -1,4 +1,7 @@
 import React, { useState } from 'react';
+
+import { nextPlayer } from "../../../logic/GameLogic";
+
 // My Components
 
 // MUI  components
@@ -20,56 +23,89 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-// In Play With Coach mode X always goes first
-
 export default function CoachsCommentary(props) {
     const classes = useStyles();
 
-    let [moveList, setMoveList] = useState([]);
-    let [xGoesFirst, setXGoesFirst] = useState(true);
-    let [gameNumber, setGameNumber] = useState(1);     // In ODD numbered games X goes first
-    let [record, setRecord] = useState([0, 0, 0]);     // 3 element counter for humanWins, botWins, and tieGames.
-    // let [showHints, setShowHints] = useState(false);
-    let [showHints, setShowHints] = useState(true);
+    let moveList = props.moveList
+    let commentLabel = props.commentLabel
+
+    let next = (nextPlayer(moveList) === "xNext") ? "X" : "O"
+    let prev = (nextPlayer(moveList) === "xNext") ? "O" : "X"
 
     return (
         <Box className={classes.commetaryBox} >
-            <Typography align='center' component='p' variant='body1' gutterBottom>
-                commentary={getCommentary()}
+            <Typography align='justify' component='p' variant='body1' gutterBottom>
+                {getCommentary(commentLabel, next)}
             </Typography>
         </Box>
     )
 
-    function getCommentary(ml = moveList) {
-        // console.log(`getCommentary() called while showCommentary = ${showCommentary}`)
+    function getCommentary(commentLabel, next) {
+        console.log(`getCommentary called with commentLabel: ${commentLabel}`);
         
+        let comment = `Error in get commentary.  Called with commentLabel: ${commentLabel}`
+        switch (commentLabel) {
+            case "newGame":
+                comment = `New Game. X always goes first. It may look like X has 9 different 
+                options but, considering symmetry, there are really only 3: Center, Edge, or Corner. 
+                Do any of them set X up to force a win? Is there any move for X that would be a 'mistake'?`
+                break;
+            case "centerOpening":
+                comment = `The Center Opening is the most popular. I think this is because there are more three-in-a-rows that
+                include the center square than the edges and corners. Though X is still on track for a draw, the center opening
+                is the easiest for O to defend against because, considering symmetry, O really only has two options, edge or corner.
+                One is good and keeps O on track for a draw. The other is bad and opens the door for X to force a win.`
+                break;
+            case "cornerOpening":
+                comment = `The Corner Opening can lead X to a winning double attack if O makes a mistake on their first move. 
+                O has 5 non-symetrical options in this position, however, the only sound move that O has in this position is also the most
+                intuitive one. Proove this to yourself by going through O's 4 losing options and finding a plan that guarantees X 
+                a victory in each one.`
+                break;
+            case "edgeOpening":
+                comment = `The Edge Opening is my personal favorite. It is the least commonly played and is the most complex to analyze.
+                There are many tricks and traps in this opening that both players can take advantage of!
+                O has five non-symmetrical options. Don't settle for just finding one move that lets O guarantee a draw,
+                dig into each of the five options and find the ones that maximize the chances X will make a mistake!`
+                break;
+            case "immediateWin":
+                comment = `${next} goes next and has the ability to win immediately! That means ${prev} must have made a mistake 
+                earlier in the game. Go back and see if you can find the mistake and choose the better option instead.`
+                break;
+            case "urgentDefence":
+                comment = `${next} goes next and has an urgent defensive move they must make in order to not lose on the next turn!`
+                break;
+            case "losing":
+                comment = `${next} goes next and there is more than one threat so ${next} will not be able to defend against all
+                attacks. Defeat is on its way next turn not matter what, but at this move is not the mistake! Go back and 
+                find the mistake that allowed ${prev} to create this double attack.`
+                break;
+            case "doubleAttack":
+                comment = `Though ${next} cannot win this turn, they can create a double attack, setting up for a
+                guaranteed win on their next turn no matter what ${prev} does. Dont's settle for a move that only creates 
+                one threat, you need to make two simultaneous threats in order to win.`
+                break;
+            case "mistake":
+                comment = `TODO write this comment`
+                break;
+            case "missedWin":
+                comment = `TODO write this comment`
+                break;
+            case "xWins":
+                comment = `X has won the game! That means O must have made a mistake along the way.
+                Go back and see if you can find it on your own. If not, check the hints.`
+                break;
+            case "oWins":
+                comment = `O has won the game! That means X must have made a mistake along the way.
+                Go back and see if you can find it on your own. If not, check the hints.`
+                break;
 
-        // If no moves have been made
-        if (ml.length === 0) {
-            return `It may look like X has  9 different options but 
-            when you consider symmetry there are really only 3: Center, Edge, or Corner.
-            None of X's current options would be mistakes, but nor do any of them lead to a forced win.`
+            default:
+                break;
         }
-
-        // If one move has been made
-        if (ml.length === 1 && ml[0] === 4) {
-            return `The center opening is the most popular because there are more three-in-a-rows that 
-            include the center square than any other square.  Though it is sound for X, the center opening 
-            is also the easiest for O to defend against.
-            Considering symmetry, O really only has two options, edge or corner. 
-            One is good and keeps O on track for a draw. The other is bad and opens the door for X to force a win.`
-        }
-        if (ml.length === 1 && ml[0] !== 4 && ml[0] % 2 === 0) {
-            return `The corner opening can lead X to a winning double attack if O makes a mistake on their first move.
-            Unfortunately for X, the only sound move that O has in this position is also the most intuitive one.
-            Proove this to yourself by going through each of O's losing options and finding a plan for X that guarantees a win.`
-        }
-        if (ml.length === 1 && ml[0] % 2 === 1) {
-            return `The Edge opening is the least commonly played and is the most complex to analyze.
-            There are tricks and traps in this position that both players can take advantage of! 
-            O has five non-symmetrical options. Don't settle for just finding one move that lets O force a draw, 
-            dig into each of the five options and find the ones that maximize the chances X will make a mistake.`
-        }
+        return comment
+ 
+        
 
         // If two moves has been made
         // if (ml.length === 2) {
@@ -113,42 +149,5 @@ export default function CoachsCommentary(props) {
     }
 
     
-
-    ///////////////////////////////////////////////////
-    // Low Level Helpers
-    ///////////////////////////////////////////////////
-    
-    function oGoesNext(ml) {
-        if (xGoesFirst) {
-            return (ml.length % 2 === 1) ? true : false
-        }
-        else {
-            return (ml.length % 2 === 0) ? false : true
-        }
-    }
-    function xGoesNext(ml) {
-        if (xGoesFirst) {
-            return (ml.length % 2 === 0) ? true : false
-        }
-        else {
-            return (ml.length % 2 === 1) ? false : true
-        }
-    }
-    function xWentLast(ml) {
-        if (xGoesFirst) {
-            return (ml.length % 2 === 1) ? true : false
-        }
-        else {
-            return (ml.length % 2 === 0) ? false : true
-        }
-    }
-    function oWentLast(ml) {
-        if (xGoesFirst) {
-            return (ml.length % 2 === 0) ? true : false
-        }
-        else {
-            return (ml.length % 2 === 1) ? false : true
-        }
-    }
     
 }
