@@ -7,6 +7,58 @@
 
 // Most functions here assume they will be called with a Move List String as the sole parameter. (just the exported ones?)
 
+////////////////////////////////////////////////////////////////
+// Constants: Trio List & Possible Positions & Outcome Maps
+////////////////////////////////////////////////////////////////
+export const trioList = generateTrioList()
+function generateTrioList() {
+    let trioList = []
+    for (let i = 1; i <= 7; i++) {
+        for (let j = i + 1; j <= 8; j++) {
+            let k = complementOf(i + j)
+            if (k > j && k <= 9) {
+                let newTrio = [i, j, k]
+                trioList.push(newTrio)
+            }
+        }
+    }
+    return trioList
+}
+function complementOf(sumOfTwo) {
+    return (15 - sumOfTwo)
+}
+
+const listOfPossiblePositions = getListOfPossiblePositions()
+function getListOfPossiblePositions() {
+    // Returns an array of arrays of strings
+    // Layer 1) indices 0 thru 9 correspond to the lengths of the move lists contained there
+    // Layer 2) an array containing all valid move lists of that length
+    // Layer 3) Move List string representations
+    let positionsList = [[""]]
+    for (let parentLength = 0; parentLength < 9; parentLength++) {
+        let parentPositions = positionsList[parentLength]
+        let childPositions = parentPositions.map(parent => getChildren(parent)).flat()
+        positionsList.push(childPositions)
+    }
+    return positionsList
+}
+
+
+export const outcomeMap = generatePositionToOutcomeMap()
+function generatePositionToOutcomeMap() {
+    let outcomeMap = new Map()
+    let list = listOfPossiblePositions
+    for (let length = 9; length >= 0; length--) {
+        let positions = list[length]
+        for (let p = 0; p < positions.length; p++) {
+            let mls = positions[p]
+            outcomeMap.set(mls, outcome(mls, outcomeMap))
+        }
+    }
+    return outcomeMap
+
+
+}
 
 ////////////////////////////////////////////////////////////////
 //  Current Game Status: "xWins", "oWins", "draw",  "xNext", or "oNext"
@@ -28,7 +80,7 @@ export function status(mls) {
 ////////////////////////////////////////////////////////////////
 // Game Status Helpers: BOOLEAN
 ////////////////////////////////////////////////////////////////
-function nextPlayer(mls) {
+export function nextPlayer(mls) {
     return (mls.length % 2 === 0) ? "xNext" : "oNext"
 }
 export function gameOver(mls) {
@@ -122,6 +174,8 @@ export function oNumbers(mls) {
 //     return (playerOneIsX) ? oNumbers(mls) : xNumbers(mls)
 // }
 
+
+
 ////////////////////////////////////////////////////////////////
 // Convert Move List Representations:   String <--> Array
 ////////////////////////////////////////////////////////////////
@@ -130,6 +184,35 @@ export function moveListStringToArray(mls) {               // "123" --> [1,2,3]
 }
 function moveListArrayToString(mla) {               // [1,2,3] --> "123"
     return mla.toString().replaceAll(",", "")
+}
+
+
+/////////////////////////////////////////////////////////////////////////
+// Coach & Bot Logic: Immediately Winning & Urgent Defensive Moves 
+/////////////////////////////////////////////////////////////////////////
+export function winningMoves(mls) {
+    if (nextPlayer(mls) === "xNext") {
+        let complements = sumsOfTwo(xNumbers(mls)).map(sum => complementOf(sum))
+        return intersect(availableNumbers(mls), complements)
+    }
+    else {
+        let complements = sumsOfTwo(oNumbers(mls)).map(sum => complementOf(sum))
+        return intersect(availableNumbers(mls), complements)
+    }
+}
+export function urgentDefensiveMoves(mls) {
+    if (nextPlayer(mls) === "xNext") {
+        let complements = sumsOfTwo(oNumbers(mls)).map(sum => complementOf(sum))
+        return intersect(availableNumbers(mls), complements)
+    }
+    else {
+        let complements = sumsOfTwo(xNumbers(mls)).map(sum => complementOf(sum))
+        return intersect(availableNumbers(mls), complements)
+    }
+}
+export function doubleAttackingMoves(mls) {
+    let doubleAttackingMoves = availableNumbers(mls).filter(num => urgentDefensiveMoves(mls.concat(num)).length > 1)
+    return doubleAttackingMoves
 }
 
 
@@ -144,12 +227,7 @@ export function getChildren(mls) {
     return children
 }
 function getValidMoves(mls) {
-    if (gameOver(mls)) {
-        return []
-    }
-    else {
-        return availableNumbers(mls)
-    }
+    return (gameOver(mls)) ? [] : availableNumbers(mls)
 }
 export function availableNumbers(mls) {
     let availableNumbers = new Set([1, 2, 3, 4, 5, 6, 7, 8, 9])
@@ -184,59 +262,21 @@ function sumsOfThree(moveSet) {
     }
     return sums
 }
-
-////////////////////////////////////////////////////////////////
-// Constants: Trio List & Possible Positions & Outcome Maps
-////////////////////////////////////////////////////////////////
-export const trioList = generateTrioList()
-function generateTrioList() {
-    let trioList = []
-    for (let i = 1; i <= 7; i++) {
-        for (let j = i + 1; j <= 8; j++) {
-            let k = complementOf(i + j)
-            if (k > j && k <= 9) {
-                let newTrio = [i, j, k]
-                trioList.push(newTrio)
-            }
+function sumsOfTwo(moveSet) {
+    let sums = []
+    if (moveSet.length < 2) {
+        return sums
+    }
+    for (let i = 0; i < moveSet.length - 1; i++) {
+        for (let j = i + 1; j < moveSet.length; j++) {
+            let sum = moveSet[i] + moveSet[j]
+            sums.push(sum)
         }
     }
-    return trioList
-}
-function complementOf(sumOfTwo) {
-    return (15 - sumOfTwo)
-}
-
-const listOfPossiblePositions = getListOfPossiblePositions()
-function getListOfPossiblePositions() {
-    // Returns an array of arrays of strings
-    // Layer 1) indices 0 thru 9 correspond to the lengths of the move lists contained there
-    // Layer 2) an array containing all valid move lists of that length
-    // Layer 3) Move List string representations
-    let positionsList = [[""]]
-    for (let parentLength = 0; parentLength < 9; parentLength++) {
-        let parentPositions = positionsList[parentLength]
-        let childPositions = parentPositions.map(parent => getChildren(parent)).flat()
-        positionsList.push(childPositions)
-    }
-    return positionsList
+    return sums
 }
 
 
-export const outcomeMap = generatePositionToOutcomeMap()
-function generatePositionToOutcomeMap() {
-    let outcomeMap = new Map()
-    let list = listOfPossiblePositions
-    for (let length = 9; length >= 0; length--) {
-        let positions = list[length]
-        for (let p = 0; p < positions.length; p++) {
-            let mls = positions[p]
-            outcomeMap.set(mls, outcome(mls, outcomeMap))
-        }
-    }
-    return outcomeMap
-
-    
-}
 
 function factorial(num) {
     console.assert(num >= 0 && num <=9, `Factorial called with a number out of this game's range!`)
