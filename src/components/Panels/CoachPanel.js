@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { status, getParent } from "../../logic/GameLogic";
+import { status, outcomeMap, getParent, gameOver, winningMoves, urgentDefensiveMoves, doubleAttackingMoves } from "../../logic/GameLogic";
 
 
 // Custom Components
@@ -24,22 +24,17 @@ const useStyles = makeStyles((theme) => ({
         height: '100%',
         display: 'flex',
         flexDirection: 'column',
-
     },
     infoArea: {
         // border: 'solid red 1px',
         flex: '1 0 55%',
         display: 'flex',
         flexDirection: 'column',
-        // padding: '1.0rem 2.0rem 0.0rem ',
-
     },
     buttonArea: {
         // border: 'solid red 1px',
         flex: '1 0 45%',
         display: 'flex',
-        // padding: '1.0rem 2.0rem 0.0rem ',
-
     },
 }));
 
@@ -47,12 +42,61 @@ export default function CoachPanel(props) {
     const classes = useStyles();
 
     let moveList = props.moveList
-    let commentLabel = props.commentLabel;
     let toggleShowHints = props.toggleShowHints
     let handleUndoClick = props.handleUndoClick
     
-    let currentStatus = status(moveList);
-    let previousStatus = status(getParent(moveList));
+    
+
+    function getCommentLabel(mls) {
+        console.log(`getCommentLabel called with moveList: ${mls}`);
+          
+        let over = gameOver(mls)
+        let currentOutcome = outcomeMap.get(mls)
+        let previousOutcome = outcomeMap.get(getParent(mls));
+
+        // console.log(`Current Outcome ${currentOutcome}`);
+        // console.log(`Previous Outcome ${previousOutcome}`);
+        
+        let label = "error"
+        
+        if (mls.length === 0) {
+            label = "newGame"
+        }
+        else if (mls.length === 1) {
+            if (mls.charAt(0) === "5") {
+                label = "centerOpening"
+            }
+            else if (Number(mls.charAt(0)) % 2 === 0) {
+                label = "cornerOpening"
+            }
+            else {
+                label = "edgeOpening"
+            }
+        } 
+        else if (winningMoves(mls).length > 0 ) {
+            label = "immediateWin"
+        }
+        else if (urgentDefensiveMoves(mls).length === 1) {
+            label = "urgentDefence"
+        }
+        else if (urgentDefensiveMoves(mls).length === 2) {
+            label = "losing"
+        }
+        else if (doubleAttackingMoves(mls).length > 0) {
+            label = "doubleAttack"
+        }
+        else if (previousOutcome === "draw" && (currentOutcome === "xWins" || currentOutcome === "oWins")) {
+            label = "mistake"
+        }
+        else if (currentOutcome === "draw" && (previousOutcome === "xWins" || previousOutcome === "oWins")) {
+            label = "missedWin"
+        }
+
+        return label
+    }
+
+    let commentLabel = getCommentLabel(moveList)
+
 
     return (
         <Container maxWidth='sm' className={classes.panel} >
@@ -78,8 +122,6 @@ export default function CoachPanel(props) {
                         toggleShowHints={toggleShowHints}
                     />
                 </Grid>
-
-
             </Grid>
         </Container>
     )
