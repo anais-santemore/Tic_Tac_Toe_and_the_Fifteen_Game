@@ -61,6 +61,7 @@ export default function PlayWithCoach(props) {
                 <Box className={classes.boardArea} >
                     <Board
                         moveList={moveList}
+                        showHints={showHints}
                         handleSquareClick={handleSquareClick}
                     />
                 </Box>
@@ -68,7 +69,6 @@ export default function PlayWithCoach(props) {
             <Box className={classes.panelArea}>
                 <CoachPanel
                     moveList={moveList}
-                    commentLabel={getCommentLabel(moveList)}
                     toggleShowHints={toggleShowHints}
                     handleUndoClick={handleUndoClick}
                 />
@@ -77,22 +77,6 @@ export default function PlayWithCoach(props) {
     )
 
     
-
-    function getCommentLabel(mls) {
-        if (gameOver(mls)) {
-            return `Game Over: ${status(mls)}`
-        }
-        // If no moves have been made
-        if (mls.length === 0) {
-            return `move one`
-        }
-        else {
-            return `not move one`
-        }
-    }
-
-    
-
     // CLICK HANDLERS
     function handleSquareClick(squareClickedString) {
         if (gameOver(moveList)) {
