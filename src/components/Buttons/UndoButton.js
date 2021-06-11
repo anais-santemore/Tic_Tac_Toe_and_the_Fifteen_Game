@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 
-// My Components
+import { getParent, gameOver, moveNumber } from "../../logic/GameLogic";
+
 
 // MUI Components
 import Box from '@material-ui/core/Box';
@@ -31,8 +32,8 @@ const useStyles = makeStyles((theme) => ({
 
 export default function UndoButton(props) {
     const classes = useStyles();
-    const gameOver = props.gameOver
-    const moveNumber = props.moveNumber
+    const moveList = props.moveList
+    
     const handleUndoClick = props.handleUndoClick
 
     return (
@@ -41,7 +42,7 @@ export default function UndoButton(props) {
             variant="contained"
             color="primary"
             onClick={() => handleUndoClick()}
-            disabled={gameOver || moveNumber === 1}
+            disabled={props.gameOver || moveNumber(moveList) === 1}
         >
             <UndoIcon className={classes.buttonIcon} />
             Undo

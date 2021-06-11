@@ -1,5 +1,17 @@
 import React from 'react';
 
+// My Logical Components
+import { 
+    status,
+    xNumbers, 
+    oNumbers, 
+    trioList, 
+    outcomeMap,
+    intersect, 
+    availableNumbers,
+    moveListStringToArray
+} from "../logic/GameLogic";
+
 // My Components
 // import Square from "./Square";
 
@@ -95,13 +107,70 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Board(props) {
-    const classes = useStyles();
-    const handleSquareClick = props.handleSquareClick
-    
+    const classes = useStyles();    
     const boardNumbers = [2,9,4,7,5,3,6,1,8]
-    const boardIcons = props.boardIcons;
-    const boardColors = props.boardColors; // Array of 9 strings 'noColor', 'unclaimed', 'claimed', 'win', 'draw', 'lose'.
-            // Formerly and Array of 9 strings '', 'immediateWin', 'unavoidableDefeat', 'doubleAttackCreatingMove', 'urgentDefensiveMove', 'forcedWinCreatingMove', 'drawingMove'
+    // const boardIcons = props.boardIcons;
+    // const boardColors = props.boardColors; // Array of 9 strings 'noColor', 'unclaimed', 'claimed', 'win', 'draw', 'lose'.
+    let moveList = props.moveList
+    let showHints = props.showHints
+    let handleSquareClick = props.handleSquareClick
+
+    let gameStatus = status(moveList)
+
+    function getBoardIcons(mls) {
+        let data = Array(10).fill('_');  // Start with an array representing a board of NINE empty squares
+        let mla = moveListStringToArray(mls)
+        mla.forEach((squareId, turn) => {
+            data[squareId] = (turn % 2 === 0) ? 'x' : 'o'
+        })
+        return data;  // this method only deals with current board position, not hypotheticals.  Thus, it wants to use a version of helper squaresClaimedByPlayer() that does not require a moveList be explicitly passed in. 
+    }
+    function getBoardColors(mls) {
+        let colors = Array(10).fill('noColor')
+        if (gameStatus === "xWins" || gameStatus === "oWins") {
+            colors = highlightWins(mls)
+        }
+        else if (showHints === true) {
+            colors = getBoardHints(mls)
+        }
+        return colors
+    }
+    function highlightWins(ml) {
+        let colors = Array(10).fill('noColor')
+        let Xs = xNumbers(ml)
+        let Os = oNumbers(ml)
+        let winningTrios = trioList.filter(trio =>
+            intersect(trio, Xs).length === 3 || intersect(trio, Os).length === 3
+        )
+
+        winningTrios.flat().forEach(num => colors[num] = 'win')
+        return colors
+    }
+    function getBoardHints(mls) {
+        let colors = Array(10).fill('noColor')
+        availableNumbers(mls).forEach(num => {
+            let outcome = outcomeMap.get(mls + num.toString())
+            colors[num] = getHintColor(outcome)
+        })
+        console.log(`COLORS: ${colors}`)
+        return colors
+    }
+
+    function getHintColor(outcome) {
+        if (outcome === "draw") {
+            return "draw"
+        }
+        else if (gameStatus === "xNext") {
+            return (outcome === "xWins") ? "win" : "lose"
+        }
+        else if (gameStatus === "oNext") {
+            return (outcome === "oWins") ? "win" : "lose"
+        }
+        else {
+            console.error(`Error in Get Hint Color`);
+        }
+    }
+
     
     let rows = [];
     for (let row = 0; row < 3; row++) {
@@ -110,8 +179,8 @@ export default function Board(props) {
                 key={row}
                 rowId={row}
                 rowNumbers={boardNumbers.slice(3 * row, 3 * (row + 1))}
-                boardIcons={boardIcons}
-                boardColors={boardColors}
+                boardIcons={getBoardIcons(moveList)}
+                boardColors={getBoardColors(moveList)}
                 handleSquareClick={handleSquareClick}  
             />
         ;
@@ -123,6 +192,8 @@ export default function Board(props) {
         </Box>
     )
 }
+
+
 
 function Row(props) {
     const classes = useStyles();

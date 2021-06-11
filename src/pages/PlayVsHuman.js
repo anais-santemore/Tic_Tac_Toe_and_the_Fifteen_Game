@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 
-import '../styles/TicTacToe.css';
+// My Logical Components
+import {status, gameOver, xHasWon, oHasWon, gameDrawn} from "../logic/GameLogic";
 
-// My Components
+// My React  Components
 import Board from "../components/Board";
 import Panel from "../components/Panels/HumanPanel";
 
@@ -10,6 +11,7 @@ import Panel from "../components/Panels/HumanPanel";
 import Box from '@material-ui/core/Box';
 
 // Custom Styling
+import '../styles/TicTacToe.css';
 import { makeStyles } from '@material-ui/core/styles';
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -53,20 +55,16 @@ const useStyles = makeStyles((theme) => ({
 export default function PlayVsHuman() {
     const classes = useStyles();
 
-    let [moveList, setMoveList] = useState([]);
+    let [moveList, setMoveList] = useState("");
     let [gameNumber, setGameNumber] = useState(1);     // In ODD numbered games X goes first
     let [record, setRecord] = useState([0, 0, 0]);     // 3 element counter for humanWins, botWins, and tieGames.
-
-    const trioList = generateTrioList()
-
 
     return (
         <Box className={classes.root} >
             <Box className={classes.boardContainer}>
                 <Box className={classes.boardArea} >
                     <Board
-                        boardIcons={getBoardIcons()}
-                        boardColors={getBoardColors()}
+                        moveList={moveList}
                         handleSquareClick={handleSquareClick}
                     />
                 </Box>
@@ -74,10 +72,9 @@ export default function PlayVsHuman() {
             <Box className={classes.panelArea}>
                 <Panel
                     gameNumber={gameNumber}
-                    moveNumber={moveList.length + 1}
-                    gameOver={gameOver()}
-                    gameStatus={gameStatus()}
                     record={record}
+                    moveList={moveList}
+                    status={status(moveList)}
                     handleUndoClick={handleUndoClick}
                     handleNewGameClick={handleNewGameClick}
                 />
@@ -85,76 +82,16 @@ export default function PlayVsHuman() {
         </Box>
     )
 
-    ///////////////////////////////////////////////////
-    // Board and Panel Rendering Helpers
-    ///////////////////////////////////////////////////
-    function getBoardIcons(ml = moveList) {
-        let data = Array(10).fill('_');  // Start with an array representing a board of NINE empty squares
-
-        ml.forEach((squareId, turn) => {
-            if (xGoesFirst()) {
-                data[squareId] = (turn % 2 === 0) ? 'x' : 'o'
-            }
-            else {
-                data[squareId] = (turn % 2 === 0) ? 'o' : 'x'
-            }
-        })
-        return data;  // this method only deals with current board position, not hypotheticals.  Thus, it wants to use a version of helper squaresClaimedByPlayer() that does not require a moveList be explicitly passed in. 
-    }
-    function getBoardColors(ml = moveList) {
-        let colors = Array(10).fill('noColor')
-        if (xWins(ml) || oWins(ml)) {
-            colors = highlightWins(ml)
-        }
-        return colors
-    }
-    function gameStatus(ml = moveList) {
-        if (xWins(ml)) {
-            return (`X wins!`)
-        }
-        else if (oWins(ml)) {
-            return (`O wins!`)
-        }
-        else if (gameDrawn(ml)) {
-            return (`Draw.`)
-        }
-        else if (ml.length === 0) {
-            return (xGoesFirst()) ? `X goes first this game.` : `O goes first this game.`
-        }
-        else if (ml.length % 2 === 0) {
-            return (xGoesFirst()) ? `X goes next.` : `O goes next.`
-        }
-        else if (ml.length % 2 === 1) {
-            return (xGoesFirst()) ? `O goes next.` : `X goes next.`
-        }
-        else {
-            console.error("A call to gameStatus() did not work!");
-            return `ERROR`
-        }
-    }
-    function highlightWins(ml) {
-        console.assert(!gameOver(), `highlightWins() was called but found that the game is not over`);
-
-        let colors = Array(10).fill('noColor')
-        let Xs = xNumbers(ml)
-        let Os = oNumbers(ml)
-        let winningTrios = trioList.filter(trio =>
-            intersect(trio, Xs).length === 3 || intersect(trio, Os).length === 3
-        )
-
-        winningTrios.flat().forEach(num => colors[num] = 'win')
-        return colors
-    }
-
+    
     ///////////////////////////////////////////////////
     // CLICK HANDLERS
     ///////////////////////////////////////////////////
     function handleSquareClick(squareClicked) {
-        if (gameOver()) {
+        if (gameOver(moveList)) {
             console.log("return without effects from handleSquareClick(). The Game is already over.")
             return;
         }
-        if (squareAlreadyClaimed(squareClicked)) {
+        if (moveList.includes(squareClicked.toString())) {
             console.log("return without effects from handleSquareClick(). That square has already been claimed.")
             return;
         }
@@ -180,127 +117,20 @@ export default function PlayVsHuman() {
         setGameNumber(nextGameNumber);
     }
 
-    function handleGameOver(ml) {
-        console.assert(gameOver(ml) === true, `NO EFFECT. handleGameOver called but the game isn't actually over!`);
-        if (xWins(ml)) {
+    function handleGameOver(mls) {
+        // console.assert(gameOver(ml) === true, `NO EFFECT. handleGameOver called but the game isn't actually over!`);
+        if (xHasWon(mls)) {
             setRecord([++record[0], record[1], record[2]])
         }
-        else if (oWins(ml)) {
+        else if (oHasWon(mls)) {
             setRecord([record[0], ++record[1], record[2]])
         }
-        else if (gameDrawn(ml)) {
+        else if (gameDrawn(mls)) {
             setRecord([record[0], record[1], ++record[2]])
         }
         else {
             console.error(`handleGameOver called with invalid game result!`)
         }
-    }
-
-    
-    ///////////////////////////////////////////////////
-    // Game Over & Helpers
-    ///////////////////////////////////////////////////
-    function gameOver(ml = moveList) {
-        if (ml.length < 5) {
-            return false
-        }
-        else if (ml.length === 9 || xWins(ml) || oWins(ml)) {
-            return true
-        }
-        else {
-            return false
-        }
-    }
-    function xWins(ml) {
-        return sumsOfThree(xNumbers(ml)).includes(15)
-    }
-    function oWins(ml) {
-        return sumsOfThree(oNumbers(ml)).includes(15)
-    }
-    function gameDrawn(ml) {
-        return (ml.length === 9 && !xWins(ml) && !oWins(ml))
-    }
-
-    ///////////////////////////////////////////////////
-    // Movelist Filters
-    ///////////////////////////////////////////////////
-    function squareAlreadyClaimed(squareNumber) {
-        return moveList.includes(squareNumber)
-    }
-    function unclaimedNumbers(ml) {
-        let unclaimedNumbers = [];
-        for (let i = 1; i <= 9; i++) {
-            if (!ml.includes(i)) {
-                unclaimedNumbers.push(i)
-            }
-        }
-        // console.log(`List Empty Squares: ${emptySquaresList}`)
-        return unclaimedNumbers;
-    }
-    function xNumbers(ml) {
-        if (xGoesFirst()) {
-            return ml.filter((move, turn) => turn % 2 === 0)
-        }
-        else {
-            return ml.filter((move, turn) => turn % 2 === 1)
-        }
-    }
-    function oNumbers(ml) {
-        if (oGoesFirst()) {
-            return ml.filter((move, turn) => turn % 2 === 0)
-        }
-        else {
-            return ml.filter((move, turn) => turn % 2 === 1)
-        }
-    }
-
-    ///////////////////////////////////////////////////
-    // Whose Turn --> gameNumber is 1-indexed and x goes first in game 1.
-    ///////////////////////////////////////////////////
-    function xGoesFirst() {
-        return gameNumber % 2 === 1
-    }
-    function oGoesFirst() {
-        return gameNumber % 2 === 0
-    }
-
-
-    ///////////////////////////////////////////////////
-    // Low Level Helpers
-    ///////////////////////////////////////////////////
-    function intersect(listOne, listTwo) {
-        return listOne.filter(item => listTwo.includes(item))
-    }
-    function sumsOfThree(moveSet) {
-        let sums = []
-        if (moveSet.length < 3) {
-            return sums
-        }
-        for (let i = 0; i < moveSet.length - 2; i++) {
-            for (let j = i + 1; j < moveSet.length - 1; j++) {
-                for (let k = j + 1; k < moveSet.length; k++) {
-                    let sum = moveSet[i] + moveSet[j] + moveSet[k]
-                    sums.push(sum)
-                }
-            }
-        }
-        return sums
-    }
-    function generateTrioList() {
-        let trioList = []
-        for (let i = 1; i <= 7; i++) {
-            for (let j = i + 1; j <= 8; j++) {
-                let k = complementOf(i + j)
-                if (k > j && k <= 9) {
-                    let newTrio = [i, j, k]
-                    trioList.push(newTrio)
-                }
-            }
-        }
-        return trioList
-    }
-    function complementOf(sumOfTwo) {
-        return (15 - sumOfTwo)
     }
 
 }

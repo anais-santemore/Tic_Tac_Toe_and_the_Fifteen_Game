@@ -75,7 +75,7 @@ export default function TeachingServicesList() {
             </ListItem>
 
             <ListItem
-                key={'play_vs_human'}
+                key={'play_vs_bot'}
                 button
                 component={RouterLink}
                 to={{

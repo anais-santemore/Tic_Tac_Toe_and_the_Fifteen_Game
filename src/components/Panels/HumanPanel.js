@@ -1,19 +1,20 @@
 import React from 'react';
 
+import { moveNumber } from "../../logic/GameLogic";
+
 // Custom Components
-import StatusHeader from './StatusHeader';
-import WinLossDrawRecord from "./WinLossDrawRecord";
+import StatusHeader from './Parts/StatusHeader';
+import GameNumber from './Parts/GameNumber';
+import WinLossDrawRecord from "./Parts/WinLossDrawRecord";
 
 import NewGameButton from "../Buttons/NewGameButton";
 import UndoButton from "../Buttons/UndoButton";
 
 // MUI Components
-import Box from '@material-ui/core/Box';
-import Container from '@material-ui/core/Container';
+import {Box, Grid, Container} from '@material-ui/core';
 
 // Custom Styling
 import { makeStyles } from '@material-ui/core/styles';
-import { Grid } from '@material-ui/core';
 const useStyles = makeStyles((theme) => ({
     panel: {
         // border: 'solid orange 1px',
@@ -21,48 +22,47 @@ const useStyles = makeStyles((theme) => ({
         height: '100%',
         display: 'flex',
         flexDirection: 'column',
-
     },
     infoArea: {
         // border: 'solid red 1px',
         flex: '1 0 55%',
         display: 'flex',
         flexDirection: 'column',
-        // padding: '1.0rem 2.0rem 0.0rem ',
-
     },
     buttonArea: {
         // border: 'solid red 1px',
         flex: '1 0 45%',
         display: 'flex',
-        // padding: '1.0rem 2.0rem 0.0rem ',
-
     },
 }));
 
 export default function HumanPanel(props) {
     const classes = useStyles();
     
-    const gameNumber = props.gameNumber;
-    const record = props.record;
-
-
-    const gameOver = props.gameOver;
-    const moveNumber = props.moveNumber;
-    const gameStatus = props.gameStatus;
+    let gameNumber = props.gameNumber
+    let moveList = props.moveList
+    let status = props.status
+    let record = props.record;
 
     const handleNewGameClick = props.handleNewGameClick
     const handleUndoClick = props.handleUndoClick
 
+
+    function gameOver(s = status) {
+        return (s === "xWins" || s === "oWins" || s === "draw")
+    }
     
+
+
     return (
         <Container maxWidth='sm' className={classes.panel} >
             <Box className={classes.infoArea} >
-                <StatusHeader
+                <GameNumber 
                     gameNumber={gameNumber}
-                    gameStatus={gameStatus}
                 />
-
+                <StatusHeader
+                    moveList={moveList}
+                />
                 <WinLossDrawRecord
                     playMode="humanVsHuman"
                     record={record}
@@ -70,14 +70,15 @@ export default function HumanPanel(props) {
             </Box>
             <Grid container className={classes.buttonArea} >
                 <Grid item xs={12} sm={6}  >
-                    <NewGameButton gameOver={gameOver}
+                    <NewGameButton 
+                        gameOver={gameOver()}
                         handleNewGameClick={handleNewGameClick} 
                     />
 
                 </Grid>
                 <Grid item xs={12} sm={6}   >
-                    <UndoButton gameOver={gameOver}
-                        moveNumber={moveNumber}
+                    <UndoButton 
+                        moveList={moveList}
                         handleUndoClick={handleUndoClick}
                     />
                 </Grid>

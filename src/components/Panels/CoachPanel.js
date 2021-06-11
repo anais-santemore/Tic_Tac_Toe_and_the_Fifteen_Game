@@ -1,8 +1,11 @@
 import React from 'react';
 
+import { status, outcomeMap, getParent, gameOver, winningMoves, urgentDefensiveMoves, doubleAttackingMoves } from "../../logic/GameLogic";
+
+
 // Custom Components
-import StatusHeader from './StatusHeader';
-import CoachsCommentary from "./CoachsCommentary";
+import StatusHeader from './Parts/StatusHeader';
+import CoachsCommentary from "./Parts/CoachsCommentary";
 
 import UndoButton from "../Buttons/UndoButton";
 import ShowHintsButton from "../Buttons/ShowHintsButton";
@@ -21,65 +24,108 @@ const useStyles = makeStyles((theme) => ({
         height: '100%',
         display: 'flex',
         flexDirection: 'column',
-
     },
     infoArea: {
         // border: 'solid red 1px',
         flex: '1 0 55%',
         display: 'flex',
         flexDirection: 'column',
-        // padding: '1.0rem 2.0rem 0.0rem ',
-
     },
     buttonArea: {
         // border: 'solid red 1px',
         flex: '1 0 45%',
         display: 'flex',
-        // padding: '1.0rem 2.0rem 0.0rem ',
-
     },
 }));
 
 export default function CoachPanel(props) {
     const classes = useStyles();
 
-    const gameNumber = props.gameNumber;
+    let moveList = props.moveList
+    let toggleShowHints = props.toggleShowHints
+    let handleUndoClick = props.handleUndoClick
+    
+    
 
-    const gameOver = props.gameOver;
-    const moveNumber = props.moveNumber; 
-    const gameStatus = props.gameStatus;
+    function getCommentLabel(mls) {
+        console.log(`getCommentLabel called with moveList: ${mls}`);
+          
+        let currentStatus = status(mls)
+        let currentOutcome = outcomeMap.get(mls)
+        let previousOutcome = outcomeMap.get(getParent(mls));
 
+        // console.log(`Current Outcome ${currentOutcome}`);
+        // console.log(`Previous Outcome ${previousOutcome}`);
+        
+        let label = "error"
+        
+        if (mls.length === 0) {
+            label = "newGame"
+        }
+        else if (mls.length === 1) {
+            if (mls.charAt(0) === "5") {
+                label = "centerOpening"
+            }
+            else if (Number(mls.charAt(0)) % 2 === 0) {
+                label = "cornerOpening"
+            }
+            else {
+                label = "edgeOpening"
+            }
+        } 
+        else if (winningMoves(mls).length > 0 ) {
+            label = "immediateWin"
+        }
+        else if (urgentDefensiveMoves(mls).length === 1) {
+            label = "urgentDefence"
+        }
+        else if (urgentDefensiveMoves(mls).length === 2) {
+            label = "losing"
+        }
+        else if (doubleAttackingMoves(mls).length > 0) {
+            label = "doubleAttack"
+        }
+        else if (currentStatus === "xWins") {
+            label = "xWins"
+        }
+        else if (currentStatus === "oWins") {
+            label = "oWins"
+        }
+        else if (currentStatus === "draw") {
+            label = "draw"
+        }
+        else if (previousOutcome === "draw" && currentOutcome === "draw") {
+            label = "sound"
+        }
+        else if (previousOutcome === "draw" && (currentOutcome === "xWins" || currentOutcome === "oWins")) {
+            label = "mistake"
+        }
+        else if (currentOutcome === "draw" && (previousOutcome === "xWins" || previousOutcome === "oWins")) {
+            label = "missedWin"
+        }
 
-    // const commentLabel = props.commentary;
-    const commentLabel = props.commentLabel;
+        return label
+    }
 
-
-
-    const showHints = props.showHints
-    const toggleShowHints = props.toggleShowHints
-
-    const handleNewGameClick = props.handleNewGameClick
-    const handleUndoClick = props.handleUndoClick
+    let commentLabel = getCommentLabel(moveList)
 
 
     return (
         <Container maxWidth='sm' className={classes.panel} >
             <Box className={classes.infoArea} >
                 <StatusHeader
-                    gameNumber={gameNumber}
-                    gameStatus={gameStatus}
+                    moveList={moveList}
                 />
                 <CoachsCommentary
-                    gameStatus={gameStatus}
+                    moveList={moveList}
                     commentLabel={commentLabel}
-                    // gameStatus={gameStatus}
                 /> 
             </Box>
             <Grid container className={classes.buttonArea} >
                 <Grid item xs={12} sm={6}  >
                     <UndoButton 
                         gameOver={false}
-                        moveNumber={moveNumber}
+                        moveList={moveList}
                         handleUndoClick={handleUndoClick}
                     />
                 </Grid>
@@ -88,8 +134,6 @@ export default function CoachPanel(props) {
                         toggleShowHints={toggleShowHints}
                     />
                 </Grid>
-
-
             </Grid>
         </Container>
     )
