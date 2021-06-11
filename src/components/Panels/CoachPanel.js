@@ -50,7 +50,7 @@ export default function CoachPanel(props) {
     function getCommentLabel(mls) {
         console.log(`getCommentLabel called with moveList: ${mls}`);
           
-        let over = gameOver(mls)
+        let currentStatus = status(mls)
         let currentOutcome = outcomeMap.get(mls)
         let previousOutcome = outcomeMap.get(getParent(mls));
 
@@ -84,6 +84,18 @@ export default function CoachPanel(props) {
         }
         else if (doubleAttackingMoves(mls).length > 0) {
             label = "doubleAttack"
+        }
+        else if (currentStatus === "xWins") {
+            label = "xWins"
+        }
+        else if (currentStatus === "oWins") {
+            label = "oWins"
+        }
+        else if (currentStatus === "draw") {
+            label = "draw"
+        }
+        else if (previousOutcome === "draw" && currentOutcome === "draw") {
+            label = "sound"
         }
         else if (previousOutcome === "draw" && (currentOutcome === "xWins" || currentOutcome === "oWins")) {
             label = "mistake"
