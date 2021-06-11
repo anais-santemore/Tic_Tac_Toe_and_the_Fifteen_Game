@@ -86,10 +86,19 @@ export default function CoachsCommentary(props) {
                 one threat, you need to make two simultaneous threats in order to win.`
                 break;
             case "mistake":
-                comment = `TODO write this comment`
+                comment = `A mistake! Before that last move ${prev} was on track for a draw. That last move  
+                has given ${next} the opportunity to force a win. ${next} cannot create a double attack quite yet, so they will
+                have to look further into the future to see what forced continuations can lead them to making a double attack on
+                their next move. Don't settle for a draw anymore! Make the most of your opponent's mistake.`
                 break;
             case "missedWin":
-                comment = `TODO write this comment`
+                comment = `${next} made the first mistake and gave ${prev} a chance to force a win, but ${prev} replied with
+                another mistake and now they have missed missed that chance to win! Look for forcing moves that lead to double
+                attacks and you will avoid mistakes like the one ${prev} kist made.`
+                break;
+            case "sound":
+                comment = `Good. The last move by ${prev} was "sound" meaning it has not hurt their worst case outcome: previously
+                on track for a draw, still on track for a draw.`
                 break;
             case "xWins":
                 comment = `X has won the game! That means O must have made a mistake along the way.
