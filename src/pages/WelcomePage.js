@@ -36,7 +36,9 @@ const useStyles = makeStyles((theme) => ({
         // margin: 'auto',
         backgroundColor: theme.palette.primary.main,
         textAlign: 'center',
-        marginRight: '1.0rem',
+        width: '95%',
+
+        // margin: '1.0rem',
     }, 
     
     
@@ -85,23 +87,41 @@ export default function WelcomePage() {
                     education.
                 </Typography>
                 <Box width="100%" mb={3} >
-                    <Button
-                        className={classes.button}
-                        variant="contained"
-                        color="primary"
-                        component={RouterLink}
-                        to='/play_vs_bot'
-                    >
-                        Play Human vs. Bot
-                    </Button><Button
-                        className={classes.button}
-                        variant="contained"
-                        color="primary"
-                        component={RouterLink}
-                        to='/play_with_coach'
-                    >
-                        Play with Coach
-                    </Button>
+                    <Grid container> 
+                        <Grid item xs={12} sm={4} >
+                            <Button
+                                className={classes.button}
+                                variant="contained"
+                                color="primary"
+                                component={RouterLink}
+                                to='/play_vs_human'
+                            >
+                                Play Human vs. Human
+                            </Button>
+                        </Grid>
+                        <Grid item xs={12} sm={4} >
+                            <Button
+                                className={classes.button}
+                                variant="contained"
+                                color="primary"
+                                component={RouterLink}
+                                to='/play_vs_bot'
+                            >
+                                Play Human vs. Bot
+                            </Button>
+                        </Grid>
+                        <Grid item xs={12} sm={4} >
+                            <Button
+                                className={classes.button}
+                                variant="contained"
+                                color="primary"
+                                component={RouterLink}
+                                to='/play_with_coach'
+                            >
+                                Play with Coach
+                            </Button>
+                        </Grid>
+                    </Grid>
                 </Box>
                 <Typography align='left' color='textPrimary' component='h4' variant='h4' gutterBottom >
                     Defining Your Terms
