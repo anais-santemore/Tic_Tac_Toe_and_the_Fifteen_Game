@@ -57,39 +57,34 @@ export default function WelcomePage() {
                     Proof: An Expression of Creativity
                 </Typography>
                 <Typography paragraph align='justify' color='textPrimary' component='p' variant='body1' gutterBottom >
-                    Math is a creative endeavor that focuses on things that can be <em>proven</em> using logic.
-                    In the same way a song is an expression of a musician's creativity, a written proof is an expression of a mathematician's creativity.
-                    Mathematical proofs can be profoundly beautiful and elegant, however, to the untrained eye, this beauty and elegance can be difficult 
-                    to pick up on because proofs often involve a lot of abstraction and formal definitions.
+                    Logical proof is the foundation that all Math sits upon. 
+                    Math is a human endeavor, an expression of creativity.
+                    Just like a musician expresses their creativity in a song, a mathematician expresses their creativity in a 
+                    logical argument. As with songs, there are proofs that are considered classic, there are those that are seen as 
+                    modern innovations on the classics, and others that are competely novel.
+                    Mathematical proofs can be profoundly beautiful and even elegant, however, to the untrained eye, this 
+                    beauty and elegance can be difficult to see because proofs often involve a lot of abstraction and formal 
+                    definitions. 
                 </Typography>
                 
                 <Typography align='left' color='textPrimary' component='h4' variant='h4' gutterBottom >
                     Tic-Tac-Toe as an Intro to Proof
                 </Typography>
-                {/* <Typography paragraph align='justify' color='textPrimary' component='body1' variant='body1' gutterBottom >
-                    Most math students are first asked to write proofs in the context of a highschool geometry class. Shortly after being introduced to 
-                    the concept of triangle similarity, students are asked to write arguements to prove two triangles are similar using Angle-Angle, Side-Side-Side,
-                    and Side-Angle-Side similarity. I think this is a mistake. Proof is such an important idea, it should be introduced in a context that is simpler 
-                    and much more familiar.
-                </Typography> */}
                 <Typography paragraph align='justify' color='textPrimary' component='p' variant='body1' gutterBottom >
-                    Most math students are first asked to write proofs in the context of a highschool geometry class, dealing with triangle similarity.
-                    I think this is a mistake. Proof is such an important idea, it should be introduced in a context that is simpler and much more familiar.
-                    Most children have played Tic Tac Toe enough times to have realized that the game usually ends in a draw. I challenge them to come up with 
-                    a detatailed strategy (for either the first or second player) that will allow them to win every time. Often students think they have found such
-                    a winning strategy, and when they tell me that they have I challenge them to use it to beat me. It never works. Eventually, they formulate their 
-                    own twist on my original challenge and set out to prove that no win-forcing strategy exists for either player.
+                    I think it is a mistake to introduce students to the practice of writing "proofs" in the current usual way: 
+                    in the context of a highschool geometry class, while simultaneously being introduced to similar and congruent 
+                    triangles. Proof should be introduced in a context that is simple and familiar. 
+                    My favorite way is to use the classic game Tic Tac Toe. I challenge kids to write down a detailed stategy that the 
+                    first player can use to win everytime. If they have played enough Tic Tac Toe to have 
+                    realized that the game usually ends in a draw, and they say "There is no such winning strategy!" then I ask them 
+                    to proove that instead. (It can be done with pencil and paper, it will take several pages and will challenge 
+                    your ability to organize your thoughts. It's much more than just playing lots of games and recording the results.
+                    This website includes a different way of expressing this proof in the Play with Coach section.)
+                    Once proof is understood in a familiar context, then kids can extend that understanding into whatever domain they 
+                    desire. Understanding how to rigorously critique your own argument and data is key to being in conntrol of your own 
+                    education.
                 </Typography>
                 <Box width="100%" mb={3} >
-                    <Button
-                        className={classes.button}
-                        variant="contained"
-                        color="primary"
-                        component={RouterLink}
-                        to='/play_vs_human'
-                    >
-                        Play Human vs. Human
-                    </Button>
                     <Button
                         className={classes.button}
                         variant="contained"
