@@ -159,41 +159,11 @@ export default function PlayVsBot(props) {
         }
     }
 
-    // MID-LEVEL HELPERS for getBoardColors() and getBoardHints()
-    function highlightWins() {
-        console.assert(!gameOver(), `highlightWins() was called but found that the game is not over`);
-
-        let highlightedSquares = Array(9).fill('noColor')
-        let data = lineData()
-
-
-        if (data.xSquares.length === 3) {
-            let squaresToHighlight = data.xSquares
-            squaresToHighlight.forEach(square => {
-                highlightedSquares[square] = 'win';
-            });
-        }
-
-
-        return highlightedSquares;
+    
+    
+    function handleNewGameClick() {
+        setMoveList(startingPosition);
     }
-
-    // function highlightWins() {
-    //     console.assert(!gameOver(), `highlightWins() was called but found that the game is not over`);
-
-    //     let highlightedSquares = Array(9).fill('noColor')
-
-    //     let winner = (wins('x')) ? 'x' : 'o';
-    //     // let lines = lines(winner);
-    //     linesWithThree(winner).forEach(line => {
-    //         squaresInLine(line).forEach(square => {
-    //             highlightedSquares[square] = 'win';
-    //         });
-    //     });
-    //     return highlightedSquares;
-    // } 
-
-
 
     function threatCreatingMoves(ml = moveList) {
         // This list may contain duplicates. A squareId that appears twice creates two separate two-in-a-line threats.
