@@ -274,44 +274,20 @@ export default function PlayVsBot(props) {
             return selectMoveRandomly(blockingMoves(ml))
         }
     }
-
-
-
-    // function gameDrawn() {
-    //     return (history.length >= 9 && !wins('x') && !wins('o'));  // Board full and neither player has a win
-    // }
-    // function gameDrawn() {
-    //     return (blockedLines().length >= 8 && !wins('x') && !wins('o'));  // Board full and neither player has a win
-    // }
-
-
-
-    function gameOver(ml = moveList) {
-        if (ml.length >= 9) {
-            console.log(`gameOver() --> TRUE`)
-            return true
     function pickBestMove(sorted) {
         if (sorted.winningForBot.length > 0) {
             console.log(`Bot Found Winning Moves: ${sorted.winningForBot}`)
             return selectMoveRandomly(sorted.winningForBot)
         }
-        else if (ml.length < 5) {
-            console.log(`gameOver() --> FALSE`)
-            return false
         else if (sorted.drawing.length > 0) {
             console.log(`Bot Found Drawing Moves: ${sorted.drawing}`)
             return selectMoveRandomly(sorted.drawing)
         }
         else {
-            lineData().forEach(line => {
-                if (line.xSquares.length === 3 || line.oSquares.length === 3) {
-                    console.log(`gameOver() --> TRUE`)
-                    return true
-                }
-            })
-            console.log(`gameOver() --> FALSE`)
-            return false
+            console.error(`Bot Found NEITHER Winning NOR Drawing Moves!!! Picking from Losing Moves: ${sorted.losing} Unsorted Moves: ${sorted.uncertain}.`)
+            return selectMoveRandomly(sorted.uncertain)
         }
     }
-
+    
 }
+
