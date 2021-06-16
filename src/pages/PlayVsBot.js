@@ -1,23 +1,22 @@
 import React, { useState } from 'react';
 
-import '../styles/TicTacToe.css';
+// My Logical Components
+import positionToOutcomeMap from "../pages/positionToOutcomeMap";
+import { status, outcome, gameOver, xHasWon, oHasWon, gameDrawn, xNumbers, oNumbers, nextPlayer, winningMoves, urgentDefensiveMoves, selectMoveRandomly, availableNumbers } from "../logic/GameLogic";
 
-// My Components
+
+// My React Components
 import Board from "../components/Board";
-import Panel from "../components/Panels/BotPanel";
-// import PlayPanel from "./PlayPanel";
-// import LearnPanel from "./LearnPanel";
-
+import BotPanel from "../components/Panels/BotPanel";
 
 // MUI  components
 import Box from '@material-ui/core/Box';
 
 // Custom Styling
+import '../styles/TicTacToe.css';
 import { makeStyles } from '@material-ui/core/styles';
 const useStyles = makeStyles((theme) => ({
-
     root: {
-        // border: 'solid purple 1px',
         width: '100%',
         height: 'calc(100% - 3.8rem)',
         display: 'flex',
@@ -25,34 +24,26 @@ const useStyles = makeStyles((theme) => ({
         alignItems: 'space-between',
     },
     boardContainer: {
-        // border: 'solid orange 1px',
         width: '100%',
         paddingTop: 'min(100%, 50vh)',
         height: '0',
         position: 'relative',
     },
     boardArea: {
-        // border: 'solid yellow 1px',
         width: '100%',
         height: '100%',
         position: 'absolute',
         top: '0',
         left: '0',
-
     },
     panelArea: {
-        // border: 'solid yellow 1px',
-        color: theme.palette.common.white,
-        backgroundColor: theme.palette.common.black,
         width: '100%',
-        // width: '50vh',
-        padding: '1.0rem',
         flex: '2 1 35vh',
         margin: '0rem auto',
-
     },
 }));
 
+// In Play With Coach mode X always goes first
 
 export default function TicTacToeGame(props) {
     const classes = useStyles();
