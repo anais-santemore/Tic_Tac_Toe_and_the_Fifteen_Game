@@ -103,33 +103,9 @@ export default function BotPanel(props) {
             </Grid>
         </Container>
     )
+
+    
+
 }
 
-function HelpButton(props) {
-    const classes = useStyles();
-    const handleUndoButtonClick = props.handleUndoButtonClick
 
-
-    return (
-        <Box className={classes.button} >
-            <HelpModal />
-        </Box>
-    )
-}
-
-function SettingsButton(props) {
-    const classes = useStyles();
-    const handleUndoButtonClick = props.handleUndoButtonClick
-
-
-    return (
-        <Box className={classes.button} >
-            <TicTacToeSettingsModal
-                showMoves={props.showMoves}
-                showCommentary={props.showCommentary}
-                toggleShowMovesSwitch={props.toggleShowMovesSwitch}
-                toggleShowCommentarySwitch={props.toggleShowCommentarySwitch}
-            />
-        </Box>
-    )
-}
