@@ -165,9 +165,23 @@ export default function PlayVsBot(props) {
         setMoveList(startingPosition);
     }
 
+    function handleBotGoFirstClick() {
+        console.assert(moveList.length === 0, `handleLetBotGoFirstClick was called but it is not the frst move of the game!`)
+        setHumanPlaysX(false)
+        handleBotsTurn('') // if the bot is going first the movelist is empty.
     }
 
 
+    // Find and make a move for the Bot with a slight delay. 
+    function handleBotsTurn(ml = moveList) {
+        let botMove = getBotMove(ml)
+        let updatedMoveList = ml.concat(botMove)
+        setTimeout(() => {
+            setMoveList(updatedMoveList)
+            if (gameOver(updatedMoveList)) {
+                console.log("Don't let player move again. Call handleGameOver instead.")
+                handleGameOver(updatedMoveList)
+                return 1
             }
         })
         // console.log(`forcingMoves found these: ${forcingMoves}`)
