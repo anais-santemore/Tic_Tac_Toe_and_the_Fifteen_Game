@@ -47,18 +47,17 @@ const useStyles = makeStyles((theme) => ({
 
 export default function PlayVsBot(props) {
     const classes = useStyles();
-    const mode = props.mode;
 
-    // State used in BOTH modes    
-    let [moveList, setMoveList] = useState([]);
+    const xGoesFirst = true  // X always goes first
+    
+    let startingPosition = ""  // vs []
+    let [moveList, setMoveList] = useState(startingPosition);
 
-    // State used ONLY in PLAY mode    
+    let [humanPlaysX, setHumanPlaysX] = useState(true);
     let [gameNumber, setGameNumber] = useState(1);
-    let [record, setRecord] = useState([0, 0, 0]);     // 3 element counter for humanWins, botWins, and tieGames.
+    let [record, setRecord] = useState([0, 0, 0]);
 
-    // State used ONLY in LEARN mode    
-    let [showHints, setShowHints] = useState(false);
-
+    let [difficultyMode, setDifficultyMode] = useState("hard") // In "hard" mode my bot never makes a mistake.
 
     return (
         <Box className={classes.root} >
