@@ -66,10 +66,42 @@ export default function BotPanel(props) {
     
 
     return (
-        <Box className={classes.panel}>
+        <Container maxWidth='sm' className={classes.panel} >
             <Box className={classes.infoArea} >
-                {(mode === 'learn') ? commentaryBoard : scoreBoard}
+                <GameNumber
+                    gameNumber={gameNumber}
+                />
+                <StatusHeader
+                    moveList={moveList}
+                />
+                <WinLossDrawRecord
+                    playMode="humanVsHuman"
+                    record={record}
+                />
             </Box>
+            <Grid container spacing={3} className={classes.buttonArea} >
+                <DifficultyModeButtons />
+            </Grid>
+
+            <Grid container spacing={3} className={classes.buttonArea} >
+                <Grid item xs={12} sm={6}  >
+                    <NewGameButton
+                        gameOver={gameOver()}
+                        handleNewGameClick={handleNewGameClick}
+                    />
+
+                </Grid>
+                <Grid item xs={12} sm={6}   >
+                    <BotGoFirstButton 
+                        gameOver={false}
+                        moveList={moveList}
+                        handleBotGoFirstClick={handleBotGoFirstClick}
+                    />
+                </Grid>
+
+
+            </Grid>
+        </Container>
     )
 }
 
