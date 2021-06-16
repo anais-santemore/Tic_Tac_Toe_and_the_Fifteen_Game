@@ -42,17 +42,15 @@ export default function HumanPanel(props) {
     let gameNumber = props.gameNumber
     let moveList = props.moveList
     let status = props.status
-    let record = props.record;
+    let record = props.record
 
     const handleNewGameClick = props.handleNewGameClick
     const handleUndoClick = props.handleUndoClick
-
 
     function gameOver(s = status) {
         return (s === "xWins" || s === "oWins" || s === "draw")
     }
     
-
 
     return (
         <Container maxWidth='sm' className={classes.panel} >
