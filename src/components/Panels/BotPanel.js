@@ -46,20 +46,6 @@ const useStyles = makeStyles((theme) => ({
         alignItems: 'center',
     },
 
-    button: {
-        color: theme.palette.common.white,
-        backgroundColor: theme.palette.primary.main,
-        margin: '0.5rem 1.0rem',
-        width: '50%',
-        height: '3.0rem',
-        fontSize: '1.2rem',
-    },
-    buttonIcon: {
-        marginRight: '1vmin',
-        fontSize: 'larger'
-        // fontSize: 'min(max(0.7rem, 3vmin), 22px)',
-    },
-
 }));
 
 export default function Panel(props) {
