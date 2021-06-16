@@ -76,7 +76,7 @@ export default function CoachPanel(props) {
         else if (winningMoves(mls).length > 0 ) {
             label = "immediateWin"
         }
-        else if (urgentDefensiveMoves(mls).length === 1) {
+        else if (urgentDefensiveMoves(mls).length === 1) {          //  Modify this to pre and postpend  "A Mistake!" and "Not all moves are good in this position, choose carefully!"
             label = "urgentDefence"
         }
         else if (urgentDefensiveMoves(mls).length === 2) {
