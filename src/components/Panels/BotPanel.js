@@ -51,46 +51,12 @@ const useStyles = makeStyles((theme) => ({
 export default function BotPanel(props) {
     const classes = useStyles();
 
-    const mode = props.mode
-    const gameType = props.gameType;
+    let gameNumber = props.gameNumber
+    let moveList = props.moveList
+    let status = props.status
+    let record = props.record
 
-    const gameOver = props.gameOver;
-    const moveNumber = props.moveNumber;
-    const gameStatus = props.gameStatus;
-    const gameNumber = props.gameNumber;
-    const commentary = props.commentary;
-
-    const handleNewGameClick = props.handleNewGameClick
-    const handleUndoClick = props.handleUndoClick
-
-    const showHints = props.showHints
-    const toggleShowHints = props.toggleShowHints
-
-
-    const showCommentary = props.showCommentary
-    const toggleShowCommentarySwitch = props.toggleShowCommentarySwitch
-
-    const scoreBoard = (
-        <React.Fragment>
-            <Typography align='center' component='h1' variant='h3' noWrap gutterBottom>
-                Game {gameNumber}:&nbsp;&nbsp;{gameStatus}
-            </Typography>
-            <Typography align='center' component='h3' variant='h4' noWrap >
-                Human: {props.record[0]} &emsp;  Bot: {props.record[1]} &emsp;  Draw: {props.record[2]}
-            </Typography>
-        </React.Fragment>
-    )
-
-    const commentaryBoard = (
-        <React.Fragment>
-            <Typography align='center' component='h1' variant='h3' noWrap gutterBottom>
-                {gameStatus}
-            </Typography>
-            <Typography align='justify' variant='body1' >
-                {commentary}
-            </Typography>
-        </React.Fragment>
-    )
+    let handleNewGameClick = props.handleNewGameClick
 
     const learnButtons = (
         <React.Fragment>
