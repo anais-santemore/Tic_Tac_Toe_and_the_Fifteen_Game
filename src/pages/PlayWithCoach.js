@@ -99,9 +99,9 @@ export default function PlayWithCoach(props) {
         console.log(`handleUndoClick() removed ${moveList[moveList.length - 1]} . New Shortened history: ${shortenedMoveList}`);
         setmoveList(shortenedMoveList);
     }
-    function handleNewGameClick() {
-        setmoveList(startingPosition);
-    }
+    // function handleNewGameClick() {
+    //     setmoveList(startingPosition);
+    // }
     function toggleShowHints() {
         setShowHints(!showHints)
     }
