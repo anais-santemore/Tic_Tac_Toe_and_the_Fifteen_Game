@@ -71,15 +71,14 @@ export default function PlayVsBot(props) {
                 </Box>
             </Box>
             <Box className={classes.panelArea}>
-                <Panel
-                    gameStatus={getStatus()}
-                    commentary={getCommentary()}
-                    handleUndoClick={handleUndoClick}
-                    toggleShowHints={toggleShowHints}
+                <BotPanel
+                    moveList={moveList}
+                    handleNewGameClick={handleNewGameClick}
+                    handleBotGoFirstClick={handleBotGoFirstClick}
                 />
             </Box>
         </Box>
-    );
+    )
 
     // The <Game> holds all state and most helper and handler function definitions.
     // It passes what it needs to to the board to render and to the panel.
