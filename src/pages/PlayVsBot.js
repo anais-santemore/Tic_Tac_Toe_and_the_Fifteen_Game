@@ -45,7 +45,7 @@ const useStyles = makeStyles((theme) => ({
 
 // In Play With Coach mode X always goes first
 
-export default function TicTacToeGame(props) {
+export default function PlayVsBot(props) {
     const classes = useStyles();
     const mode = props.mode;
 
