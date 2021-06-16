@@ -48,7 +48,7 @@ const useStyles = makeStyles((theme) => ({
 
 }));
 
-export default function Panel(props) {
+export default function BotPanel(props) {
     const classes = useStyles();
 
     const mode = props.mode
