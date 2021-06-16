@@ -64,8 +64,7 @@ export default function PlayVsBot(props) {
             <Box className={classes.boardContainer}>
                 <Box className={classes.boardArea} >
                     <Board
-                        boardIcons={getBoardIcons()}
-                        boardColors={getBoardColors()}
+                        moveList={moveList}
                         handleSquareClick={handleSquareClick}
                     />
                 </Box>
