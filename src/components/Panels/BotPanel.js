@@ -67,6 +67,9 @@ export default function BotPanel(props) {
 
         </React.Fragment>
     )
+    function gameOver(s = status) {
+        return (s === "xWins" || s === "oWins" || s === "draw")
+    }
 
     const playButtons = (
         <React.Fragment>
