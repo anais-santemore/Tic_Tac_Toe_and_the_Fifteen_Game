@@ -183,123 +183,54 @@ export default function PlayVsBot(props) {
                 handleGameOver(updatedMoveList)
                 return 1
             }
-        })
-        // console.log(`forcingMoves found these: ${forcingMoves}`)
-        return forcingMoves;
+        }, 800)
     }
 
+    //////////////////////////////////////////////////////////////     
+    //  GET  BOT  MOVE  PROTOCOLS
+    ////////////////////////////////////////////////////////////// 
 
-    // DEFINITION: A move that creates a position where you have one threat and your opponent has none &&
-    //             once your opponent responds with their one urgentDefensiveMove you are left with the ability to create a double attack. 
-    function distantForcedWinCreatingMoves(ml = moveList) {
-        let distantForcedWinCreatingMovesList = [];
-        // There cannot be a distantForcedWinCreatingMove unless there are at least 5 empty squares and playerTwo has has a chance to make an error on their first move.
-        if (ml.length < 2 || ml.length > 4) {
-            return distantForcedWinCreatingMovesList;
+    function getBotMove(ml = moveList) {
+        if (difficultyMode === "easy") {
+            return easyProtocol(ml)
         }
-        // To force a win you must force the first reply ... 
-        forcingMoves(ml).forEach(forcingMove => {
-            // ... and ensure the forced reply leaves you able to create a double attack.
-            let hypotheticalHistory = ml.concat(forcingMove);
-            if (urgentDefensiveMoves(hypotheticalHistory).length !== 1) {
-                console.error(`There are ${urgentDefensiveMoves(hypotheticalHistory).length} urgentDefensiveMoves in the hypotheticalHistory being examined by distantForcedWinCreatingMoves.`)
-            }
-            let urgentDefensiveMove = urgentDefensiveMoves(hypotheticalHistory)[0];
-            hypotheticalHistory = hypotheticalHistory.concat(urgentDefensiveMove);
-            // console.log(`The one urgent defensive move is ${urgentDefensiveMove} leading to position: ${hypotheticalHistory}`);
-            if (thereIsADoubleAttackCreatingMove(hypotheticalHistory)) {
-                distantForcedWinCreatingMovesList = distantForcedWinCreatingMovesList.concat(forcingMove);
-            }
-        })
-        console.log(`distantForcedWinCreatingMoves() found the following list: ${distantForcedWinCreatingMovesList}`)
-        return distantForcedWinCreatingMovesList;
-    }
-    function thereIsADistantForcedWinCreatingMove(ml = moveList) {
-        // There cannot be a distantForcedWinCreatingMove unless there are at least 5 empty squares and playerTwo has has a chance to make an error on their first move.
-        // return (moveList.length > 2 && moveList.length < 5 && distantForcedWinCreatingMoves(moveList).length > 0)
-        return (distantForcedWinCreatingMoves(ml).length > 0)
-    }
-
-
-
-    // Check if each of the squares that is is still empty is a losing Move
-    function gameLosingMoves(ml = moveList) {  // This function should ONLY be called by getBoardHints when there are no forced Win Creating Moves
-        let gameLosingMoves = [];
-        emptySquares().forEach(square => {
-            let hypotheticalHistory = ml.concat(square);
-            if (thereIsAForcedWin(hypotheticalHistory)) {
-                console.log(`I think I found a forced win after the moves: ${hypotheticalHistory}`)
-                gameLosingMoves = gameLosingMoves.concat(square)
-            }
-        })
-        console.log(`gameLosingMoves() found the following list: ${gameLosingMoves}`)
-        return gameLosingMoves;
-    }
-
-
-
-    // CLICK HANDLERS
-    function handleSquareClick(squareClicked) {
-        if (gameOver()) {
-            console.log("return without effects from handleSquareClick(). The Game is already over.")
-            return;
+        else if (difficultyMode === "medium") {
+            return mediumProtocol(ml)
         }
-        if (!squareIsEmpty(squareClicked)) {
-            console.log("return without effects from handleSquareClick(). That square has already been claimed.")
-            return;
-        }
-        // If we reach this point the clicked square is open and the game is not over yet ... 
-        let updatedMoveList = moveList.concat(squareClicked)
-        console.log(`MoveList: ${updatedMoveList}`)
-
-        setMoveList(updatedMoveList);
-        // This function does not pass along any of its results, it acts thru side-effects. It calls setHistory and use of that hook tells React it needs to re-render all components that depend on the state "history".
-    }
-    function handleUndoClick() {
-        const shortenedMoveList = moveList.slice(0, moveList.length - 1)
-        console.log(`handleUndoClick() removed ${moveList[moveList.length - 1]} . New Shortened history: ${shortenedMoveList}`);
-        setMoveList(shortenedMoveList);
-    }
-    function handleNewGameClick() {
-        setMoveList([]);
-    }
-    function toggleShowHints() {
-        // console.log(`toggleShowHintsSwitch called, setting  to ${!showHints}`);
-        setShowHints(!showHints)
-    }
-    // function toggleShowCommentarySwitch() {
-    //     setShowCommentary(!showCommentary)
-    // }
-
-
-    // TURN HELPERS
-    // High-Level Methods that need to know whose turn it is can deduce that info by using these helpers to look at the history directly, rather than having to be invoked with a player param. 
-    function myTurn(ml = moveList) {
-        return (moveList.length % 2 === 0) ? 'x' : 'o';
-    }
-    function notMyTurn(ml = moveList) {
-        return (ml.length % 2 === 0) ? 'o' : 'x';
-    }
-    function other(player) {
-        if (player !== 'o' && player !== 'x') { console.error(`other(player) called with invalid player: ${player}`) }
-        return (player === 'o') ? 'x' : 'o';
-    }
-
-
-    // LOW-LEVEL HELPERS
-    // need to be told which player you care about b/c they may be used on EITHER the player whose turn it is or the other player.
-    function squaresClaimedByPlayer(player, ml = moveList) {
-        // let history = (alteredHistory === undefined) ? history : alteredHistory
-
-        if (player === 'x') {
-            return ml.filter((squareId, index) => index % 2 === 0);
-        }
-        else if (player === 'o') {
-            return ml.filter((squareId, index) => index % 2 === 1);
+        else if (difficultyMode === "hard") {
+            return hardProtocol(ml)
         }
         else {
-            console.error(`Method squaresClaimedByPlayer() called with invalid player: ${player}`)
-            return undefined;
+            console.error(`getBotMove called with invalid difficulty mode!!!`)
+        }
+    }
+
+    // In EASY mode: Bot wins immediately if it can and otherwise selects a random move. 
+    function easyProtocol(ml) {
+        if (winningMoves(ml).length > 0) {
+            console.log(`BOT FOUND IMMEDIEATELY WINNING MOVES: ${winningMoves(ml)}`)
+            return selectMoveRandomly(winningMoves(ml))
+        }
+        else {
+            return selectMoveRandomly(availableNumbers(ml))
+        }
+    }
+
+    // In MEDIUM mode, Bot wins immediately if possible.
+    // In MEDIUM mode, Bot blocks any immediate threats but does not look any further ahead. 
+    function mediumProtocol(ml) {
+        let wins = winningMoves(ml)
+        let defensiveMoves = urgentDefensiveMoves(ml)
+        if (wins.length > 0) {
+            console.log(`BOT FOUND IMMEDIATELY WINNING MOVES: ${wins}`)
+            return selectMoveRandomly(wins)
+        }
+        else if (defensiveMoves.length > 0) {
+            console.log(`BOT FOUND URGENT DEFENSIVE MOVES: ${defensiveMoves}`)
+            return selectMoveRandomly(defensiveMoves)
+        }
+        else {
+            return selectMoveRandomly(availableNumbers(ml))
         }
     }
 
