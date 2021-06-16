@@ -216,6 +216,12 @@ export function doubleAttackingMoves(mls) {
 }
 
 
+// Randomly selects a move from a list of possible next moves.
+export function selectMoveRandomly(moveSet) {
+    return moveSet[Math.floor(Math.random() * moveSet.length)]
+}
+
+
 
 ////////////////////////////////////////////////////////////////
 // Get Children and Helpers:  An Array of move list Strings
