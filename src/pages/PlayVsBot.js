@@ -165,38 +165,9 @@ export default function PlayVsBot(props) {
         setMoveList(startingPosition);
     }
 
-    function threatCreatingMoves(ml = moveList) {
-        // This list may contain duplicates. A squareId that appears twice creates two separate two-in-a-line threats.
-        const player = myTurn(ml);
-        const threatCreatingMoves = [];
-        linesWithOnlyOne(ml).forEach((line) => {
-            squaresInLine(line).forEach((square) => {
-                if (squareIsEmpty(square, ml)) {                 // Don't add an already claimed square to the list of therat creating moves!
-                    threatCreatingMoves.push(square);
-                }
-            })
-        })
-        // console.log(`Player '${player}' can create threats on the following squares: ${threatCreatingMoves}`)
-        return threatCreatingMoves;
     }
 
 
-
-
-    // DEFINITION: thisMoveIsForced IFF player who moved last has one unblocked threat and player whose turn it is has none.
-    function thisMoveIsForced(ml = moveList) {
-        let isForced = (!thereIsAnImmediateWin(ml) && thereIsAnUrgentDefensiveMove(ml))
-        // console.log(`In position: ${moveList} The next move is forced: ${isForced}`)
-        return (isForced);
-    }
-
-    // DEFINITION: ForcingMoves are the moves that give the opponent an urgentDefensiveMove and no immediateWin to take presidence over it.
-    function forcingMoves(ml = moveList) {
-        let forcingMoves = [];
-        emptySquares(ml).forEach(testSquare => {
-            let hypotheticalHistory = ml.concat(testSquare);
-            if (thisMoveIsForced(hypotheticalHistory)) {
-                forcingMoves = forcingMoves.concat(testSquare)
             }
         })
         // console.log(`forcingMoves found these: ${forcingMoves}`)
