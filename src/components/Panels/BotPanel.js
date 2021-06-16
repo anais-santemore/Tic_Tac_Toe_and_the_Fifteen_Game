@@ -58,91 +58,18 @@ export default function BotPanel(props) {
 
     let handleNewGameClick = props.handleNewGameClick
 
-    const learnButtons = (
-        <React.Fragment>
-            <UndoButton />
-            <ShowHintsButton
-                toggleShowHints={toggleShowHints}
-            />
-
-        </React.Fragment>
-    )
     function gameOver(s = status) {
         return (s === "xWins" || s === "oWins" || s === "draw")
     }
 
-    const playButtons = (
-        <React.Fragment>
-            <NewGameButton handleNewGameClick={handleNewGameClick} />
-            <HelpModal />
-        </React.Fragment>
-    )
+    
+    
 
     return (
         <Box className={classes.panel}>
             <Box className={classes.infoArea} >
                 {(mode === 'learn') ? commentaryBoard : scoreBoard}
             </Box>
-            <Box className={classes.controls} >
-                {(mode === 'learn') ? learnButtons : playButtons}
-            </Box>
-        </Box>
-    )
-}
-
-
-function UndoButton(props) {
-    const classes = useStyles();
-    const gameOver = props.gameOver
-    const moveNumber = props.moveNumber
-    const handleUndoClick = props.handleUndoClick
-    return (
-        <Button
-            className={classes.button}
-            variant="contained"
-            color="primary"
-            onClick={() => handleUndoClick()}
-        // disabled={gameOver || moveNumber < 1}
-        >
-            <UndoIcon className={classes.buttonIcon} />
-            Undo
-        </Button>
-    )
-}
-
-function ShowHintsButton(props) {
-    const classes = useStyles();
-    const toggleShowHints = props.toggleShowHints
-
-    return (
-        <Button
-            className={classes.button}
-            variant="contained"
-            color="primary"
-            onClick={() => toggleShowHints()}
-        >
-            <HelpOutlineIcon className={classes.buttonIcon} />
-            Show Hints
-        </Button>
-    )
-}
-
-
-function NewGameButton(props) {
-    const classes = useStyles();
-    const handleNewGameClick = props.handleNewGameClick;
-
-    return (
-        <Button
-            className={classes.button}
-            variant="contained"
-            color="primary"
-            onClick={() => handleNewGameClick()}
-        // disabled={!props.gameOver}
-        >
-            <ReplayIcon className={classes.buttonIcon} />
-            New&nbsp;Game
-        </Button>
     )
 }
 
