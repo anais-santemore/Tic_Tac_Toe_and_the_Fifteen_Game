@@ -80,76 +80,22 @@ export default function PlayVsBot(props) {
         </Box>
     )
 
-    // The <Game> holds all state and most helper and handler function definitions.
-    // It passes what it needs to to the board to render and to the panel.
-
-    // The board data to render is always the latest entry in history.  We will have an 'undo' but not a 'redo' button.  May add a Make Computer Move
-    function getBoardIcons(ml = moveList) {
-        let data = Array(9).fill('_');  // Start with an array representing a board of NINE empty squares
-
-        ml.forEach((squareId, turn) => {
-            if (turn % 2 === 0) {
-                data[squareId] = 'x';
-            }
-            else {
-                data[squareId] = 'o';
-            }
-        })
-        return data;  // this method only deals with current board position, not hypotheticals.  Thus, it wants to use a version of helper squaresClaimedByPlayer() that does not require a moveList be explicitly passed in. 
+    function humansNumbers(mls) {  
+        return (humanPlaysX) ? xNumbers(mls) : oNumbers(mls)
     }
-
-
-    function getBoardColors(ml = moveList) {
-        // If the game is won highlight the winning line(s), whether hints are turned on or off.
-        console.log(`getBoardData checking if there is a win to highlight`)
-        // if (gameOver() && !gameDrawn()) {
-        if (gameOver(ml)) {
-            return highlightWins();
-        }
-        console.log(`getBoardData DID NOT find a win to highlight`)
-
-        // If hints are turned off return colors [] filled with 'noColor' strings.
-        if (mode === 'play') {
-            return Array(9).fill('noColor');
-        }
-        // If hints are turned on return colors [] filled by getBoardHints().
-        if (mode === 'learn') {
-            // console.log(`Board Hints: ${getBoardHints()}`)
-            return (showHints === true) ? getBoardHints() : Array(9).fill('noColor');
+    function botsNumbers(mls) {  
+        return (humanPlaysX) ? oNumbers(mls) : xNumbers(mls)
+    }
+    function humansGoesNext(mls) {  
+        if (humanPlaysX) {
+            return (nextPlayer(mls) === "xNext")
+        } 
+        else {
+            return (nextPlayer(mls) === "oNext")
         }
     }
-
-
-    // list all squareIds not appearing in the history or an 
-    function emptySquares(ml = moveList) {
-        let emptySquaresList = [];
-        for (let i = 0; i < 9; i++) {
-            if (!ml.includes(i)) {
-                emptySquaresList.push(i)
-            }
-        }
-        // console.log(`List Empty Squares: ${emptySquaresList}`)
-        return emptySquaresList;
-    }
-
-
-    //  Squares for which the value of the Hint is yet to be determined. 
-    function unknownSquares(hints) {
-        let unknownSquares = [];
-        hints.forEach((value, index) => {
-            if (value === 'unknown') {
-                unknownSquares.push(index)
-            }
-        })
-        return unknownSquares;
-    }
-
-    // WON GAME defined: the player specified has all three squares in at least one line.
-    function wins(player, ml = moveList) {
-        return (lineCountsFor(player, ml).includes(3));
-    }
-    // function wins(player, ml = moveList) {
-    //     return (lineCountsFor(player, ml).includes(3));
+    // function botsNumbers(mls) {  // Human or Bot, Depending on mode
+    //     return (humanPlaysX) ? oNumbers(mls) : xNumbers(mls)
     // }
 
 
