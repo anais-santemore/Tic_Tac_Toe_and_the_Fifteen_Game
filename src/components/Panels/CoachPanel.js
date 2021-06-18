@@ -1,6 +1,7 @@
 import React from 'react';
 
-import { status, outcomeMap, getParent, gameOver, winningMoves, urgentDefensiveMoves, doubleAttackingMoves } from "../../logic/GameLogic";
+import { status, outcomeMap, getParent, gameOver } from "../../logic/GameLogic";
+import { winningMoves, urgentDefensiveMoves, doubleAttackingMoves } from "../../logic/BotLogic";
 
 
 // Custom Components

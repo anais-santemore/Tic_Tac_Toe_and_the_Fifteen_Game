@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 
 // My Logical Components
 import positionToOutcomeMap from "../pages/positionToOutcomeMap";
-import { status, outcome, gameOver, xHasWon, oHasWon, gameDrawn, xNumbers, oNumbers, nextPlayer, winningMoves, urgentDefensiveMoves, selectMoveRandomly, availableNumbers } from "../logic/GameLogic";
+import { status, outcome, gameOver, xHasWon, oHasWon, gameDrawn, xNumbers, oNumbers, nextPlayer, getValidMoves, availableNumbers, getChildren } from "../logic/GameLogic";
+import { selectMoveRandomly, winningMoves, urgentDefensiveMoves, winningMovesForBot, sortBotMoves } from "../logic/BotLogic";
 
 
 // My React Components
