@@ -24,7 +24,7 @@ function generateTrioList() {
     }
     return trioList
 }
-function complementOf(sumOfTwo) {
+export function complementOf(sumOfTwo) {
     return (15 - sumOfTwo)
 }
 
@@ -187,39 +187,8 @@ function moveListArrayToString(mla) {               // [1,2,3] --> "123"
 }
 
 
-/////////////////////////////////////////////////////////////////////////
-// Coach & Bot Logic: Immediately Winning & Urgent Defensive Moves 
-/////////////////////////////////////////////////////////////////////////
-export function winningMoves(mls) {
-    if (nextPlayer(mls) === "xNext") {
-        let complements = sumsOfTwo(xNumbers(mls)).map(sum => complementOf(sum))
-        return intersect(availableNumbers(mls), complements)
-    }
-    else {
-        let complements = sumsOfTwo(oNumbers(mls)).map(sum => complementOf(sum))
-        return intersect(availableNumbers(mls), complements)
-    }
-}
-export function urgentDefensiveMoves(mls) {
-    if (nextPlayer(mls) === "xNext") {
-        let complements = sumsOfTwo(oNumbers(mls)).map(sum => complementOf(sum))
-        return intersect(availableNumbers(mls), complements)
-    }
-    else {
-        let complements = sumsOfTwo(xNumbers(mls)).map(sum => complementOf(sum))
-        return intersect(availableNumbers(mls), complements)
-    }
-}
-export function doubleAttackingMoves(mls) {
-    let doubleAttackingMoves = availableNumbers(mls).filter(num => urgentDefensiveMoves(mls.concat(num)).length > 1)
-    return doubleAttackingMoves
-}
 
 
-// Randomly selects a move from a list of possible next moves.
-export function selectMoveRandomly(moveSet) {
-    return moveSet[Math.floor(Math.random() * moveSet.length)]
-}
 
 
 
@@ -232,7 +201,7 @@ export function getChildren(mls) {
     // this.validMoves(mls).forEach(move => children.push(mls + move))
     return children
 }
-function getValidMoves(mls) {
+export function getValidMoves(mls) {
     return (gameOver(mls)) ? [] : availableNumbers(mls)
 }
 export function availableNumbers(mls) {
@@ -268,7 +237,7 @@ function sumsOfThree(moveSet) {
     }
     return sums
 }
-function sumsOfTwo(moveSet) {
+export function sumsOfTwo(moveSet) {
     let sums = []
     if (moveSet.length < 2) {
         return sums
