@@ -57,6 +57,8 @@ export default function BotPanel(props) {
     let record = props.record
 
     let handleNewGameClick = props.handleNewGameClick
+    let handleBotGoFirstClick = props.handleBotGoFirstClick
+
 
     function gameOver(s = status) {
         return (s === "xWins" || s === "oWins" || s === "draw")
