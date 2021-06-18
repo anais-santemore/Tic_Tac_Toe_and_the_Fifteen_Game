@@ -238,43 +238,53 @@ export default function PlayVsBot(props) {
     // In HARD mode Bot looks for forcing moves that will allow it to make double attacks on its next move.
     // In HARD mode Bot avoids letting Player make forcing moves that will lead to double attacks.
     function hardProtocol(ml) {
-        console.log(`Hard Protocol called for move list: [${ml}]`)
-        if (ml.length <= 1) {
-            return getOpeningBookMove(ml)
+        console.log(`Outcome Graph Hard Protocol called for move list: [${ml}]`)
+        console.time('getHardFromGraph')
+
+        let sorted = sortBotMoves(ml, humanPlaysX)
+        
+        console.log(`BOT SORTED its choices from position [${ml}]:`)
+        console.log(`Bot found these Winning Moves: ${sorted.winningForBot}`)  
+        console.log(`Bot found these Drawing Moves: ${sorted.drawing}`)
+        console.log(`Bot found these Losing Moves: ${sorted.winningForHuman}`)
+
+
+        if (sorted.winningForBot.length > 0) {
+            return selectMoveRandomly(sorted.winningForBot)
         }
-        else if (nextMoveIsForced(ml)) {
-            let forced = forcedMoves(ml)
-            console.log(`Bot found forced moves: ${forced}`)
-            return selectMoveRandomly(forced)
+        else if (sorted.drawing.length > 0) {
+            return selectMoveRandomly(sorted.drawing)
         }
         else {
-            let sorted = sortMoves(ml)
-            console.log(`BOT SORTED its choices from position [${ml}]:`)
-            console.log(`   winning: ${sorted.winningForBot}`)
-            console.log(`   drawing: ${sorted.drawing}`)
-            console.log(`   losing:  ${sorted.winningForHuman}`)
-            console.log(`   uncertain:  ${sorted.uncertain}`)
-            return pickBestMove(sorted)
+            console.error(`Bot Found NEITHER Winning NOR Drawing Moves!!! Picking from Losing Moves: ${sorted.winningForHuman} `)
+            return selectMoveRandomly(sorted.winningForHuman)    
         }
+        
+        
     }
+    // function hardProtocolWithShortcuts(ml) {
+    //     console.log(`Hard Protocol called for move list: [${ml}]`)
+    //     if (ml.length <= 1) {
+    //         return getOpeningBookMove(ml)
+    //     }
+    //     let wins = winningMoves(ml)
+    //     let blocks = urgentDefensiveMoves(ml)
 
-    function getOpeningBookMove(ml = moveList) {
-        console.assert(ml.length < 2)
-        console.log(`BOT MAKING AN OPENING BOOK MOVE.`)
+    //     if (wins.length > 0) {
+    //         return selectMoveRandomly(wins)
+    //     }
+    //     else if (blocks.length > 0) {
+    //         return selectMoveRandomly(blocks)
+    //     }
 
-        if (ml.length === 0) {
-            return selectMoveRandomly(unclaimedNumbers(ml))
-        }
-        else if (ml[0] === 5) {
-            return selectMoveRandomly([2, 4, 6, 8])
-        }
-        else if (ml[0] % 2 === 0) {  // If player took a corner, bot must take center.
-            return [5]
-        }
-        else {
-            return selectMoveRandomly(blockingMoves(ml))
-        }
-    }
+    //     else {
+
+
+    //     }
+    // }
+
+    
+
     function pickBestMove(sorted) {
         if (sorted.winningForBot.length > 0) {
             console.log(`Bot Found Winning Moves: ${sorted.winningForBot}`)
