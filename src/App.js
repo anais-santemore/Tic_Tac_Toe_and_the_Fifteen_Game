@@ -12,8 +12,8 @@ import './styles/App.css';
 // My Components & Pages
 import Navbar from './components/Navbar/Navbar';
 import WelcomePage from "./pages/WelcomePage";
-import MagicSquares from "./pages/MagicSquares";
-import StrategyPage from "./pages/StrategyPage";
+// import MagicSquares from "./pages/MagicSquares";
+// import StrategyPage from "./pages/StrategyPage";
 
 import PlayVsHuman from './pages/PlayVsHuman';
 import PlayVsBot from './pages/PlayVsBot';
@@ -103,10 +103,10 @@ export default function App() {
 
                                 
 
-                                <Route path="/magic_squares">
+                                {/* <Route path="/magic_squares">
                                     <Navbar pageTitle={"Learn about Magic Squares"} />
                                     <MagicSquares />
-                                </Route>
+                                </Route> */}
 
 
                             </Switch>
