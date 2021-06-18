@@ -8,7 +8,7 @@ import Button from '@material-ui/core/Button';
 // MUI Icons
 
 // Custom Styling
-import '../App.css';
+import '../../styles/App.css';
 import { makeStyles } from '@material-ui/core/styles';
 const useStyles = makeStyles((theme) => ({
     buttonArea: {
