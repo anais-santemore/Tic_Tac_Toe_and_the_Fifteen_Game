@@ -161,7 +161,9 @@ export default function PlayVsBot(props) {
     
     
     function handleNewGameClick() {
-        setMoveList(startingPosition);
+        setGameNumber(++gameNumber)
+        setHumanPlaysX(true)
+        setMoveList(startingPosition)
     }
 
     function handleBotGoFirstClick() {
