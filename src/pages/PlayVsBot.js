@@ -87,7 +87,7 @@ export default function PlayVsBot(props) {
     function botsNumbers(mls) {  
         return (humanPlaysX) ? oNumbers(mls) : xNumbers(mls)
     }
-    function humansGoesNext(mls) {  
+    function humanGoesNext(mls) {  
         if (humanPlaysX) {
             return (nextPlayer(mls) === "xNext")
         } 
@@ -95,10 +95,7 @@ export default function PlayVsBot(props) {
             return (nextPlayer(mls) === "oNext")
         }
     }
-    // function botsNumbers(mls) {  // Human or Bot, Depending on mode
-    //     return (humanPlaysX) ? oNumbers(mls) : xNumbers(mls)
-    // }
-
+    
 
     // CLICK HANDLERS
     function handleSquareClick(squareClickedString) {
@@ -119,7 +116,7 @@ export default function PlayVsBot(props) {
     }
     function handleCardClick(cardClicked) {
         // console.log(`handleCardClick called with cardId: ${cardClicked} `)
-        if (humansGoesNext(moveList)) {
+        if (humanGoesNext(moveList)) {
             console.warn("NO EFFECT. Be patient, the bot takes a second to move. ")
             return 1
         }
