@@ -50,11 +50,11 @@ export default function PlayVsBot(props) {
     const classes = useStyles();
 
     const xGoesFirst = true  // X always goes first
+    let [humanPlaysX, setHumanPlaysX] = useState(true);
     
     let startingPosition = ""  // vs []
     let [moveList, setMoveList] = useState(startingPosition);
 
-    let [humanPlaysX, setHumanPlaysX] = useState(true);
     let [gameNumber, setGameNumber] = useState(1);
     let [record, setRecord] = useState([0, 0, 0]);
 
