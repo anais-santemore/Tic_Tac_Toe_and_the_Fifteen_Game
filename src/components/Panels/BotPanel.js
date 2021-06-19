@@ -26,20 +26,15 @@ const useStyles = makeStyles((theme) => ({
     },
     infoArea: {
         // border: 'solid red 1px',
-        flex: '1 0 65%',
+        // flex: '1 0 50%',
         display: 'flex',
         flexDirection: 'column',
-        padding: '1.0rem 2.0rem 0.0rem ',
+        padding: '1.0rem 1.0rem 2.0rem',
     },
     controls: {
         // border: 'solid green 1px',
-        flex: '1 0 35%',
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'center',
-        alignItems: 'center',
     },
-
+    
 }));
 
 export default function BotPanel(props) {
