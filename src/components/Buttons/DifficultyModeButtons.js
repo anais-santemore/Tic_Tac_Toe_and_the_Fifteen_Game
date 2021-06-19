@@ -14,11 +14,8 @@ import Button from '@material-ui/core/Button';
 import '../../styles/App.css';
 import { makeStyles } from '@material-ui/core/styles';
 const useStyles = makeStyles((theme) => ({
-    buttonArea: {
-        // border: 'solid green 1px',
-        padding: '1.5rem 0rem',
-    },
     button: {
+
         color: theme.palette.common.white,
         backgroundColor: theme.palette.primary.main,
         // margin: '0.35rem 0rem',
