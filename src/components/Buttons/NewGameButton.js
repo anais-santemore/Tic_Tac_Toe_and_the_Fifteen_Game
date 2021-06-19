@@ -23,14 +23,13 @@ const useStyles = makeStyles((theme) => ({
 
 export default function NewGameButton(props) {
     const classes = useStyles();
-    const handleNewGameClick = props.handleNewGameClick;
 
     return (
         <Button
             className={classes.button}
             variant="contained"
             color="primary"
-            onClick={() => handleNewGameClick()}
+            onClick={() => props.handleNewGameClick()}
             disabled={!props.gameOver}
         >
             <ReplayIcon className={classes.buttonIcon} />
