@@ -53,18 +53,17 @@ export default function BotPanel(props) {
         return (s === "xWins" || s === "oWins" || s === "draw")
     }
 
-    
-    
-
     return (
         <Container maxWidth='sm' className={classes.panel} >
             <Box className={classes.infoArea} >
-                <GameNumber
-                    gameNumber={gameNumber}
-                />
-                <StatusHeader
-                    moveList={moveList}
-                />
+                <Box display="flex" justifyContent="center" color="textPrimary" >
+                    <GameNumber 
+                        gameNumber={gameNumber}
+                    />&nbsp;&nbsp;&nbsp;
+                    <StatusHeader 
+                        moveList={moveList}
+                    />
+                </Box>
                 <WinLossDrawRecord
                     playMode="humanVsHuman"
                     record={record}
