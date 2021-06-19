@@ -29,6 +29,14 @@ const theme = createMuiTheme({
             disabledOpacity: '0.5'
         }
     },
+    typography: {
+        h4: {
+            lineHeight: 1.0
+        },
+        h5: {
+            lineHeight: 1.2
+        }
+    },
     status: {
         danger: 'orange',
     },
