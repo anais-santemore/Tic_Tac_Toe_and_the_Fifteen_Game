@@ -32,7 +32,9 @@ export default function NewGameButton(props) {
             onClick={() => props.handleNewGameClick()}
             disabled={!props.gameOver}
         >
-            <ReplayIcon className={classes.buttonIcon} />
+            <Box mr={2} display="flex" alignContent="center" >
+                <ReplayIcon />
+            </Box>
             New&nbsp;Game
         </Button>
     )
