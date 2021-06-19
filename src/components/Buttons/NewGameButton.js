@@ -21,13 +21,6 @@ const useStyles = makeStyles((theme) => ({
         height: '3.0rem',
         fontSize: '1.2rem',
     },
-    buttonIcon: {
-        marginRight: '1vmin',
-        fontSize: 'larger'
-        // fontSize: 'min(max(0.7rem, 3vmin), 22px)',
-    },
-
-
 }));
 
 export default function NewGameButton(props) {
