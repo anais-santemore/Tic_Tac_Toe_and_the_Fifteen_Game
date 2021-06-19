@@ -22,10 +22,6 @@ const useStyles = makeStyles((theme) => ({
 
 export default function DifficultyModeButtons(props) {
     const classes = useStyles();
-
-    const moveNumber = props.moveNumber;
-    const handleLetBotGoFirstClick = props.handleLetBotGoFirstClick
-
     
     return (
         <Button
