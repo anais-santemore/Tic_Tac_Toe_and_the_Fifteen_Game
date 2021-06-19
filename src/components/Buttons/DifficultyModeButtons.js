@@ -58,7 +58,7 @@ export default function DifficultyModeButtons(props) {
         <Button
             className={`${classes.button} ${difficultyMode === "easy" ? classes.selectedButton : classes.unselectedButton} `}
             variant={'contained'}
-            onClick={() => handleDifficultyModeChange("easy")}
+            onClick={() => props.handleDifficultyModeChange("easy")}
         >
             Easy
         </Button>
@@ -68,7 +68,7 @@ export default function DifficultyModeButtons(props) {
         <Button
             className={`${classes.button} ${difficultyMode === "medium" ? classes.selectedButton : classes.unselectedButton} `}
             variant={'contained'}
-            onClick={() => handleDifficultyModeChange("medium")}
+            onClick={() => props.handleDifficultyModeChange("medium")}
         >
             Medium
         </Button>
@@ -78,7 +78,7 @@ export default function DifficultyModeButtons(props) {
         <Button
             className={`${classes.button} ${difficultyMode === "hard" ? classes.selectedButton : classes.unselectedButton} `}
             variant={'contained'}
-            onClick={() => handleDifficultyModeChange("hard")}
+            onClick={() => props.handleDifficultyModeChange("hard")}
         >
             Hard
         </Button>
