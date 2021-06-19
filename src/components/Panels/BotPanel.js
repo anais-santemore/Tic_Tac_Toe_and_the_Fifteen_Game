@@ -66,6 +66,7 @@ export default function BotPanel(props) {
                 </Box>
                 <WinLossDrawRecord
                     playMode="humanVsBot"
+                    humanPlaysX={props.humanPlaysX}
                     record={record}
                 />
             </Box>
