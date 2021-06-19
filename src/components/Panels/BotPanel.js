@@ -13,12 +13,6 @@ import BotGoFirstButton from '../../components/Buttons/BotGoFirstButton'
  
 // MUI Components
 import { Box, Grid, Container } from '@material-ui/core';
-import Paper from '@material-ui/core/Paper';
-import Typography from '@material-ui/core/Typography';
-import Switch from '@material-ui/core/Switch';
-
-
-import ReplayIcon from '@material-ui/icons/Replay';
 
 // Custom Styling
 import { makeStyles } from '@material-ui/core/styles';
