@@ -70,12 +70,14 @@ export default function BotPanel(props) {
                     record={record}
                 />
             </Box>
-            <Grid container spacing={3} className={classes.buttonArea} >
-                <DifficultyModeButtons />
-            </Grid>
-
-            <Grid container spacing={3} className={classes.buttonArea} >
-                <Grid item xs={12} sm={6}  >
+            <Grid container spacing={3} className={classes.controls} >
+                <Grid item xs={12}  >
+                    <DifficultyModeButtons 
+                        difficultyMode={props.difficultyMode}
+                        handleDifficultyModeChange={props.handleDifficultyModeChange}
+                    />
+                </Grid>
+                <Grid item xs={6}   >
                     <NewGameButton
                         gameOver={gameOver()}
                         handleNewGameClick={handleNewGameClick}
