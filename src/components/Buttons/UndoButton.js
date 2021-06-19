@@ -23,9 +23,6 @@ const useStyles = makeStyles((theme) => ({
 
 export default function UndoButton(props) {
     const classes = useStyles();
-    const moveList = props.moveList
-    
-    const handleUndoClick = props.handleUndoClick
 
     return (
         <Button
