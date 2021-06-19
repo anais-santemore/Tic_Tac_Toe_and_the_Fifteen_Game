@@ -40,7 +40,7 @@ export default function DifficultyModeButtons(props) {
     const moveNumber = props.moveNumber;
     const handleLetBotGoFirstClick = props.handleLetBotGoFirstClick
     const difficultyMode = props.difficultyMode
-    const handleDifficultyModeChange = props.handleDifficultyModeChange
+    // const handleDifficultyModeChange = props.handleDifficultyModeChange
 
     const letBotGoFirstButton = (
         <Button
