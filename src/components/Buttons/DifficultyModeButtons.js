@@ -86,29 +86,16 @@ export default function DifficultyModeButtons(props) {
 
 
     return (
-        <Box className={classes.panel}>
-            <Container maxWidth='sm'>
-                <Grid container spacing={3} className={classes.buttonArea} >
-                    <Grid item xs={4}  >
-                        {easyButton}
-                    </Grid>
-                    <Grid item xs={4}  >
-                        {mediumButton}
-                    </Grid>
-                    <Grid item xs={4}  >
-                        {hardButton}
-                    </Grid>
-                    {/* <Grid item xs={6}>
-                        {letBotGoFirstButton}
-                    </Grid>
-                    <Grid item xs={6}>
-                        {newGameButton}
-                    </Grid> */}
-                </Grid>
-
-            </Container>
-
-        </Box>
+        <Grid container spacing={3} >
+            <Grid item xs={4}  >
+                {easyButton}
+            </Grid>
+            <Grid item xs={4}  >
+                {mediumButton}
+            </Grid>
+            <Grid item xs={4}  >
+                {hardButton}
+            </Grid>
+        </Grid>
     )
-
 }
