@@ -32,7 +32,9 @@ export default function UndoButton(props) {
             disabled={props.gameOver || moveNumber(moveList) === 1}
             onClick={() => props.handleUndoClick()}
         >
-            <UndoIcon className={classes.buttonIcon} />
+            <Box mr={2} display="flex" alignContent="center" >
+                <UndoIcon />
+            </Box>
             Undo
         </Button>
     )
