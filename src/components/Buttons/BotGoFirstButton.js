@@ -28,8 +28,8 @@ export default function DifficultyModeButtons(props) {
             variant="contained"
             color="primary"
             className={classes.button}
-            disabled={moveNumber !== 1}
             onClick={() => props.handleLetBotGoFirstClick()}
+            disabled={props.moveList.length !== 0}
         >
             Let&nbsp;Bot&nbsp;Go&nbsp;First
         </Button>
