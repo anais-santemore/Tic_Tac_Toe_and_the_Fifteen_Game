@@ -70,7 +70,7 @@ export default function PlayVsHuman() {
     ///////////////////////////////////////////////////
     // CLICK HANDLERS
     ///////////////////////////////////////////////////
-    function handleSquareClick(squareClicked) {
+    function handleBoardClick(squareClicked) {
         if (gameOver(moveList)) {
             console.log("return without effects from handleSquareClick(). The Game is already over.")
             return;
