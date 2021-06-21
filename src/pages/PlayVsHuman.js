@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import {status, gameOver, xHasWon, oHasWon, gameDrawn} from "../logic/GameLogic";
 
 // My React  Components
-import Board from "../components/Board";
+import TicTacToeBoard from "../components/TicTacToeBoard";
 import Panel from "../components/Panels/HumanPanel";
 
 // MUI  components
@@ -63,7 +63,7 @@ export default function PlayVsHuman() {
         <Box className={classes.root} >
             <Box className={classes.boardContainer}>
                 <Box className={classes.boardArea} >
-                    <Board
+                    <TicTacToeBoard
                         moveList={moveList}
                         handleSquareClick={handleSquareClick}
                     />
