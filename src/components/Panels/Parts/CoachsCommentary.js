@@ -93,7 +93,7 @@ export default function CoachsCommentary(props) {
             case "missedWin":
                 comment = `${next} made the first mistake and gave ${prev} a chance to force a win, but ${prev} replied with
                 another mistake and now they have missed missed that chance to win! Look for forcing moves that lead to double
-                attacks and you will avoid mistakes like the one ${prev} kist made.`
+                attacks and you will avoid mistakes like the one ${prev} just made.`
                 break;
             case "sound":
                 comment = `Good. The last move by ${prev} was "sound" meaning it has not hurt their worst case outcome: previously
