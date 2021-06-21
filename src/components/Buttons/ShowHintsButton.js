@@ -18,13 +18,6 @@ const useStyles = makeStyles((theme) => ({
         height: '2.1rem',
         fontSize: '1rem',
     },
-    buttonIcon: {
-        marginRight: '1vmin',
-        fontSize: 'larger'
-        // fontSize: 'min(max(0.7rem, 3vmin), 22px)',
-    },
-
-
 }));
 
 export default function ShowHintsButton(props) {
@@ -39,7 +32,9 @@ export default function ShowHintsButton(props) {
             color="primary"
             onClick={() => toggleShowHints()}
         >
-            <HelpOutlineIcon className={classes.buttonIcon} />
+            <Box mr={2} display="flex" alignContent="center" >
+                <HelpOutlineIcon />
+            </Box>
             Show Hints
         </Button>
     )
