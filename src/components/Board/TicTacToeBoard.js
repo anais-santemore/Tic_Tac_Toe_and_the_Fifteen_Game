@@ -83,14 +83,7 @@ const useStyles = makeStyles((theme) => ({
 export default function Board(props) {
     const classes = useStyles();    
     const boardNumbers = [2,9,4,7,5,3,6,1,8]
-    // const boardIcons = props.boardIcons;
-    // const boardColors = props.boardColors; // Array of 9 strings 'noColor', 'unclaimed', 'claimed', 'win', 'draw', 'lose'.
     let moveList = props.moveList
-    let showHints = props.showHints
-    // let handleSquareClick = props.handleSquareClick
-    let handleCardClick = props.handleCardClick
-
-
     let gameStatus = status(moveList)
 
     function getBoardIcons(mls) {
