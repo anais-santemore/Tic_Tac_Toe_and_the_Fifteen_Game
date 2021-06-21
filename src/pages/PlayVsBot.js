@@ -122,14 +122,24 @@ export default function PlayVsBot(props) {
         // console.assert(gameIsOver(ml), `NO EFFECT. handleGameOver called but the game isn't actually over!`)
         let result = status(ml)
 
-        if (result === "Game Over. Draw.") {
+        if (result === "draw") {
             setRecord([record[0], record[1], ++record[2]])
         }
-        else if (result === "Player Wins!") {
-            setRecord([++record[0], record[1], record[2]])
+        else if (result === "xWins") {
+            if (humanPlaysX) {
+                setRecord([++record[0], record[1], record[2]])
+            }
+            else {
+                setRecord([record[0], ++record[1], record[2]])
+            }
         }
-        else if (result === "Bot Wins!") {
-            setRecord([record[0], ++record[1], record[2]])
+        else if (result === "oWins") {
+            if (humanPlaysX) {
+                setRecord([record[0], ++record[1], record[2]])
+            }
+            else {
+                setRecord([++record[0], record[1], record[2]])
+            }
         }
         else {
             console.error(`handleGameOver called with invalid game result: ${result}. `)
