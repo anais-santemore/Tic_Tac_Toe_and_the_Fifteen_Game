@@ -52,9 +52,8 @@ const useStyles = makeStyles((theme) => ({
     },
     container: {
         // maxWidth='md' --> max-width: 960px;
-        // border: 'solid red 1px',
         backgroundColor: theme.palette.common.black,
-        height: '100vh',
+        height: '95vh',
         display: 'flex',
         flexDirection: 'column',
     },
