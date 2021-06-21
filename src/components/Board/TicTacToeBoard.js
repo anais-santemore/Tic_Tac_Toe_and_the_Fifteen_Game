@@ -35,49 +35,13 @@ const useStyles = makeStyles((theme) => ({
         // margin: '1rem 0.0rem',
     },
     row: {
-        // border: 'solid blue 1px',
-        width: '100%',
-        height: '30%',
-        margin: '0.3rem 0.0rem',
-
+        // border: 'solid purple 1px',
+        width: '95%',  
+        height: '31%',
         display: 'flex',
-        flexWrap: 'wrap',
-        alignItems: 'center',
-        justifyContent: 'center',
+        flexDirection: 'row',
+        justifyContent: 'space-between'
     },
-
-    unknown: {
-        backgroundColor: '#bbf',
-    },
-    noColor: {
-        // backgroundColor: '#FFF',  // This is used for Hints turned off mode.
-        backgroundColor: '#ddd',
-    },
-    claimed: {
-        backgroundColor: '#eee',
-    },
-    unclaimed: {
-        backgroundColor: '#ddd',
-    },
-    win: {
-        backgroundColor: '#3B3'
-    },
-    draw: {
-        // backgroundColor: '#55bb00',
-        backgroundColor: '#FF3'
-    },
-    lose: {
-        // backgroundColor: '#88ee33'
-        backgroundColor: '#F44'
-    },
-    prev: {
-        backgroundColor: '#3B3'
-    },
-    next: {
-        // backgroundColor: '#88ee33'
-        backgroundColor: '#F44'
-    },
-
 }));
 
 export default function Board(props) {
