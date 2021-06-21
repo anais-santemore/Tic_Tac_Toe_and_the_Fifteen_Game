@@ -13,14 +13,10 @@ import {
 } from "../../logic/GameLogic";
 
 // My Components
-// import Square from "./Square";
+import Square from "./Square";
 
 // MUI  components
 import Box from '@material-ui/core/Box';
-import Paper from '@material-ui/core/Paper';
-import Typography from '@material-ui/core/Typography';
-import ClearIcon from '@material-ui/icons/Clear';
-import RadioButtonUncheckedIcon from '@material-ui/icons/RadioButtonUnchecked';
 
 // Custom Styling
 import { makeStyles } from '@material-ui/core/styles';
@@ -49,28 +45,6 @@ const useStyles = makeStyles((theme) => ({
         alignItems: 'center',
         justifyContent: 'center',
     },
-    square: {
-        width: 'min(30%, 15vh)',
-        height: '100%',
-        margin: '0.0rem 0.3rem',
-        backgroundColor: theme.palette.common.white,
-
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-
-    },
-    iconX: {
-        width: '100%',
-        height: '100%',
-        color: theme.palette.common.black
-    },
-    iconO: {
-        width: '80%',
-        height: '80%',
-        color: theme.palette.common.black
-    },
-
 
     unknown: {
         backgroundColor: '#bbf',
@@ -226,64 +200,6 @@ function Row(props) {
     )
 }
 
-function Square(props) {
-    const classes = useStyles();
-    const number = props.number
-    const icon = props.icon
-    const color = props.color  // String 'win', 'draw', 'lose', 'unknown', 'claimed',  
-    const handleClick = props.handleClick
 
 
-    let squareIcon;
-    switch (icon) {
-        case 'x':
-            squareIcon = <ClearIcon className={classes.iconX} />
-            break;
-        case 'o':
-            squareIcon = <RadioButtonUncheckedIcon className={classes.iconO} />
-            break;
-        case '_':
-            // squareIcon = null
-            squareIcon = <Typography variant='h3' color='textSecondary' >{number}</Typography>;
-            break;
-        default:
-            console.error("Square passed symbol not 'x' 'o' or '_'");
-    }
 
-    let className;
-    switch (color) {
-        case 'unknown':
-            className = `${classes.square} ${classes.unknown} `
-            break;
-        case 'claimed':
-            className = `${classes.square} ${classes.claimed} `
-            break;
-        case 'unclaimed':
-            className = `${classes.square} ${classes.unclaimed} `
-            break;
-        case 'noColor':
-            className = `${classes.square} ${classes.noColor} `
-            break;
-        case 'draw':
-            className = `${classes.square} ${classes.draw} `
-            break;
-        case 'win':
-            className = `${classes.square} ${classes.win} `
-            break;
-        case 'lose':
-            className = `${classes.square} ${classes.lose} `
-            break;
-        default:
-            className = `${classes.square} `
-    }
-
-    return (
-        <Paper
-            elevation={4}
-            className={className}
-            onClick={() => handleClick(number.toString())}
-        >
-            {squareIcon}
-        </Paper>
-    )
-}
