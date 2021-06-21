@@ -91,29 +91,12 @@ export default function PlayVsBot(props) {
     
 
     // CLICK HANDLERS
-    function handleSquareClick(squareClickedString) {
-        if (gameOver(moveList)) {
-            console.log("return without effects from handleSquareClick(). The Game is already over.")
-            return;
-        }
-        if (moveList.includes(squareClickedString)) {
-            console.log("return without effects from handleSquareClick(). That square has already been claimed.")
-            return;
-        }
-        // If we reach this point the clicked square is open and the game is not over yet ... 
-        let updatedMoveList = moveList.concat(squareClickedString)
-        console.log(`MoveList: ${updatedMoveList}`)
-
-        setMoveList(updatedMoveList);
-        // This function does not pass along any of its results, it acts thru side-effects. It calls setHistory and use of that hook tells React it needs to re-render all components that depend on the state "history".
-    }
-    function handleCardClick(cardClicked) {
-        // console.log(`handleCardClick called with cardId: ${cardClicked} `)
-        if (humanGoesNext(moveList)) {
+    function handleBoardClick(num) {
+        if (!humanGoesNext(moveList)) {
             console.warn("NO EFFECT. Be patient, the bot takes a second to move. ")
             return 1
         }
-        else if (moveList.includes(cardClicked)) {
+        else if (moveList.includes(num)) {
             console.warn("NO EFFECT. That number has already been claimed.")
             return 1
         }
@@ -122,7 +105,7 @@ export default function PlayVsBot(props) {
             return 1
         }
         else {
-            let updatedMoveList = moveList.concat(cardClicked)
+            let updatedMoveList = moveList.concat(num)
             // console.log(`updatedMoveList: ${updatedMoveList} `)
             setMoveList(updatedMoveList)
             if (gameOver(updatedMoveList)) {
@@ -133,6 +116,8 @@ export default function PlayVsBot(props) {
             return 0
         }
     }
+
+
     function handleGameOver(ml) {
         // console.assert(gameIsOver(ml), `NO EFFECT. handleGameOver called but the game isn't actually over!`)
         let result = status(ml)
