@@ -25,14 +25,14 @@ const useStyles = makeStyles((theme) => ({
     },
     infoArea: {
         // border: 'solid red 1px',
-        flex: '1 0 55%',
+        flex: '1 0 50%',
         display: 'flex',
         flexDirection: 'column',
+        padding: '1.0rem',
     },
-    buttonArea: {
-        // border: 'solid red 1px',
-        flex: '1 0 45%',
-        display: 'flex',
+    controls: {
+        // border: 'solid green 1px',
+        flex: '1 0 50%',
     },
 }));
 
