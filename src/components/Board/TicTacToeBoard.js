@@ -10,7 +10,7 @@ import {
     intersect, 
     availableNumbers,
     moveListStringToArray
-} from "../logic/GameLogic";
+} from "../../logic/GameLogic";
 
 // My Components
 // import Square from "./Square";
