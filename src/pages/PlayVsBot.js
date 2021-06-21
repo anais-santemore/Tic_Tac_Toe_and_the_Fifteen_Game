@@ -19,7 +19,7 @@ import { makeStyles } from '@material-ui/core/styles';
 const useStyles = makeStyles((theme) => ({
     root: {
         width: '100%',
-        height: 'calc(100% - 3.8rem)',
+        height: 'calc(100% - 3.6rem)',
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'space-between',
