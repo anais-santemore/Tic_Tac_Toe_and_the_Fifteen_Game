@@ -16,9 +16,6 @@ const useStyles = makeStyles((theme) => ({
     commetaryBox: {
         color: theme.palette.common.white,
         width: '100%',
-        padding: '0rem 1.0rem',
-        flex: '2 1 10vh',
-        // margin: '1rem auto',
     },
 }));
 
