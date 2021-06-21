@@ -215,7 +215,7 @@ function Row(props) {
                 number={rowNumbers[col]}
                 icon={boardIcons[rowNumbers[col]]}
                 color={boardColors[rowNumbers[col]]}
-                handleClick={handleSquareClick}
+                handleClick={handleCardClick}
             />;
         squares.push(newSquare);
     }
