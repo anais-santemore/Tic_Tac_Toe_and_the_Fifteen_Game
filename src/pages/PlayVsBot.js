@@ -30,8 +30,7 @@ const useStyles = makeStyles((theme) => ({
     },
     panelArea: {
         width: '100%',
-        flex: '2 1 35vh',
-        margin: '0rem auto',
+        height: '45vh',
     },
 }));
 
