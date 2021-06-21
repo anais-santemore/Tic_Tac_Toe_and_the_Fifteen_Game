@@ -82,9 +82,8 @@ export default function BotPanel(props) {
                         gameOver={gameOver(props.status)}
                         handleNewGameClick={handleNewGameClick}
                     />
-
                 </Grid>
-                <Grid item xs={12} sm={6}   >
+                <Grid item xs={6}    >
                     <BotGoFirstButton 
                         gameOver={false}
                         moveList={moveList}
