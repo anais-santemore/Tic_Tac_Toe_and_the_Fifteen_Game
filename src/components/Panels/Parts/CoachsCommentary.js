@@ -14,7 +14,6 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 const useStyles = makeStyles((theme) => ({
     commetaryBox: {
-        // border: 'solid yellow 1px',
         color: theme.palette.common.white,
         width: '100%',
         padding: '0rem 1.0rem',

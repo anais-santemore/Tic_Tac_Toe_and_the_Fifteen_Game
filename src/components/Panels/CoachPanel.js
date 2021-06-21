@@ -20,20 +20,17 @@ import { makeStyles } from '@material-ui/core/styles';
 import { Grid } from '@material-ui/core';
 const useStyles = makeStyles((theme) => ({
     panel: {
-        // border: 'solid orange 1px',
         width: '100%',
         height: '100%',
         display: 'flex',
         flexDirection: 'column',
     },
     infoArea: {
-        // border: 'solid red 1px',
         flex: '1 0 55%',
         display: 'flex',
         flexDirection: 'column',
     },
     buttonArea: {
-        // border: 'solid red 1px',
         flex: '1 0 45%',
         display: 'flex',
     },
