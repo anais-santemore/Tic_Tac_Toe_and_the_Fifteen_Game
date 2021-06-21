@@ -6,7 +6,7 @@ import { status, outcome, gameOver, xHasWon, oHasWon, gameDrawn } from "../logic
 
 
 // My React Components
-import TicTacToeBoard from "../components/TicTacToeBoard";
+import TicTacToeBoard from "../components/Board/TicTacToeBoard";
 import CoachPanel from "../components/Panels/CoachPanel";
 
 // MUI  components

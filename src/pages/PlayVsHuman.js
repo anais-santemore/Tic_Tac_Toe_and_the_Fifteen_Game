@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import {status, gameOver, xHasWon, oHasWon, gameDrawn} from "../logic/GameLogic";
 
 // My React  Components
-import TicTacToeBoard from "../components/TicTacToeBoard";
+import TicTacToeBoard from "../components/Board/TicTacToeBoard";
 import Panel from "../components/Panels/HumanPanel";
 
 // MUI  components
