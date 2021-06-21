@@ -173,30 +173,35 @@ export default function Board(props) {
 
 
 
-function Row(props) {
-    const classes = useStyles();
-    const rowId = props.rowId;
-    const rowNumbers = props.rowNumbers;
-    const boardIcons = props.boardIcons;
-    const boardColors = props.boardColors;
-    const handleSquareClick = props.handleSquareClick
-
-    let squares = [];
-    for (let col = 0; col < 3; col++) {
+    let squares = []
+    boardNumbers.forEach(num => {
         let newSquare =
             <Square
-                key={rowNumbers[col]}
-                number={rowNumbers[col]}
-                icon={boardIcons[rowNumbers[col]]}
-                color={boardColors[rowNumbers[col]]}
-                handleClick={handleCardClick}
-            />;
+                key={num}
+                number={num}
+                icon={boardIcons[num]}
+                color={boardColors[num]}
+                handleBoardClick={props.handleBoardClick}
+            />
         squares.push(newSquare);
-    }
+    })
+
     return (
-        <Box className={classes.row}>
-            {squares}
+        <Box className={classes.board} >
+            <Box className={classes.row} >
+                {squares.slice(0,3)}
+            </Box>
+            <Box className={classes.row} >
+                {squares.slice(3, 6)}
+            </Box>
+            <Box className={classes.row} >
+                {squares.slice(6, 9)}
+            </Box>
         </Box>
+
+        // <Grid container className={classes.board}>
+        //     {squares}
+        // </Grid>
     )
 }
 
