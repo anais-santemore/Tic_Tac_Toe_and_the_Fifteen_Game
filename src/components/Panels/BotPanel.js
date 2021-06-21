@@ -79,7 +79,7 @@ export default function BotPanel(props) {
                 </Grid>
                 <Grid item xs={6}   >
                     <NewGameButton
-                        gameOver={gameOver()}
+                        gameOver={gameOver(props.status)}
                         handleNewGameClick={handleNewGameClick}
                     />
 
