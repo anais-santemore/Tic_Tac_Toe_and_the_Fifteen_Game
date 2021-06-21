@@ -22,20 +22,11 @@ const useStyles = makeStyles((theme) => ({
         height: 'calc(100% - 3.6rem)',
         display: 'flex',
         flexDirection: 'column',
-        alignItems: 'space-between',
-    },
-    boardContainer: {
-        width: '100%',
-        paddingTop: 'min(100%, 50vh)',
-        height: '0',
-        position: 'relative',
+        justifyContent: 'space-between',
+        alignItems: 'center',
     },
     boardArea: {
-        width: '100%',
-        height: '100%',
-        position: 'absolute',
-        top: '0',
-        left: '0',
+        padding: '0.7rem',
     },
     panelArea: {
         width: '100%',
