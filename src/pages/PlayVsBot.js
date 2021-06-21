@@ -163,6 +163,7 @@ export default function PlayVsBot(props) {
     function handleDifficultyModeChange(newDifficulty) {
         setGameNumber(1)
         setHumanPlaysX(true)
+        setRecord([0, 0, 0])
         setMoveList(startingPosition)
         setDifficultyMode(newDifficulty)
     }
