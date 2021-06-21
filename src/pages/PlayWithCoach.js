@@ -6,7 +6,7 @@ import { status, outcome, gameOver, xHasWon, oHasWon, gameDrawn } from "../logic
 
 
 // My React Components
-import Board from "../components/Board";
+import TicTacToeBoard from "../components/TicTacToeBoard";
 import CoachPanel from "../components/Panels/CoachPanel";
 
 // MUI  components
@@ -59,7 +59,7 @@ export default function PlayWithCoach(props) {
         <Box className={classes.root} >
             <Box className={classes.boardContainer}>
                 <Box className={classes.boardArea} >
-                    <Board
+                    <TicTacToeBoard
                         moveList={moveList}
                         showHints={showHints}
                         handleSquareClick={handleSquareClick}
