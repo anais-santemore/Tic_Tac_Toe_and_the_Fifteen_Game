@@ -76,14 +76,13 @@ export default function HumanPanel(props) {
                         handleNewGameClick={handleNewGameClick}
                     />
                 </Grid>
-                <Grid item xs={12} sm={6}   >
-                    <UndoButton 
+                <Grid item xs={6}  >
+                    <UndoButton
                         moveList={moveList}
+                        gameOver={gameOver()}
                         handleUndoClick={handleUndoClick}
                     />
                 </Grid>
-                
-
             </Grid>
         </Container>
     )
