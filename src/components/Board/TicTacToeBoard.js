@@ -73,7 +73,6 @@ export default function Board(props) {
         let winningTrios = trioList.filter(trio =>
             intersect(trio, Xs).length === 3 || intersect(trio, Os).length === 3
         )
-
         winningTrios.flat().forEach(num => colors[num] = 'win')
         return colors
     }
@@ -102,6 +101,8 @@ export default function Board(props) {
         }
     }
 
+    let boardIcons = getBoardIcons(moveList)
+    let boardColors = getBoardColors(moveList)
     
     let squares = []
     boardNumbers.forEach(num => {
