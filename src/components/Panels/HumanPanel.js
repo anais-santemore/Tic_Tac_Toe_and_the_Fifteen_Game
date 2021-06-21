@@ -55,12 +55,14 @@ export default function HumanPanel(props) {
     return (
         <Container maxWidth='sm' className={classes.panel} >
             <Box className={classes.infoArea} >
-                <GameNumber 
-                    gameNumber={gameNumber}
-                />
-                <StatusHeader
-                    moveList={moveList}
-                />
+                <Box display="flex" justifyContent="center" color="textPrimary" >
+                    <GameNumber
+                        gameNumber={gameNumber}
+                    />&nbsp;&nbsp;&nbsp;
+                    <StatusHeader
+                        moveList={moveList}
+                    />
+                </Box>
                 <WinLossDrawRecord
                     playMode="humanVsHuman"
                     humanPlaysX={props.humanPlaysX}
