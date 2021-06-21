@@ -33,8 +33,14 @@ export default function WinLossDrawRecord(props) {
         playerTwo = "Player O"
     } 
     else if (playMode === "humanVsBot") {
-        playerOne = "Human X"
-        playerTwo = "Bot O"
+        if (props.humanPlaysX) {
+            playerOne = "X Human"
+            playerTwo = "O Bot"
+        }
+        else {
+            playerOne = "O Human"
+            playerTwo = "X Bot"
+        }
     }
     else {
         console.error(`WinLossDrawRecord tried to render with invalid playMode prop: ${playMode}`)
