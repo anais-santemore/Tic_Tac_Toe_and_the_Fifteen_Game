@@ -113,7 +113,9 @@ export default function Board(props) {
     // const boardColors = props.boardColors; // Array of 9 strings 'noColor', 'unclaimed', 'claimed', 'win', 'draw', 'lose'.
     let moveList = props.moveList
     let showHints = props.showHints
-    let handleSquareClick = props.handleSquareClick
+    // let handleSquareClick = props.handleSquareClick
+    let handleCardClick = props.handleCardClick
+
 
     let gameStatus = status(moveList)
 
@@ -181,7 +183,9 @@ export default function Board(props) {
                 rowNumbers={boardNumbers.slice(3 * row, 3 * (row + 1))}
                 boardIcons={getBoardIcons(moveList)}
                 boardColors={getBoardColors(moveList)}
-                handleSquareClick={handleSquareClick}  
+                // handleSquareClick={handleSquareClick}
+                handleCardClick={handleCardClick}
+
             />
         ;
         rows.push(newRow);
