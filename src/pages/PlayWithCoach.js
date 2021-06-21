@@ -46,8 +46,8 @@ export default function PlayWithCoach(props) {
     let startingPosition = ""  // vs []
     let [moveList, setmoveList] = useState(startingPosition);
 
-    // let [showHints, setShowHints] = useState(false);
-    let [showHints, setShowHints] = useState(true);
+    let [showHints, setShowHints] = useState(false);
+    // let [showHints, setShowHints] = useState(true);
 
     return (
         <Box className={classes.root} >
