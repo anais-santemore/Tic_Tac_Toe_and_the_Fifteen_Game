@@ -107,31 +107,6 @@ export default function Board(props) {
     }
 
     
-    let rows = [];
-    for (let row = 0; row < 3; row++) {
-        let newRow =
-            <Row
-                key={row}
-                rowId={row}
-                rowNumbers={boardNumbers.slice(3 * row, 3 * (row + 1))}
-                boardIcons={getBoardIcons(moveList)}
-                boardColors={getBoardColors(moveList)}
-                // handleSquareClick={handleSquareClick}
-                handleCardClick={handleCardClick}
-
-            />
-        ;
-        rows.push(newRow);
-    }
-    return (
-        <Box className={classes.board}>
-            {rows}
-        </Box>
-    )
-}
-
-
-
     let squares = []
     boardNumbers.forEach(num => {
         let newSquare =
