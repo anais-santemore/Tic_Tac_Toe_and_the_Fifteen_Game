@@ -28,19 +28,16 @@ const useStyles = makeStyles(theme => ({
         alignContent: 'center',
         justifyContent: 'center',
     },
-    whiteText : {
-        color: theme.palette.common.white,
-    }
 }));
 
 
 
-export default function TeachingServicesList() {
+export default function MenuList() {
     const classes = useStyles();
     
     return (
         
-        <React.Fragment className={classes.whiteText} >
+        <React.Fragment >
 
             <ListItem
                 key={'welcome'}
