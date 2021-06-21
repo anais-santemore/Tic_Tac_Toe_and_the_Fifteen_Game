@@ -24,6 +24,10 @@ const useStyles = makeStyles((theme) => ({
     },
     boardArea: {
         padding: '0.7rem',
+        width: 'min(55vh, 100%)',
+        height: '55vh',
+        display: 'flex',
+        justifyContent: 'center',
     },
     panelArea: {
         color: theme.palette.common.white,

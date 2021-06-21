@@ -23,7 +23,7 @@ import { makeStyles } from '@material-ui/core/styles';
 const useStyles = makeStyles((theme) => ({
     board: {
         // border: 'solid green 1px',
-        width: '50vh', 
+        width: 'max(50vh, 100%)',
         height: '50vh',
         display: 'flex',
         flexDirection: 'column',
