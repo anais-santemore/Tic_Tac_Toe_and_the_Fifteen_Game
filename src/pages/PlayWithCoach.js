@@ -70,7 +70,7 @@ export default function PlayWithCoach(props) {
 
     
     // CLICK HANDLERS
-    function handleSquareClick(squareClickedString) {
+    function handleBoardClick(squareClicked) {
         if (gameOver(moveList)) {
             console.log("return without effects from handleSquareClick(). The Game is already over.")
             return;
