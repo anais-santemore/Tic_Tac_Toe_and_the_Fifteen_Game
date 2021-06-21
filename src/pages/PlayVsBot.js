@@ -52,14 +52,11 @@ export default function PlayVsBot(props) {
 
     return (
         <Box className={classes.root} >
-            <Box className={classes.boardContainer}>
-                <Box className={classes.boardArea} >
-                    <TicTacToeBoard
-                        moveList={moveList}
-                        // handleSquareClick={handleSquareClick}
-                        handleCardClick={handleCardClick}
-                    />
-                </Box>
+            <Box className={classes.boardArea}>
+                <TicTacToeBoard
+                    moveList={moveList}
+                    handleBoardClick={handleBoardClick}
+                />
             </Box>
             <Box className={classes.panelArea}>
                 <BotPanel
