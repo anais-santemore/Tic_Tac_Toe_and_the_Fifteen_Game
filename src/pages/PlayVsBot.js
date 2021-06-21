@@ -72,10 +72,15 @@ export default function PlayVsBot(props) {
             </Box>
             <Box className={classes.panelArea}>
                 <BotPanel
+                    gameNumber={gameNumber}
+                    status={status(moveList)}
                     moveList={moveList}
                     record={record}
+                    difficultyMode={difficultyMode}
+                    humanPlaysX={humanPlaysX}
                     handleNewGameClick={handleNewGameClick}
                     handleBotGoFirstClick={handleBotGoFirstClick}
+                    handleDifficultyModeChange={handleDifficultyModeChange}
                 />
             </Box>
         </Box>
