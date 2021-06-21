@@ -43,13 +43,11 @@ export default function PlayVsHuman() {
 
     return (
         <Box className={classes.root} >
-            <Box className={classes.boardContainer}>
-                <Box className={classes.boardArea} >
-                    <TicTacToeBoard
-                        moveList={moveList}
-                        handleSquareClick={handleSquareClick}
-                    />
-                </Box>
+            <Box className={classes.boardArea}>
+                <TicTacToeBoard
+                    moveList={moveList}
+                    handleBoardClick={handleBoardClick}
+                />
             </Box>
             <Box className={classes.panelArea}>
                 <Panel

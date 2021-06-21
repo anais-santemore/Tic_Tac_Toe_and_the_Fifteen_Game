@@ -47,14 +47,12 @@ export default function PlayWithCoach(props) {
 
     return (
         <Box className={classes.root} >
-            <Box className={classes.boardContainer}>
-                <Box className={classes.boardArea} >
-                    <TicTacToeBoard
-                        moveList={moveList}
-                        showHints={showHints}
-                        handleSquareClick={handleSquareClick}
-                    />
-                </Box>
+            <Box className={classes.boardArea}>
+                <TicTacToeBoard
+                    moveList={moveList}
+                    showHints={showHints}
+                    handleBoardClick={handleBoardClick}
+                />
             </Box>
             <Box className={classes.panelArea}>
                 <CoachPanel
