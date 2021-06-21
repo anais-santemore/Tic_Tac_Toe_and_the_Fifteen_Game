@@ -22,17 +22,13 @@ import Box from '@material-ui/core/Box';
 import { makeStyles } from '@material-ui/core/styles';
 const useStyles = makeStyles((theme) => ({
     board: {
-        // border: 'solid blue 1px',
-        position: 'absolute',
-        top: '0',
-        left: '0',
-        width: '100%',  // The lesser of full and the height of the board area. 
-        height: '100%',
+        // border: 'solid green 1px',
+        width: '50vh', 
+        height: '50vh',
         display: 'flex',
         flexDirection: 'column',
+        justifyContent: 'space-between',
         alignItems: 'center',
-        marginTop: '0.3rem',
-        // margin: '1rem 0.0rem',
     },
     row: {
         // border: 'solid purple 1px',
