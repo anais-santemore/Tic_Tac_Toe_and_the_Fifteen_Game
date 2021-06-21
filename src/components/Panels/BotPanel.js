@@ -25,8 +25,6 @@ const useStyles = makeStyles((theme) => ({
         flexDirection: 'column',
     },
     infoArea: {
-        // border: 'solid red 1px',
-        // flex: '1 0 50%',
         display: 'flex',
         flexDirection: 'column',
         padding: '1.0rem 1.0rem 2.0rem',
@@ -70,7 +68,7 @@ export default function BotPanel(props) {
                     record={record}
                 />
             </Box>
-            <Grid container spacing={3} className={classes.controls} >
+            <Grid container spacing={2} className={classes.controls} >
                 <Grid item xs={12}  >
                     <DifficultyModeButtons 
                         difficultyMode={props.difficultyMode}
