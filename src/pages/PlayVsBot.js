@@ -172,6 +172,13 @@ export default function PlayVsBot(props) {
         handleBotsTurn('') // if the bot is going first the movelist is empty.
     }
 
+    function handleDifficultyModeChange(newDifficulty) {
+        setGameNumber(1)
+        setHumanPlaysX(true)
+        setMoveList(startingPosition)
+        setDifficultyMode(newDifficulty)
+    }
+
 
     // Find and make a move for the Bot with a slight delay. 
     function handleBotsTurn(ml = moveList) {
