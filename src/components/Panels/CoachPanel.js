@@ -119,17 +119,17 @@ export default function CoachPanel(props) {
                     commentLabel={commentLabel}
                 /> 
             </Box>
-            <Grid container className={classes.buttonArea} >
-                <Grid item xs={12} sm={6}  >
-                    <UndoButton 
+            <Grid container spacing={2} className={classes.buttonArea} >
+                <Grid item xs={7}   >
+                    <ShowHintsButton 
+                        toggleShowHints={toggleShowHints}
+                    />
+                </Grid>
+                <Grid item xs={5}  >
+                    <UndoButton
                         gameOver={false}
                         moveList={moveList}
                         handleUndoClick={handleUndoClick}
-                    />
-                </Grid>
-                <Grid item xs={12} sm={6}   >
-                    <ShowHintsButton 
-                        toggleShowHints={toggleShowHints}
                     />
                 </Grid>
             </Grid>
