@@ -102,15 +102,17 @@ export default function Board(props) {
         return data;  // this method only deals with current board position, not hypotheticals.  Thus, it wants to use a version of helper squaresClaimedByPlayer() that does not require a moveList be explicitly passed in. 
     }
     function getBoardColors(mls) {
-        let colors = Array(10).fill('noColor')
         if (gameStatus === "xWins" || gameStatus === "oWins") {
-            colors = highlightWins(mls)
+            return highlightWins(mls)
         }
-        else if (showHints === true) {
-            colors = getBoardHints(mls)
+        else if (props.showHints === true) {
+            return getBoardHints(mls)
         }
-        return colors
+        else {
+            return Array(10).fill('noColor')
+        }
     }
+
     function highlightWins(ml) {
         let colors = Array(10).fill('noColor')
         let Xs = xNumbers(ml)
