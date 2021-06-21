@@ -16,8 +16,8 @@ const useStyles = makeStyles((theme) => ({
     button: {
         backgroundColor: theme.palette.primary.main,
         width: '100%',
-        height: '2.5rem',
-        fontSize: '1.1rem',
+        height: '2.1rem',
+        fontSize: '1rem',
     },
 }));
 

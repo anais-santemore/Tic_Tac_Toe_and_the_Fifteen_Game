@@ -15,8 +15,8 @@ const useStyles = makeStyles((theme) => ({
         color: theme.palette.common.white,
         backgroundColor: theme.palette.primary.main,
         width: '100%',
-        height: '2.5rem',
-        fontSize: '1.1rem',
+        height: '2.1rem',
+        fontSize: '1rem',
     },
 }));
 

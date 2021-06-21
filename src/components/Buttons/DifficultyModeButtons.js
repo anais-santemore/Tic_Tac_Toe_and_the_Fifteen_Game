@@ -15,13 +15,11 @@ import '../../styles/App.css';
 import { makeStyles } from '@material-ui/core/styles';
 const useStyles = makeStyles((theme) => ({
     button: {
-
         color: theme.palette.common.white,
         backgroundColor: theme.palette.primary.main,
-        // margin: '0.35rem 0rem',
         width: '100%',
-        height: '2.5rem',
-        fontSize: '1.1rem',
+        height: '2.1rem',
+        fontSize: '1rem',
     },
     selectedButton: {
         color: theme.palette.common.white,
