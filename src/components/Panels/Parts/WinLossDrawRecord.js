@@ -4,6 +4,7 @@ import React from 'react';
 
 // MUI Components
 import Box from '@material-ui/core/Box';
+import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 
 // Custom Styling
@@ -34,17 +35,45 @@ export default function WinLossDrawRecord(props) {
     }
     
     return (
-        <React.Fragment>
-            <Typography align='center' component='h3' variant='h5' noWrap >
-                {playerOne}: &ensp;{record[0]}
-            </Typography>
-            <Typography align='center' component='h3' variant='h5' noWrap >
-                {playerTwo}: &ensp;{record[1]}
-            </Typography>
-            <Typography align='center' component='h3' variant='h5' noWrap gutterBottom>
-                Draw: &emsp; &ensp;  {record[2]}
-            </Typography>
-        </React.Fragment>
+        <Box className={classes.record} >
+            <Grid container >
+                <Grid item xs={9}>
+                    <Typography color="textPrimary" align='left' component='h3' variant='h5' noWrap >
+                        {playerOne}:
+                    </Typography>
+                </Grid>
+                <Grid item xs={3}>
+                    <Typography color="textPrimary" align='right' component='h3' variant='h5' noWrap >
+                        {record[0]}
+                    </Typography>
+                </Grid>
+            </Grid>
+            <Grid container >
+                <Grid item xs={9}>
+                    <Typography color="textPrimary" align='left' component='h3' variant='h5' noWrap >
+                        {playerTwo}:
+                    </Typography>
+                </Grid>
+                <Grid item xs={3}>
+                    <Typography color="textPrimary" align='right' component='h3' variant='h5' noWrap >
+                        {record[1]}
+                    </Typography>
+                </Grid>
+            </Grid>
+            <Grid container >
+                <Grid item xs={9}>
+                    <Typography color="textPrimary" align='left' component='h3' variant='h5' noWrap >
+                        Draw:
+                    </Typography>
+                </Grid>
+                <Grid item xs={3}>
+                    <Typography color="textPrimary" align='right' component='h3' variant='h5' noWrap >
+                        {record[2]}
+                    </Typography>
+                </Grid>
+            </Grid>
+            
+        </Box>
     )
 }
 
