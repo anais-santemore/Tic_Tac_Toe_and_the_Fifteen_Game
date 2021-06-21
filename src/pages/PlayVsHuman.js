@@ -19,31 +19,17 @@ const useStyles = makeStyles((theme) => ({
         height: 'calc(100% - 3.6rem)',
         display: 'flex',
         flexDirection: 'column',
-        alignItems: 'space-between',
-    },
-    boardContainer: {
-        width: '100%',
-        paddingTop: 'min(100%, 50vh)',
-        height: '0',
-        position: 'relative',
+        justifyContent: 'space-between',
+        alignItems: 'center',
     },
     boardArea: {
-        width: '100%',
-        height: '100%',
-        position: 'absolute',
-        top: '0',
-        left: '0',
-
+        padding: '0.7rem',
     },
     panelArea: {
         color: theme.palette.common.white,
         backgroundColor: theme.palette.common.black,
         width: '100%',
-        // width: '50vh',
-        padding: '1.0rem',
-        flex: '2 1 35vh',
-        margin: '0rem auto',
-
+        height: '45vh',
     },
 }));
 
