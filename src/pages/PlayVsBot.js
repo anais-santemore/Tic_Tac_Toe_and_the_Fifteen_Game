@@ -7,7 +7,7 @@ import { selectMoveRandomly, winningMoves, urgentDefensiveMoves, winningMovesFor
 
 
 // My React Components
-import Board from "../components/Board";
+import TicTacToeBoard from "../components/Board/TicTacToeBoard";
 import BotPanel from "../components/Panels/BotPanel";
 
 // MUI  components
@@ -64,9 +64,10 @@ export default function PlayVsBot(props) {
         <Box className={classes.root} >
             <Box className={classes.boardContainer}>
                 <Box className={classes.boardArea} >
-                    <Board
+                    <TicTacToeBoard
                         moveList={moveList}
-                        handleSquareClick={handleSquareClick}
+                        // handleSquareClick={handleSquareClick}
+                        handleCardClick={handleCardClick}
                     />
                 </Box>
             </Box>
