@@ -10,7 +10,13 @@ import Typography from '@material-ui/core/Typography';
 // Custom Styling
 import { makeStyles } from '@material-ui/core/styles';
 const useStyles = makeStyles((theme) => ({
-    
+    record: {
+        color: theme.palette.common.white,
+        margin: '0rem 35%',
+        width: '30%',
+        height: '4.5rem',
+        fontSize: '1.1rem',
+    },
 
 }));
 
