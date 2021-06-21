@@ -75,12 +75,12 @@ export default function PlayWithCoach(props) {
             console.log("return without effects from handleSquareClick(). The Game is already over.")
             return;
         }
-        if (moveList.includes(squareClickedString)) {
+        if (moveList.includes(squareClicked)) {
             console.log("return without effects from handleSquareClick(). That square has already been claimed.")
             return;
         }
         // If we reach this point the clicked square is open and the game is not over yet ... 
-        let updatedMoveList = moveList.concat(squareClickedString)
+        let updatedMoveList = moveList.concat(squareClicked)
         console.log(`MoveList: ${updatedMoveList}`)
 
         setmoveList(updatedMoveList);
