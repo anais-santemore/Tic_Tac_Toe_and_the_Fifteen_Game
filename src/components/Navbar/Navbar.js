@@ -81,7 +81,7 @@ export default function Navbar(props) {
     return (
         <Box className={classes.navbarRoot} >
             <OneSizeNavbar pageTitle={props.pageTitle} />
-            <Box className={classes.spacerBox} />
+            {/* <Box className={classes.spacerBox} /> */}
         </Box>
         
     )
