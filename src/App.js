@@ -94,13 +94,21 @@ export default function App() {
                                     <PlayWithCoach />
                                 </Route>    
 
-                                
+
+                                <Route path="/fifteen_vs_human">
+                                    <Navbar pageTitle={"Play Human vs. Human"} />
+                                    <FifteenVsHuman />
+                                </Route>
+
+                                <Route path="/fifteen_vs_bot">
+                                    <Navbar pageTitle={"Play Human vs. Bot"} />
+                                    <FifteenVsBot />
+                                </Route>
 
                                 {/* <Route path="/magic_squares">
                                     <Navbar pageTitle={"Learn about Magic Squares"} />
                                     <MagicSquares />
                                 </Route> */}
-
 
                             </Switch>
                         </Router>
