@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
 
 // My Logical Components
-import positionToOutcomeMap from "../pages/positionToOutcomeMap";
-import { status, outcome, gameOver, xHasWon, oHasWon, gameDrawn } from "../logic/GameLogic";
-
+// import positionToOutcomeMap from "../pages/positionToOutcomeMap";
+import { gameOver } from "../logic/GameLogic";
 
 // My React Components
 import TicTacToeBoard from "../components/Board/TicTacToeBoard";
@@ -51,6 +50,8 @@ export default function PlayWithCoach(props) {
 
     return (
         <Box className={classes.root} >
+            {/* <SpacerBox /> */}
+            <Box py={1} />
             <Box className={classes.boardArea}>
                 <TicTacToeBoard
                     moveList={moveList}
