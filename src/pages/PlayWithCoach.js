@@ -62,6 +62,7 @@ export default function PlayWithCoach(props) {
             <Box className={classes.panelArea}>
                 <CoachPanel
                     moveList={moveList}
+                    showHints={showHints}
                     toggleShowHints={toggleShowHints}
                     handleUndoClick={handleUndoClick}
                 />
