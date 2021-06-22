@@ -5,7 +5,7 @@ import {
 } from "react-router-dom";
 
 // My Components
-
+import SpacerBox from "../components/Navbar/SpacerBox";
 
 // MUI  components
 import Box from '@material-ui/core/Box';
@@ -51,6 +51,7 @@ export default function WelcomePage() {
     
     return (
         <Container className={classes.root} maxWidth='md' >
+            <Box py={3} />
             <Typography align='center' color='textPrimary' component='h1' variant='h2' gutterBottom >
                 Tic-Tac-Toe & Proof
             </Typography>
@@ -147,13 +148,11 @@ export default function WelcomePage() {
                 </Typography>
                 
                 
-                
-                
                 <Typography align='left' color='textPrimary' component='h4' variant='h4' gutterBottom >
                     Behind the Scenes
                 </Typography>
                 <Typography variant='body1' color='textPrimary' className={classes.paragraph}>
-                    This lesson is built with code that is open-source and available on my <a href="https://github.com/nolastemgarden">Github account</a>,
+                    This lesson is built with code that is open-source and available on my <a href="https://github.com/nolastemgarden">Github</a> account,
                     so if you have something to add, a bug to report, or simply want to see how it works you are welcome to open an issue or &nbsp;
                     <a href="https://github.com/nolastemgarden/tic-tac-toe-and-the-fifteen-game">clone the repository</a>!
                 </Typography>
