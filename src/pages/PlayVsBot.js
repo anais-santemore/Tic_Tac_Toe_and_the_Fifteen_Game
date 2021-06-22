@@ -55,6 +55,7 @@ export default function PlayVsBot(props) {
 
     return (
         <Box className={classes.root} >
+            <Box py={1} />
             <Box className={classes.boardArea}>
                 <TicTacToeBoard
                     moveList={moveList}
