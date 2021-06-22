@@ -39,24 +39,14 @@ const useStyles = makeStyles((theme) => ({
 export default function CoachPanel(props) {
     const classes = useStyles();
 
-    let moveList = props.moveList
-    let toggleShowHints = props.toggleShowHints
-    let handleUndoClick = props.handleUndoClick
-    
-    
-
     function getCommentLabel(mls) {
-        console.log(`getCommentLabel called with moveList: ${mls}`);
-          
+        // console.log(`getCommentLabel called with moveList: ${mls}`);
         let currentStatus = status(mls)
         let currentOutcome = outcomeMap.get(mls)
         let previousOutcome = outcomeMap.get(getParent(mls));
-
         // console.log(`Current Outcome ${currentOutcome}`);
         // console.log(`Previous Outcome ${previousOutcome}`);
-        
         let label = "error"
-        
         if (mls.length === 0) {
             label = "newGame"
         }
@@ -101,35 +91,32 @@ export default function CoachPanel(props) {
         else if (currentOutcome === "draw" && (previousOutcome === "xWins" || previousOutcome === "oWins")) {
             label = "missedWin"
         }
-
         return label
     }
-
-    let commentLabel = getCommentLabel(moveList)
-
+    let commentLabel = getCommentLabel(props.moveList)
 
     return (
         <Container maxWidth='sm' className={classes.panel} >
             <Box className={classes.infoArea} >
                 <StatusHeader
-                    moveList={moveList}
+                    moveList={props.moveList}
                 />
                 <CoachsCommentary
-                    moveList={moveList}
+                    moveList={props.moveList}
                     commentLabel={commentLabel}
                 /> 
             </Box>
             <Grid container spacing={2} className={classes.buttonArea} >
                 <Grid item xs={7}   >
                     <ShowHintsButton 
-                        toggleShowHints={toggleShowHints}
+                        toggleShowHints={props.toggleShowHints}
                     />
                 </Grid>
                 <Grid item xs={5}  >
                     <UndoButton
                         gameOver={false}
-                        moveList={moveList}
-                        handleUndoClick={handleUndoClick}
+                        moveList={props.moveList}
+                        handleUndoClick={props.handleUndoClick}
                     />
                 </Grid>
             </Grid>
