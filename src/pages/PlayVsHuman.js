@@ -47,6 +47,7 @@ export default function PlayVsHuman() {
 
     return (
         <Box className={classes.root} >
+            <Box py={1} />
             <Box className={classes.boardArea}>
                 <TicTacToeBoard
                     moveList={moveList}
