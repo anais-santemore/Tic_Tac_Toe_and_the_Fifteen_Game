@@ -255,8 +255,6 @@ export default function PlayVsBot(props) {
             console.error(`Bot Found NEITHER Winning NOR Drawing Moves!!! Picking from Losing Moves: ${sorted.winningForHuman} `)
             return selectMoveRandomly(sorted.winningForHuman)    
         }
-        
-        
     }
     // function hardProtocolWithShortcuts(ml) {
     //     console.log(`Hard Protocol called for move list: [${ml}]`)
@@ -278,23 +276,5 @@ export default function PlayVsBot(props) {
 
     //     }
     // }
-
-    
-
-    function pickBestMove(sorted) {
-        if (sorted.winningForBot.length > 0) {
-            console.log(`Bot Found Winning Moves: ${sorted.winningForBot}`)
-            return selectMoveRandomly(sorted.winningForBot)
-        }
-        else if (sorted.drawing.length > 0) {
-            console.log(`Bot Found Drawing Moves: ${sorted.drawing}`)
-            return selectMoveRandomly(sorted.drawing)
-        }
-        else {
-            console.error(`Bot Found NEITHER Winning NOR Drawing Moves!!! Picking from Losing Moves: ${sorted.losing} Unsorted Moves: ${sorted.uncertain}.`)
-            return selectMoveRandomly(sorted.uncertain)
-        }
-    }
-    
 }
 
