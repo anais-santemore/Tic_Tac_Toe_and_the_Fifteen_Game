@@ -239,15 +239,11 @@ export default function PlayVsBot(props) {
     function hardProtocol(ml) {
         console.log(`Outcome Graph Hard Protocol called for move list: [${ml}]`)
         console.time('getHardFromGraph')
-
         let sorted = sortBotMoves(ml, humanPlaysX)
-        
-        console.log(`BOT SORTED its choices from position [${ml}]:`)
-        console.log(`Bot found these Winning Moves: ${sorted.winningForBot}`)  
-        console.log(`Bot found these Drawing Moves: ${sorted.drawing}`)
-        console.log(`Bot found these Losing Moves: ${sorted.winningForHuman}`)
-
-
+        // console.log(`BOT SORTED its choices from position [${ml}]:`)
+        // console.log(`Bot found these Winning Moves: ${sorted.winningForBot}`)  
+        // console.log(`Bot found these Drawing Moves: ${sorted.drawing}`)
+        // console.log(`Bot found these Losing Moves: ${sorted.winningForHuman}`)
         if (sorted.winningForBot.length > 0) {
             return selectMoveRandomly(sorted.winningForBot)
         }
