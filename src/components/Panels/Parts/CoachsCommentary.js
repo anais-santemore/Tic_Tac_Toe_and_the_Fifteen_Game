@@ -72,9 +72,9 @@ export default function CoachsCommentary(props) {
                 comment = `${next} goes next and has an urgent defensive move they must make in order to not lose on the next turn!`
                 break;
             case "losing":
-                comment = `${next} goes next and there is more than one threat so ${next} will not be able to defend against all
-                attacks. Defeat is on its way next turn not matter what, but at this move is not the mistake! Go back and 
-                find the mistake that allowed ${prev} to create this double attack.`
+                comment = `${next} goes next, has no immediate way to win and ${prev} has more than one threat, meaning ${next} cannot 
+                defend against them all. Defeat is on its way no matter what ${next} does now. This move is not the mistake though! 
+                Go back and find the mistake that allowed ${prev} to create this double attack.`
                 break;
             case "doubleAttack":
                 comment = `Though ${next} cannot win this turn, they can create a double attack, setting up for a
@@ -98,11 +98,15 @@ export default function CoachsCommentary(props) {
                 break;
             case "xWins":
                 comment = `X has won the game! That means O must have made a mistake along the way.
-                Go back and see if you can find it on your own. If not, check the hints.`
+                Go back and see if you can find it on your own. If not, check the hints. In starting position all squares are Yellow, 
+                indicating that no matter which X chooses they will be on track for a draw, at best. When Red squares appear in the hints
+                that indicates possible mistakes to avoid. Green squares indicate winning responses to mistakes`
                 break;
             case "oWins":
                 comment = `O has won the game! That means X must have made a mistake along the way.
-                Go back and see if you can find it on your own. If not, check the hints.`
+                Go back and see if you can find it on your own. If not, check the hints. In starting position all squares are Yellow,
+                indicating that no matter which X chooses they will be on track for a draw, at best. When Red squares appear in the hints
+                that indicates possible mistakes to avoid. Green squares indicate winning responses to mistakes`
                 break;
 
             default:
