@@ -33,7 +33,7 @@ export default function ShowHintsButton(props) {
             <Box mr={2} display="flex" alignContent="center" >
                 <HelpOutlineIcon />
             </Box>
-            Show Hints
+            {props.showHints ? "Hide Hints" : "Show Hints"}
         </Button>
     )
 }
