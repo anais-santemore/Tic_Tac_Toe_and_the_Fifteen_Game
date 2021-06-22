@@ -12,20 +12,21 @@ import './styles/App.css';
 // My Components & Pages
 import Navbar from './components/Navbar/Navbar';
 import WelcomePage from "./pages/WelcomePage";
-// import MagicSquares from "./pages/MagicSquares";
-// import StrategyPage from "./pages/StrategyPage";
 
+// TIC TAC TOE
 import PlayVsHuman from './pages/PlayVsHuman';
 import PlayVsBot from './pages/PlayVsBot';
 import PlayWithCoach from './pages/PlayWithCoach';
 
+// FIFTEEN GAME
+import FifteenVsHuman from './pages/FifteenVsHuman';
+import FifteenVsBot from './pages/FifteenVsBot';
+// import MagicSquares from "./pages/MagicSquares";
 
 // MUI  components
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Box from '@material-ui/core/Box';
 import Container from '@material-ui/core/Container';
-import Paper from '@material-ui/core/Paper';
-import Typography from '@material-ui/core/Typography';
 
 // THEMING
 import theme from "./theme";
