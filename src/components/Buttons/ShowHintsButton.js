@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 // My Components
 
@@ -22,15 +22,13 @@ const useStyles = makeStyles((theme) => ({
 
 export default function ShowHintsButton(props) {
     const classes = useStyles();
-    const toggleShowHints = props.toggleShowHints
-    // const showHints = props.showHints // ???? 
 
     return (
         <Button
             className={classes.button}
             variant="contained"
             color="primary"
-            onClick={() => toggleShowHints()}
+            onClick={() => props.toggleShowHints()}
         >
             <Box mr={2} display="flex" alignContent="center" >
                 <HelpOutlineIcon />
