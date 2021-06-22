@@ -109,6 +109,7 @@ export default function CoachPanel(props) {
             <Grid container spacing={2} className={classes.buttonArea} >
                 <Grid item xs={7}   >
                     <ShowHintsButton 
+                        showHints={props.showHints}
                         toggleShowHints={props.toggleShowHints}
                     />
                 </Grid>
