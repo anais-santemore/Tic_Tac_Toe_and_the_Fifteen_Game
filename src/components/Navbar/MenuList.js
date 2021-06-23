@@ -130,17 +130,52 @@ export default function MenuList() {
                 button
                 component={RouterLink}
                 to={{
-                    pathname: '/magic_squares',
+                    pathname: '/fifteen_vs_human',
+                }}
+            >
+                <Icon className={"fas fa-user-friends fa-2x"}
+                    classes={{ root: classes.icon }}
+                />
+                <ListItemText
+                    primary={'Play vs. Human'}
+                    primaryTypographyProps={{ variant: 'h5' }}
+                />
+            </ListItem>
+
+            <ListItem
+                key={'fifteen_vs_bot'}
+                button
+                component={RouterLink}
+                to={{
+                    pathname: '/fifteen_vs_bot',
+                }}
+            >
+                <Icon className={"fas fa-robot fa-2x"}
+                    classes={{ root: classes.icon }}
+                />
+                <ListItemText
+                    primary={'Play vs. Bot'}
+                    primaryTypographyProps={{ variant: 'h5' }}
+                />
+            </ListItem>
+
+            <ListItem
+                key={'learn_about_magic_squares'}
+                button
+                component={RouterLink}
+                to={{
+                    pathname: '/learn_about_magic_squares',
                 }}
             >
                 <Icon className={"fas fa-question fa-2x"}
                     classes={{ root: classes.icon }}
                 />
                 <ListItemText
-                    primary={'Learn about Magic Squares'}
+                    primary={'Learn About Magic Squares'}
                     primaryTypographyProps={{ variant: 'h5' }}
                 />
-            </ListItem> */}
+            </ListItem>
+            
 
         </React.Fragment>
     );
