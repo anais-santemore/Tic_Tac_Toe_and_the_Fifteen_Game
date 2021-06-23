@@ -6,9 +6,14 @@ import { Link as RouterLink } from "react-router-dom";
 import { makeStyles } from '@material-ui/core/styles';
 
 // MATERIAL-UI COMPONENTS
+import ListSubheader from '@material-ui/core/ListSubheader';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import Icon from '@material-ui/core/Icon';
+import Typography from '@material-ui/core/Typography';
+import Box from '@material-ui/core/Box';
+
+
 
 // ICONS 
 
@@ -53,6 +58,13 @@ export default function MenuList() {
                     primaryTypographyProps={{ variant: 'h5' }}
                 />
             </ListItem>
+
+            <ListSubheader >
+                <Box p={2} />
+                <Typography variant='h5' color="textPrimary" >
+                    Tic Tac Toe
+                </Typography>
+            </ListSubheader>
 
             <ListItem
                 key={'play_vs_human'}
@@ -106,9 +118,15 @@ export default function MenuList() {
             </ListItem>
 
 
-            {/* <ListItem
-                key={'learn about magic squares'}
-                className={classes.listItem}
+            <ListSubheader  >
+                <Box p={2} />
+                <Typography variant='h5' color="textPrimary" >
+                    The Fifteen Game
+                </Typography>
+            </ListSubheader>
+            
+            <ListItem
+                key={'fifteen_vs_human'}
                 button
                 component={RouterLink}
                 to={{
