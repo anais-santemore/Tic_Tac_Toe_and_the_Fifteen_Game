@@ -6,7 +6,7 @@ import { status, gameOver, xNumbers, oNumbers, nextPlayer, availableNumbers } fr
 import { selectMoveRandomly, winningMoves, urgentDefensiveMoves, sortBotMoves } from "../logic/BotLogic";
 
 // My React Components
-import TicTacToeBoard from "../components/Board/TicTacToeBoard";
+import Board from "../components/Board/FifteenBoard";
 import BotPanel from "../components/Panels/BotPanel";
 
 // MUI  components
@@ -57,7 +57,7 @@ export default function FifteenVsBot(props) {
         <Box className={classes.root} >
             <Box py={1} />
             <Box className={classes.boardArea}>
-                <TicTacToeBoard
+                <Board
                     moveList={moveList}
                     handleBoardClick={handleBoardClick}
                 />
