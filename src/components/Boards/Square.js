@@ -14,8 +14,7 @@ import RadioButtonUncheckedIcon from '@material-ui/icons/RadioButtonUnchecked';
 import { makeStyles } from '@material-ui/core/styles';
 const useStyles = makeStyles((theme) => ({
     square: {
-        width: '31%',
-        height: '100%',
+        width: '15vh',
         backgroundColor: theme.palette.common.white,
         display: 'flex',
         alignItems: 'center',
@@ -47,8 +46,6 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Square(props) {
     const classes = useStyles();
-    const number = props.number
-    const handleBoardClick = props.handleBoardClick
 
     let squareIcon;
     switch (props.icon) {
@@ -67,9 +64,6 @@ export default function Square(props) {
 
     let squareColorClassName;
     switch (props.color) {
-        case 'unknown':
-            squareColorClassName = `${classes.square} ${classes.unknown} `
-            break;
         case 'claimed':
             squareColorClassName = `${classes.square} ${classes.claimed} `
             break;
@@ -97,7 +91,7 @@ export default function Square(props) {
             number={props.number}
             elevation={4}
             className={squareColorClassName}
-            onClick={() => handleBoardClick(number.toString())}
+            onClick={() => props.handleBoardClick(props.number.toString())}
         >
             {squareIcon}
         </Paper>
