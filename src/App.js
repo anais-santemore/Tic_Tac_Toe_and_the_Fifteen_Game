@@ -13,14 +13,10 @@ import './styles/App.css';
 import Navbar from './components/Navbar/Navbar';
 import WelcomePage from "./pages/WelcomePage";
 
-// TIC TAC TOE
+// PLAY MODES
 import PlayVsHuman from './pages/PlayVsHuman';
 import PlayVsBot from './pages/PlayVsBot';
 import PlayWithCoach from './pages/PlayWithCoach';
-
-// FIFTEEN GAME
-import FifteenVsHuman from './pages/FifteenVsHuman';
-import FifteenVsBot from './pages/FifteenVsBot';
 // import MagicSquares from "./pages/MagicSquares";
 
 // MUI  components
