@@ -162,4 +162,38 @@ export default function FifteenBoard(props) {
     )
 }
 
+function Card(props) {
+    const classes = useStyles();
+
+
+    let cardStatusClassName
+    switch (props.claim) {
+        case 'x':
+            cardStatusClassName = `${classes.card} ${classes.playerOne} `
+            break;
+        case 'o':
+            cardStatusClassName = `${classes.card} ${classes.playerTwo} `
+            break;
+        case '_':
+            cardStatusClassName = `${classes.card} `
+            break;
+        default:
+            throw console.error(`Card passed invalid claim: ${props.color}`);
+    }
+
+
+
+    return (
+        <Box number={props.num}
+            className = { cardStatusClassName }
+            onClick = {() => props.handleBoardClick(props.num)}
+            border={(props.border === true) ? 'solid green 5px' : ''}
+            borderRadius='1rem'
+        >
+                <Typography color='inherit' variant='h1' >
+                    {props.num}
+                </Typography>
+        </Box>
+    )
+}
 
