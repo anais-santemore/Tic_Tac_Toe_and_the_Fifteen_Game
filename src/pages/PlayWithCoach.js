@@ -5,6 +5,7 @@ import React, { useState } from 'react';
 import { gameOver } from "../logic/GameLogic";
 
 // My React Components
+import Navbar from "../components/Navbar/Navbar"
 import TicTacToeBoard from "../components/Boards/TicTacToeBoard";
 import CoachPanel from "../components/Panels/CoachPanel";
 
@@ -22,6 +23,13 @@ const useStyles = makeStyles((theme) => ({
         flexDirection: 'column',
         justifyContent: 'space-between',
         alignItems: 'center',
+    },
+    navbarArea: {
+        border: 'solid blue 1px',
+        width: '100%',
+        display: 'flex',
+        flexDirection: 'row',
+        flex: '1 0 5vh',
     },
     boardArea: {
         padding: '0.7rem',
@@ -50,8 +58,10 @@ export default function PlayWithCoach(props) {
 
     return (
         <Box className={classes.root} >
-            {/* <SpacerBox /> */}
-            <Box py={1} />
+            <Box className={classes.navbarArea}>
+                <Navbar pageTitle="Tic Tac Toe with Coach" />
+            </Box>
+
             <Box className={classes.boardArea}>
                 <TicTacToeBoard
                     moveList={moveList}
