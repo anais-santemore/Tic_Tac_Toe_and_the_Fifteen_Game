@@ -51,8 +51,8 @@ function generatePositionToOutcomeMap() {
     for (let length = 9; length >= 0; length--) {
         let positions = list[length]
         for (let p = 0; p < positions.length; p++) {
-            let mls = positions[p]
-            outcomeMap.set(mls, outcome(mls, outcomeMap))
+            let ml = positions[p]
+            outcomeMap.set(ml, outcome(ml, outcomeMap))
         }
     }
     return outcomeMap
@@ -63,73 +63,81 @@ function generatePositionToOutcomeMap() {
 ////////////////////////////////////////////////////////////////
 //  Current Game Status: "xWins", "oWins", "draw",  "xNext", or "oNext"
 ////////////////////////////////////////////////////////////////
-export function status(mls) {
-    if (xHasWon(mls)) {
+export function status(ml) {
+    if (xHasWon(ml)) {
         return ("xWins")
     }
-    else if (oHasWon(mls)) {
+    else if (oHasWon(ml)) {
         return ("oWins")
     }
-    else if (mls.length === 9) {
+    else if (ml.length === 9) {
         return ("draw")
     }
     else {
-        return nextPlayer(mls)  // "xNext" || "oNext"
+        return nextPlayer(ml)  // "xNext" || "oNext"
     }
 }
 ////////////////////////////////////////////////////////////////
 // Game Status Helpers: BOOLEAN
 ////////////////////////////////////////////////////////////////
-export function nextPlayer(mls) {
-    return (mls.length % 2 === 0) ? "xNext" : "oNext"
+export function nextPlayer(ml) {
+    return (ml.length % 2 === 0) ? "xNext" : "oNext"
 }
-export function gameOver(mls) {
-    return (mls.length === 9 || gameHasBeenWon(mls)) ? true : false
+export function gameOver(ml) {
+    return (ml.length === 9 || gameHasBeenWon(ml)) ? true : false
 }
-function gameHasBeenWon(mls) {
-    return (xHasWon(mls) || oHasWon(mls)) ? true : false
+function gameHasBeenWon(ml) {
+    return (xHasWon(ml) || oHasWon(ml)) ? true : false
 }
-export function xHasWon(mls) {
-    return sumsOfThree(xNumbers(mls)).includes(15)
+export function xHasWon(ml) {
+    return sumsOfThree(xNumbers(ml)).includes(15)
 }
-export function oHasWon(mls) {
-    return sumsOfThree(oNumbers(mls)).includes(15)
+export function oHasWon(ml) {
+    return sumsOfThree(oNumbers(ml)).includes(15)
 }
-export function gameDrawn(mls) {
-    return (mls.length === 9 && !gameHasBeenWon(mls))
+export function gameDrawn(ml) {
+    return (ml.length === 9 && !gameHasBeenWon(ml))
 }
-function gameWillBeDrawn(mls) {
+function gameWillBeDrawn(ml) {
     // TODO
 }
-export function moveNumber(mls) {
-    return (mls.length + 1)
+export function moveNumber(ml) {
+    return (ml.length + 1)
+}
+export function numbersInWin(ml) {
+    let Xs = xNumbers(ml)
+    let Os = oNumbers(ml)
+    let winningTrios = trioList.filter(trio =>
+        intersect(trio, Xs).length === 3 || intersect(trio, Os).length === 3
+    )
+    return winningTrios.flat()
 }
 
 
 ////////////////////////////////////////////////////////////////
 //  Predicted and Final Game Outcomes: "xWins", "oWins", "draw"
 ////////////////////////////////////////////////////////////////
-export function outcome(mls, outcomeMap) {
-    return (gameOver(mls)) ? finalOutcome(mls) : predictedOutcome(mls, outcomeMap)
+export function outcome(ml, outcomeMap) {
+    return (gameOver(ml)) ? finalOutcome(ml) : predictedOutcome(ml, outcomeMap)
 }
-function finalOutcome(mls) {
+function finalOutcome(ml) {
     let outcome = "error"
-    if (xHasWon(mls)) {
+    if (xHasWon(ml)) {
         outcome = "xWins"
     }
-    else if (oHasWon(mls)) {
+    else if (oHasWon(ml)) {
         outcome = "oWins"
     }
-    else if (mls.length === 9) {
+    else if (ml.length === 9) {
         outcome = "draw"
     }
     return outcome
 }
-function predictedOutcome(mls, outcomeMap) {
+function predictedOutcome(ml, outcomeMap) {
     let outcome = "error"
-    let childrensOutcomes = getChildren(mls).map(child => outcomeMap.get(child))
+    let childrensOutcomes = getChildren(ml).map(child => outcomeMap.get(child))
     // console.log(`Position: ${position} --> childrensOutcomes: ${childrensOutcomes}`)
-    if (nextPlayer(mls) === "xNext") {
+    if (nextPlayer(ml) === "xNext") {
         if (childrensOutcomes.includes("xWins")) {
             outcome = "xWins"
         }
@@ -161,17 +169,17 @@ function predictedOutcome(mls, outcomeMap) {
 ////////////////////////////////////////////////////////////////
 // Isolate each players' claimed numbers: ARRAY(NUM)
 ////////////////////////////////////////////////////////////////
-export function xNumbers(mls) {
-    return moveListStringToArray(mls).filter((move, turn) => turn % 2 === 0)
+export function xNumbers(ml) {
+    return moveListStringToArray(ml).filter((move, turn) => turn % 2 === 0)
 }
-export function oNumbers(mls) {
-    return moveListStringToArray(mls).filter((move, turn) => turn % 2 === 1)
+export function oNumbers(ml) {
+    return moveListStringToArray(ml).filter((move, turn) => turn % 2 === 1)
 }
-// function playerOneNumbers(mls) {  // Always the Human
-//     return (playerOneIsX) ? xNumbers(mls) : oNumbers(mls)
+// function playerOneNumbers(ml) {  // Always the Human
+//     return (playerOneIsX) ? xNumbers(ml) : oNumbers(ml)
 // }
-// function playerTwoNumbers(mls) {  // Human or Bot, Depending on mode
-//     return (playerOneIsX) ? oNumbers(mls) : xNumbers(mls)
+// function playerTwoNumbers(ml) {  // Human or Bot, Depending on mode
+//     return (playerOneIsX) ? oNumbers(ml) : xNumbers(ml)
 // }
 
 
@@ -179,8 +187,8 @@ export function oNumbers(mls) {
 ////////////////////////////////////////////////////////////////
 // Convert Move List Representations:   String <--> Array
 ////////////////////////////////////////////////////////////////
-export function moveListStringToArray(mls) {               // "123" --> [1,2,3]
-    return Array.from(mls).map(e => Number(e))
+export function moveListStringToArray(ml) {               // "123" --> [1,2,3]
+    return Array.from(ml).map(e => Number(e))
 }
 function moveListArrayToString(mla) {               // [1,2,3] --> "123"
     return mla.toString().replaceAll(",", "")
@@ -195,19 +203,19 @@ function moveListArrayToString(mla) {               // [1,2,3] --> "123"
 ////////////////////////////////////////////////////////////////
 // Get Children and Helpers:  An Array of move list Strings
 ////////////////////////////////////////////////////////////////
-export function getChildren(mls) {
+export function getChildren(ml) {
     let children = []
-    getValidMoves(mls).forEach(move => children.push(mls + move))
-    // this.validMoves(mls).forEach(move => children.push(mls + move))
+    getValidMoves(ml).forEach(move => children.push(ml + move))
+    // this.validMoves(ml).forEach(move => children.push(ml + move))
     return children
 }
-export function getValidMoves(mls) {
-    return (gameOver(mls)) ? [] : availableNumbers(mls)
+export function getValidMoves(ml) {
+    return (gameOver(ml)) ? [] : availableNumbers(ml)
 }
-export function availableNumbers(mls) {
+export function availableNumbers(ml) {
     let availableNumbers = new Set([1, 2, 3, 4, 5, 6, 7, 8, 9])
-    for (let i = 0; i < mls.length; i++) {
-        availableNumbers.delete(parseInt(mls.charAt(i)))
+    for (let i = 0; i < ml.length; i++) {
+        availableNumbers.delete(parseInt(ml.charAt(i)))
     }
     // console.log(`Available Squares: ${availableNumbers}`)
     return Array.from(availableNumbers)
