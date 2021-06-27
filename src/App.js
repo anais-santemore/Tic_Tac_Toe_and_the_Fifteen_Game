@@ -93,8 +93,8 @@ export default function App() {
                             </Route>
 
                             <Route path="/fifteen_vs_bot">
-                                <FifteenVsBot game={"fifteen-game"} />
                                 {/* <Navbar pageTitle={"Play Human vs. Bot"} /> */}
+                                <PlayVsBot game={"fifteen-game"} />
                             </Route>
 
                             {/* <Route path="/magic_squares">
