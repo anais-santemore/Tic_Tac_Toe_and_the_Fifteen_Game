@@ -8,6 +8,7 @@ import { selectMoveRandomly, winningMoves, urgentDefensiveMoves, sortBotMoves } 
 // My React Components
 import Navbar from "../components/Navbar/Navbar"
 import TicTacToeBoard from "../components/Boards/TicTacToeBoard";
+import FifteenBoard from "../components/Boards/FifteenBoard"
 import BotPanel from "../components/Panels/BotPanel";
 
 // MUI  components
@@ -19,11 +20,9 @@ import { makeStyles } from '@material-ui/core/styles';
 const useStyles = makeStyles((theme) => ({
     root: {
         width: '100%',
-        height: 'calc(100% - 3.6rem)',
+        height: '97%',
         display: 'flex',
         flexDirection: 'column',
-        justifyContent: 'space-between',
-        alignItems: 'center',
     },
     navbarArea: {
         // border: 'solid blue 1px',
@@ -33,15 +32,17 @@ const useStyles = makeStyles((theme) => ({
         flex: '1 0 5vh',
     },
     boardArea: {
-        padding: '0.7rem',
-        width: 'min(55vh, 100%)',
-        height: '55vh',
+        // border: 'solid green 1px',
         display: 'flex',
+        flex: '1 0 50vh',
         justifyContent: 'center',
     },
     panelArea: {
-        width: '100%',
-        height: '45vh',
+        // border: 'solid red 1px',
+        color: theme.palette.common.white,
+        backgroundColor: theme.palette.common.black,
+        display: 'flex',
+        flex: '1 0 45vh',
     },
 }));
 
@@ -61,16 +62,32 @@ export default function PlayVsBot(props) {
 
     let [difficultyMode, setDifficultyMode] = useState("hard") // In "hard" mode my bot never makes a mistake.
 
+    console.assert(props.game === "tic-tac-toe" || props.game === "fifteen-game")
+    let board = (props.game === "tic-tac-toe") ?
+        <TicTacToeBoard
+            moveList={moveList}
+
+
+
+            handleBoardClick={handleBoardClick}
+            showHints={false}
+        /> :
+        <FifteenBoard
+            moveList={moveList}
+
+            handleBoardClick={handleBoardClick}
+            showHints={false}
+
+        />
+    
+    
     return (
         <Box className={classes.root} >
             <Box className={classes.navbarArea}>
                 <Navbar pageTitle={(props.game === "tic-tac-toe") ? "Tic Tac Toe vs. Bot" : "15 Game vs. Bot"} />
             </Box>
             <Box className={classes.boardArea}>
-                <TicTacToeBoard
-                    moveList={moveList}
-                    handleBoardClick={handleBoardClick}
-                />
+                {board}
             </Box>
             <Box className={classes.panelArea}>
                 <BotPanel
