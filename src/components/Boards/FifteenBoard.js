@@ -134,31 +134,33 @@ export default function FifteenBoard(props) {
     
     
     let numCards = []
-    boardNumbers.forEach(num => {
+    
+    numbers.forEach(num => {
         let newNumCard =
-            <NumCard
+            <Card
                 key={num}
+                
                 num={num}
-                color={boardColors[num]}
-                cardStatus={boardColors[num]}
+                claim={claims[num]}
+                border={wins[num]}
                 handleBoardClick={props.handleBoardClick}
             />
         numCards.push(newNumCard);
     })
 
     return (
-        <Box className={classes.board} >
-            <Box className={classes.row} >
-                {numCards.slice(0, 5)}
+        <Container maxWidth='md' >
+            <Box className={classes.board} >
+                <Box className={classes.row} >
+                    {numCards.slice(0, 5)}
+                </Box>
+                <Box className={classes.row} >
+                    {numCards.slice(5, 9)}
+                </Box>
             </Box>
-            <Box className={classes.row} >
-                {numCards.slice(5, 9)}
-            </Box>
-        </Box>
+        </Container>
 
-        // <Grid container className={classes.board}>
-        //     {squares}
-        // </Grid>
+        
     )
 }
 
