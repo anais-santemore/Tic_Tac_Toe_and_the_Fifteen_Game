@@ -31,23 +31,46 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 const useStyles = makeStyles((theme) => ({
     board: {
-        border: 'solid green 1px',
         width: '100%',
         height: '100%',
-        padding: '0.5rem',
-        // display: 'flex',
-        // flexDirection: 'column',
-        // justifyContent: 'center',
-        // alignItems: 'center',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'space-around',
+        alignItems: 'center',
     },
     row: {
         // border: 'solid purple 1px',
-        // width: '90%',
-        // height: '50%',
+        width: '100%',
+        height: '22vh',
         display: 'flex',
         flexDirection: 'row',
-        justifyContent: 'center'
+        justifyContent: 'center',
     },
+    card: {
+        width: '18%',
+        margin: '0 1%',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        color: theme.palette.common.black,
+        backgroundColor: theme.palette.common.white,
+
+    },
+    playerOne: {
+        backgroundColor: theme.palette.info.main,
+        color: 'white',
+    },
+    playerTwo: {
+        // backgroundColor: theme.palette.success.main,
+        backgroundColor: theme.palette.playerOne,
+
+
+    },
+    highlightWins: {
+        backgroundColor: theme.palette.primary.main,
+
+    },
+
 }));
 
 export default function Board(props) {
