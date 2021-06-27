@@ -15,8 +15,7 @@ import RadioButtonUncheckedIcon from '@material-ui/icons/RadioButtonUnchecked';
 import { makeStyles } from '@material-ui/core/styles';
 const useStyles = makeStyles((theme) => ({
     numCard: {
-        margin: '0.3rem',
-        width: '15%',
+        width: '18vh',
         // maxWidth: '120px',
         height: 'calc(100% - 0.6rem)',
         display: 'flex',
@@ -43,19 +42,18 @@ const useStyles = makeStyles((theme) => ({
 export default function NumCard(props) {
     const classes = useStyles();
 
-
-    const id = props.id
-    const cardStatus = props.cardStatus;  // unclaimed, playerOne, or playerTwo
     const num = props.num
 
-
     let cardStatusClassName
-    switch (props.cardStatus) {
+    switch (props.color) {
         case 'x':
             cardStatusClassName = `${classes.numCard} ${classes.playerOne} `
             break;
         case 'o':
             cardStatusClassName = `${classes.numCard} ${classes.playerTwo} `
+            break;
+        case 'w':
+            cardStatusClassName = `${classes.numCard} ${classes.highlightWins} `
             break;
         case '_':
             cardStatusClassName = `${classes.numCard} `
