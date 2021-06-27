@@ -6,6 +6,7 @@ import { status, gameOver, xNumbers, oNumbers, nextPlayer, availableNumbers } fr
 import { selectMoveRandomly, winningMoves, urgentDefensiveMoves, sortBotMoves } from "../logic/BotLogic";
 
 // My React Components
+import Navbar from "../components/Navbar/Navbar"
 import TicTacToeBoard from "../components/Boards/TicTacToeBoard";
 import BotPanel from "../components/Panels/BotPanel";
 
@@ -23,6 +24,13 @@ const useStyles = makeStyles((theme) => ({
         flexDirection: 'column',
         justifyContent: 'space-between',
         alignItems: 'center',
+    },
+    navbarArea: {
+        // border: 'solid blue 1px',
+        width: '100%',
+        display: 'flex',
+        flexDirection: 'row',
+        flex: '1 0 5vh',
     },
     boardArea: {
         padding: '0.7rem',
@@ -55,7 +63,9 @@ export default function PlayVsBot(props) {
 
     return (
         <Box className={classes.root} >
-            <Box py={1} />
+            <Box className={classes.navbarArea}>
+                <Navbar pageTitle={(props.game === "tic-tac-toe") ? "Tic Tac Toe vs. Bot" : "15 Game vs. Bot"} />
+            </Box>
             <Box className={classes.boardArea}>
                 <TicTacToeBoard
                     moveList={moveList}
