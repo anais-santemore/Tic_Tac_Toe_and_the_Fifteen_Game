@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 
 // My Logical Components
-import {status, gameOver, xHasWon, oHasWon, gameDrawn} from "../logic/GameLogic";
+import {status, gameOver, xHasWon, oHasWon, gameDrawn} from "../logic/GameLogic"
 
 // My React  Components
-import TicTacToeBoard from "../components/Board/TicTacToeBoard";
-import Panel from "../components/Panels/HumanPanel";
+import Navbar from "../components/Navbar/Navbar"
+import TicTacToeBoard from "../components/Boards/TicTacToeBoard"
+import FifteenBoard from "../components/Boards/FifteenBoard"
+import HumanPanel from "../components/Panels/HumanPanel"
 
 // MUI  components
 import Box from '@material-ui/core/Box';
@@ -16,46 +18,61 @@ import { makeStyles } from '@material-ui/core/styles';
 const useStyles = makeStyles((theme) => ({
     root: {
         width: '100%',
-        height: 'calc(100% - 3.6rem)',
+        height: '97%',
         display: 'flex',
         flexDirection: 'column',
-        justifyContent: 'space-between',
-        alignItems: 'center',
+    },
+    navbarArea: {
+        width: '100%',
+        display: 'flex',
+        flexDirection: 'row',
+        flex: '1 0 5vh',
     },
     boardArea: {
-        padding: '0.7rem',
-        width: 'min(55vh, 100%)',
-        height: '55vh',
         display: 'flex',
+        flex: '1 0 50vh',
         justifyContent: 'center',
     },
     panelArea: {
         color: theme.palette.common.white,
         backgroundColor: theme.palette.common.black,
-        width: '100%',
-        height: '45vh',
+        display: 'flex',
+        flex: '1 0 45vh',
     },
 }));
 
 
-export default function PlayVsHuman() {
+export default function PlayVsHuman(props) {
     const classes = useStyles();
 
     let [moveList, setMoveList] = useState("");
     let [gameNumber, setGameNumber] = useState(1);     // In ODD numbered games X goes first
     let [record, setRecord] = useState([0, 0, 0]);     // 3 element counter for humanWins, botWins, and tieGames.
 
+    console.assert(props.game === "tic-tac-toe" || props.game === "fifteen-game")
+    let board = (props.game === "tic-tac-toe") ? 
+        <TicTacToeBoard
+            moveList={moveList}
+            handleBoardClick={handleBoardClick}
+        /> : 
+        <FifteenBoard
+            moveList={moveList}
+            handleBoardClick={handleBoardClick}
+        />
+
+    
     return (
         <Box className={classes.root} >
-            <Box py={1} />
+            <Box className={classes.navbarArea}>
+                <Navbar pageTitle={(props.game === "tic-tac-toe") ? "Tic Tac Toe vs. Human" : "15 Game vs. Human"} />
+            </Box>
+            
+            {/* <Box py={1} /> */}
             <Box className={classes.boardArea}>
-                <TicTacToeBoard
-                    moveList={moveList}
-                    handleBoardClick={handleBoardClick}
-                />
+                {board}
             </Box>
             <Box className={classes.panelArea}>
-                <Panel
+                <HumanPanel
                     gameNumber={gameNumber}
                     record={record}
                     moveList={moveList}
@@ -71,17 +88,17 @@ export default function PlayVsHuman() {
     ///////////////////////////////////////////////////
     // CLICK HANDLERS
     ///////////////////////////////////////////////////
-    function handleBoardClick(squareClicked) {
+    function handleBoardClick(numberClicked) {
         if (gameOver(moveList)) {
-            console.log("return without effects from handleSquareClick(). The Game is already over.")
+            console.log("return without effects from handleBoardClick(). The Game is already over.")
             return;
         }
-        if (moveList.includes(squareClicked.toString())) {
-            console.log("return without effects from handleSquareClick(). That square has already been claimed.")
+        if (moveList.includes(numberClicked.toString())) {
+            console.log("return without effects from handleBoardClick(). That square has already been claimed.")
             return;
         }
         // If we reach this point the clicked square is open and the game is not over yet ... 
-        let updatedMoveList = moveList.concat(squareClicked)
+        let updatedMoveList = moveList.concat(numberClicked)
         console.log(`MoveList: ${updatedMoveList}`)
 
         setMoveList(updatedMoveList);
@@ -92,7 +109,7 @@ export default function PlayVsHuman() {
     }
     function handleUndoClick() {
         const shortenedMoveList = moveList.slice(0, moveList.length - 1)
-        console.log(`handleUndoClick() removed ${moveList[moveList.length - 1]} . New Shortened history: ${shortenedMoveList}`);
+        console.log(`handleUndoClick() removed ${moveList[moveList.length - 1]}. New Shortened history: ${shortenedMoveList}`);
         setMoveList(shortenedMoveList);
     }
     function handleNewGameClick() {
