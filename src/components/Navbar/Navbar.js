@@ -31,6 +31,7 @@ const useStyles = makeStyles((theme) => ({
         zIndex: '1200',
         display: 'flex',
         alignItems: 'flex-end',
+        // alignItems: 'stretch',
     },
     logo: {
         width: '10%',
