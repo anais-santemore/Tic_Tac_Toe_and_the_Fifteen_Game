@@ -47,7 +47,6 @@ export default function MobileMenu() {
         if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
             return;
         }
-
         setState({ ...state, [anchor]: open });
     };
 
@@ -64,19 +63,18 @@ export default function MobileMenu() {
     );
 
     return (
-        <Box className={classes.menu}>
+        <Box className={classes.menu} >
             <Button 
+                className={classes.button}
                 onClick={toggleDrawer('open', true)}
-                className={classes.menuButton}
                 aria-controls="simple-menu"
                 aria-haspopup="true"
             >
-                <MenuIcon className={classes.menuIcon} fontSize='large' />
+                <MenuIcon fontSize='large' />
             </Button>   
             <Drawer 
                 className={classes.drawer}
                 classes={{ paper: 'paper'}}
-                // PaperProps={classes.paper}
                 anchor={'right'} 
                 open={state['open']} 
                 onClose={toggleDrawer('open', false)}
