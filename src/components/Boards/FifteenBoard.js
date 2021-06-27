@@ -3,6 +3,7 @@ import React from 'react';
 // My Logical Components
 import {
     status,
+    numbersInWin,
     xNumbers,
     oNumbers,
     trioList,
@@ -11,12 +12,20 @@ import {
     availableNumbers,
     moveListStringToArray
 } from "../../logic/GameLogic";
+import {
+    highlightWins,
+    getBoardIcons,
+    getBoardHints,
+} from "../../logic/BoardLogic";
 
 // My Components
 import NumCard from "./NumCard";
 
 // MUI  components
 import Box from '@material-ui/core/Box';
+import Container from '@material-ui/core/Container';
+import Paper from '@material-ui/core/Paper';
+import Typography from '@material-ui/core/Typography';
 
 // Custom Styling
 import { makeStyles } from '@material-ui/core/styles';
