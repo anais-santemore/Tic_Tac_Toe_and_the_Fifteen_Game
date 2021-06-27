@@ -70,36 +70,31 @@ export default function App() {
                     <Router>
                         <Switch>
                             <Route exact path="/">
-                                <Navbar pageTitle={"Welcome"} />
+                                {/* <Navbar pageTitle={"Welcome"} /> */}
                                 <WelcomePage />
                             </Route>
 
                             <Route path="/play_vs_human">
-                                {/* <Navbar pageTitle={"Play Human vs. Human"} /> */}
                                 <PlayVsHuman game={"tic-tac-toe"} />
                             </Route>
 
                             <Route path="/play_vs_bot">
-                                <Navbar pageTitle={"Play Human vs. Bot"} />
+                                {/* <Navbar pageTitle={"Play Human vs. Bot"} /> */}
                                 <PlayVsBot game={"tic-tac-toe"}  />
                             </Route>
 
                             <Route path="/play_with_coach">
-                                <Navbar pageTitle={"Play with Coach"} />
+                                {/* <Navbar pageTitle={"Play with Coach"} /> */}
                                 <PlayWithCoach game={"tic-tac-toe"} />
                             </Route>    
 
-
                             <Route path="/fifteen_vs_human">
-                                {/* <Navbar pageTitle={"Play Human vs. Human"} /> */}
-                                {/* <FifteenVsHuman game={"fifteen-game"}  /> */}
                                 <PlayVsHuman game={"fifteen-game"} />
-
                             </Route>
 
                             <Route path="/fifteen_vs_bot">
-                                <Navbar pageTitle={"Play Human vs. Bot"} />
                                 <FifteenVsBot game={"fifteen-game"} />
+                                {/* <Navbar pageTitle={"Play Human vs. Bot"} /> */}
                             </Route>
 
                             {/* <Route path="/magic_squares">
