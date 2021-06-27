@@ -123,12 +123,7 @@ export default function WelcomePage() {
                     The Fifteen Game
                 </Typography>
                 <Typography paragraph align='justify' color='textPrimary' component='p' variant='body1' gutterBottom >
-                 
-                 
-                 
                     GET FROM OTHER REPO  !!!!!
-                
-                
                 </Typography>
                 
                 
