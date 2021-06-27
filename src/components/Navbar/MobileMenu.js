@@ -15,23 +15,6 @@ import MenuIcon from '@material-ui/icons/Menu';
 
 import { makeStyles } from '@material-ui/core/styles';
 const useStyles = makeStyles(theme => ({
-    list: {
-        width: 'auto',
-        fontSize: '0.8rem',
-        backgroundColor: theme.palette.primary.main,
-        height: '100%'
-    },
-    fullList: {
-        width: 'auto',
-    },
-    drawer: {
-        // backgroundColor: theme.palette.primary.main,
-        height: 'auto'
-    },
-    paper: {
-        backgroundColor: theme.palette.primary.main,
-        height: 'auto'
-    },
     menu: {
         // border: 'solid red 1px',
         backgroundColor: theme.palette.primary.main,
@@ -40,11 +23,18 @@ const useStyles = makeStyles(theme => ({
         alignItems: 'center',
         justifyContent: 'flex-end'
     },
-    menuButton: {
-        color: theme.palette.common.white,
-        // fontSize: '5rem',
-
-    }
+    button: {
+    },
+    drawer: {
+        // backgroundColor: theme.palette.primary.main,
+        height: 'auto'
+    },
+    list: {
+        width: 'auto',
+        fontSize: '0.8rem',
+        backgroundColor: theme.palette.primary.main,
+        height: '100%'
+    },
 }));
 
 export default function MobileMenu() {
