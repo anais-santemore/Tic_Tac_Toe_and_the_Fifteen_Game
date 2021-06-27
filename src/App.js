@@ -54,7 +54,7 @@ const useStyles = makeStyles((theme) => ({
     container: {
         // maxWidth='md' --> max-width: 960px;
         backgroundColor: theme.palette.common.black,
-        height: '95vh',
+        height: '100vh',
         display: 'flex',
         flexDirection: 'column',
     },
@@ -71,48 +71,48 @@ export default function App() {
             <CssBaseline />
             <ThemeProvider theme={theme}>
                 <Box className={classes.root} >
-                    <Container className={classes.container} maxWidth='md' disableGutters>  
-                        <Router>
-                            <Switch>
-                                <Route exact path="/">
-                                    <Navbar pageTitle={"Welcome"} />
-                                    <WelcomePage />
-                                </Route>
+                    <Router>
+                        <Switch>
+                            <Route exact path="/">
+                                <Navbar pageTitle={"Welcome"} />
+                                <WelcomePage />
+                            </Route>
 
-                                <Route path="/play_vs_human">
-                                    <Navbar pageTitle={"Play Human vs. Human"} />
-                                    <PlayVsHuman />
-                                </Route>
+                            <Route path="/play_vs_human">
+                                {/* <Navbar pageTitle={"Play Human vs. Human"} /> */}
+                                <PlayVsHuman game={"tic-tac-toe"} />
+                            </Route>
 
-                                <Route path="/play_vs_bot">
-                                    <Navbar pageTitle={"Play Human vs. Bot"} />
-                                    <PlayVsBot />
-                                </Route>
+                            <Route path="/play_vs_bot">
+                                <Navbar pageTitle={"Play Human vs. Bot"} />
+                                <PlayVsBot game={"tic-tac-toe"}  />
+                            </Route>
 
-                                <Route path="/play_with_coach">
-                                    <Navbar pageTitle={"Play with Coach"} />
-                                    <PlayWithCoach />
-                                </Route>    
+                            <Route path="/play_with_coach">
+                                <Navbar pageTitle={"Play with Coach"} />
+                                <PlayWithCoach game={"tic-tac-toe"} />
+                            </Route>    
 
 
-                                <Route path="/fifteen_vs_human">
-                                    <Navbar pageTitle={"Play Human vs. Human"} />
-                                    <FifteenVsHuman />
-                                </Route>
+                            <Route path="/fifteen_vs_human">
+                                {/* <Navbar pageTitle={"Play Human vs. Human"} /> */}
+                                {/* <FifteenVsHuman game={"fifteen-game"}  /> */}
+                                <PlayVsHuman game={"fifteen-game"} />
 
-                                <Route path="/fifteen_vs_bot">
-                                    <Navbar pageTitle={"Play Human vs. Bot"} />
-                                    <FifteenVsBot />
-                                </Route>
+                            </Route>
 
-                                {/* <Route path="/magic_squares">
-                                    <Navbar pageTitle={"Learn about Magic Squares"} />
-                                    <MagicSquares />
-                                </Route> */}
+                            <Route path="/fifteen_vs_bot">
+                                <Navbar pageTitle={"Play Human vs. Bot"} />
+                                <FifteenVsBot game={"fifteen-game"} />
+                            </Route>
 
-                            </Switch>
-                        </Router>
-                    </Container>
+                            {/* <Route path="/magic_squares">
+                                <Navbar pageTitle={"Learn about Magic Squares"} />
+                                <MagicSquares />
+                            </Route> */}
+
+                        </Switch>
+                    </Router>
                 </Box>
             </ThemeProvider>
         </React.Fragment>
