@@ -6,7 +6,7 @@ import { status, gameOver, xNumbers, oNumbers, nextPlayer, availableNumbers } fr
 import { selectMoveRandomly, winningMoves, urgentDefensiveMoves, sortBotMoves } from "../logic/BotLogic";
 
 // My React Components
-import TicTacToeBoard from "../components/Board/TicTacToeBoard";
+import TicTacToeBoard from "../components/Boards/TicTacToeBoard";
 import BotPanel from "../components/Panels/BotPanel";
 
 // MUI  components
