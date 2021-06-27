@@ -2,6 +2,7 @@ import React from 'react';
 
 // MY COMPONENTS
 import MobileMenu from "./MobileMenu";
+import SpacerBox from "./SpacerBox";
 
 // Image Imports
 import logo from "../../images/nsgLogoSnipped.png";
@@ -18,38 +19,21 @@ import AppBar from '@material-ui/core/AppBar';
 import { makeStyles } from '@material-ui/core/styles';
 
 
-const heightInRem = 3.6;
-const height = `${heightInRem}rem`;
-const halfHeight = `${heightInRem/2}rem`;
+// const heightInRem = 3.6;
+// const height = `${heightInRem}rem`;
+// const halfHeight = `${heightInRem/2}rem`;
 
 const useStyles = makeStyles((theme) => ({
-    navbarRoot: {
-        // border: 'solid blue 1px',
+    navbar: {
         width: '100vw',
-        height: height,
-
         backgroundColor: theme.palette.primary.main,
         color: theme.palette.common.white,
-
         zIndex: '1200',
         display: 'flex',
-
-    },
-    navbarContainer: {
-        // border: 'solid blue 1px',
-        height: height,
-        backgroundColor: 'inherit',
-        display: 'flex',
-        flexDirection: 'row',
-    },
-    spacerBox: {
-        // border: 'solid blue 1px',
-        // padding: halfHeight,
-        padding: height,
+        alignItems: 'flex-end',
     },
     logo: {
-        height: height,
-        width: height,
+        width: '10%',
         backgroundImage: `
             url(${logo})  
         `,
@@ -58,67 +42,31 @@ const useStyles = makeStyles((theme) => ({
         backgroundSize: 'auto 95%',
     },
     pageTitle: {
-        // border: 'solid red 1px',
-        height: '100%',
-        flex: '2 1 80%',
         display: 'flex',
+        flex: '1 0 70%',
         justifyContent: 'center',
         alignItems: 'center',
-    },
-    
-    icon: {
-        width: '45px',
-        color: theme.palette.common.white,
-        alignContent: 'center',
-        justifyContent: 'center',
-    },
-    
+    }
 }));
-
 
 export default function Navbar(props) {
     const classes = useStyles();
     return (
-        <Box className={classes.navbarRoot} >
-            <OneSizeNavbar pageTitle={props.pageTitle} />
-            {/* <Box className={classes.spacerBox} /> */}
+        <Box className={classes.navbar} >
+            <Container maxWidth='md' disableGutters height='inherit' >
+                <Box display='flex' justifyContent='center' >
+                    <Box className={classes.logo}  />
+                    <Box className={classes.pageTitle} >
+                        <Typography align='center' variant='h4' noWrap >
+                            {props.pageTitle}
+                        </Typography>
+                    </Box>
+                    <Box display='flex' flexBasis='10%' justifyContent='flex-end' >
+                        <MobileMenu />
+                    </Box>
+                </Box>
+                
+            </Container>
         </Box>
-        
     )
 }
-
-function OneSizeNavbar(props) {
-    const classes = useStyles();
-    const pageTitle = props.pageTitle;
-
-    return (
-        <Box  >
-            <AppBar
-                className={classes.navbar}
-                position="fixed"
-                elevation={3}
-            >
-                <Container
-                    className={classes.navbarContainer}
-                    maxWidth='md'
-                    disableGutters
-                >
-                    <Grid container>
-                        <Grid item xs={2} >
-                            <Box className={classes.logo} />
-                        </Grid>
-                        <Grid item xs={8} >
-                            <Typography className={classes.pageTitle} align='center' variant='h4' >
-                                {pageTitle}
-                            </Typography>
-                        </Grid>
-                        <Grid item xs={2} >
-                            <MobileMenu />
-                        </Grid>
-                    </Grid>
-                </Container>
-            </AppBar>
-        </Box>
-    );
-}
-
