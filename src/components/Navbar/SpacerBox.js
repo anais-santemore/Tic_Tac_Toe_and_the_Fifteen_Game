@@ -11,13 +11,14 @@ const halfHeight = `${heightInRem / 2}rem`;
 
 const useStyles = makeStyles((theme) => ({
     spacerBox: {
-        border: 'solid blue 1px',
+        // border: 'solid blue 1px',
         // paddingTop: halfHeight,
-        paddingTop: height,
+        // paddingTop: height,
+        paddingTop: '5vh',
         paddingLeft: '99vw',
         // paddingX: '50vw',
-        position: 'absolute',
-        top: 0,
+        // position: 'absolute',
+        // top: 0,
     },
 }));
 
