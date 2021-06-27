@@ -59,44 +59,44 @@ export default function Square(props) {
             squareIcon = <RadioButtonUncheckedIcon className={classes.iconO} />
             break;
         case '_':
-            squareIcon = <Typography variant='h3' color='textSecondary' ></Typography> // 
+            squareIcon = <Typography variant='h3' color='textSecondary' >{props.number}</Typography> // 
             break;
         default:
             console.error("Square passed symbol not 'x' 'o' or '_'");
     }
 
-    let className;
+    let squareColorClassName;
     switch (props.color) {
         case 'unknown':
-            className = `${classes.square} ${classes.unknown} `
+            squareColorClassName = `${classes.square} ${classes.unknown} `
             break;
         case 'claimed':
-            className = `${classes.square} ${classes.claimed} `
+            squareColorClassName = `${classes.square} ${classes.claimed} `
             break;
         case 'unclaimed':
-            className = `${classes.square} ${classes.unclaimed} `
+            squareColorClassName = `${classes.square} ${classes.unclaimed} `
             break;
         case 'noColor':
-            className = `${classes.square} ${classes.noColor} `
+            squareColorClassName = `${classes.square} ${classes.noColor} `
             break;
         case 'draw':
-            className = `${classes.square} ${classes.draw} `
+            squareColorClassName = `${classes.square} ${classes.draw} `
             break;
         case 'win':
-            className = `${classes.square} ${classes.win} `
+            squareColorClassName = `${classes.square} ${classes.win} `
             break;
         case 'lose':
-            className = `${classes.square} ${classes.lose} `
+            squareColorClassName = `${classes.square} ${classes.lose} `
             break;
         default:
-            className = `${classes.square} `
+            squareColorClassName = `${classes.square} `
     }
 
     return (
         <Paper
             number={props.number}
             elevation={4}
-            className={className}
+            className={squareColorClassName}
             onClick={() => handleBoardClick(number.toString())}
         >
             {squareIcon}
