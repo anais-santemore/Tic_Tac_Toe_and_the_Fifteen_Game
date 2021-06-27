@@ -27,7 +27,8 @@ const theme = createMuiTheme({
         action: {
             disabledBackground: '#2e6b12',
             disabledOpacity: '0.5'
-        }
+        },
+        playerOne: '#4070e0',
     },
     typography: {
         h4: {
