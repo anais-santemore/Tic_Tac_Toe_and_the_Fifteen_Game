@@ -1,7 +1,21 @@
 import React, { useState } from 'react';
 
+
 // My Logical Components
-import {status, gameOver, xHasWon, oHasWon, gameDrawn} from "../logic/GameLogic"
+import {
+    status,
+    gameOver,
+    xHasWon, 
+    oHasWon, 
+    gameDrawn,
+    xNumbers,
+    oNumbers,
+    trioList,
+    outcomeMap,
+    intersect,
+    availableNumbers,
+    moveListStringToArray
+} from "../logic/GameLogic";
 
 // My React  Components
 import Navbar from "../components/Navbar/Navbar"
@@ -23,17 +37,20 @@ const useStyles = makeStyles((theme) => ({
         flexDirection: 'column',
     },
     navbarArea: {
+        // border: 'solid blue 1px',
         width: '100%',
         display: 'flex',
         flexDirection: 'row',
         flex: '1 0 5vh',
     },
     boardArea: {
+        // border: 'solid green 1px',
         display: 'flex',
         flex: '1 0 50vh',
         justifyContent: 'center',
     },
     panelArea: {
+        // border: 'solid red 1px',
         color: theme.palette.common.white,
         backgroundColor: theme.palette.common.black,
         display: 'flex',
@@ -53,11 +70,16 @@ export default function PlayVsHuman(props) {
     let board = (props.game === "tic-tac-toe") ? 
         <TicTacToeBoard
             moveList={moveList}
+
             handleBoardClick={handleBoardClick}
+            showHints={false}
         /> : 
         <FifteenBoard
             moveList={moveList}
+
             handleBoardClick={handleBoardClick}
+            showHints={false}
+
         />
 
     
@@ -67,10 +89,10 @@ export default function PlayVsHuman(props) {
                 <Navbar pageTitle={(props.game === "tic-tac-toe") ? "Tic Tac Toe vs. Human" : "15 Game vs. Human"} />
             </Box>
             
-            {/* <Box py={1} /> */}
             <Box className={classes.boardArea}>
                 {board}
             </Box>
+
             <Box className={classes.panelArea}>
                 <HumanPanel
                     gameNumber={gameNumber}
@@ -93,7 +115,7 @@ export default function PlayVsHuman(props) {
             console.log("return without effects from handleBoardClick(). The Game is already over.")
             return;
         }
-        if (moveList.includes(numberClicked.toString())) {
+        if (moveList.includes(numberClicked)) {
             console.log("return without effects from handleBoardClick(). That square has already been claimed.")
             return;
         }
