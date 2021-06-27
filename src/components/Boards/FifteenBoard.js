@@ -73,46 +73,66 @@ const useStyles = makeStyles((theme) => ({
 
 }));
 
-export default function Board(props) {
+// What does the Board NEED to render all 9 number cards? 
+// Needs to know each cards num, const in order.
+// Needs each cards CLAIM status, X O or _
+// Needs bool, if card is part of win. 
+
+export default function FifteenBoard(props) {
     const classes = useStyles();
-    let moveList = props.moveList
-    let gameStatus = status(moveList)
 
-    function getBoardColors(mls) {      // In the 15-Game Color indicates claimed by who, there is no show hints feature. 
-        let data = Array(10).fill('_'); 
-        let mla = moveListStringToArray(mls)
-        mla.forEach((squareId, turn) => {
-            data[squareId] = (turn % 2 === 0) ? 'x' : 'o'
-        })
-        return data;  // this method only deals with current board position, not hypotheticals.  Thus, it wants to use a version of helper squaresClaimedByPlayer() that does not require a moveList be explicitly passed in. 
-    }
-    // function getBoardColors(mls) {
-    //     if (gameStatus === "xWins" || gameStatus === "oWins") {
-    //         return highlightWins(mls)
-    //     }
-    //     else if (props.showHints === true) {
-    //         return getBoardHints(mls)
-    //     }
-    //     else {
-    //         return Array(10).fill('noColor')
-    //     }
-    // }
+    let ml = props.moveList
+    let gameStatus = status(ml)
 
-    // function highlightWins(ml) {
-    //     let colors = Array(10).fill('noColor')
-    //     let Xs = xNumbers(ml)
-    //     let Os = oNumbers(ml)
-    //     let winningTrios = trioList.filter(trio =>
-    //         intersect(trio, Xs).length === 3 || intersect(trio, Os).length === 3
-    //     )
-    //     winningTrios.flat().forEach(num => colors[num] = 'win')
-    //     return colors
-    // }
     
 
-    const boardNumbers = [1, 2, 3, 4, 5, 6, 7, 8, 9]
-    let boardColors = getBoardColors(moveList)
 
+    function getBoardColors(ml) {      // In the 15-Game Color indicates claimed by who, there is no show hints feature. 
+        let data = Array(10).fill('_'); 
+        let mla = moveListStringToArray(ml)
+        mla.forEach((num, turn) => {
+            data[num] = (turn % 2 === 0) ? 'x' : 'o'
+        })
+        return data
+    }
+
+    function getBoardColors(mls) {
+        if (gameStatus === "xWins" || gameStatus === "oWins") {
+            return highlightWins(mls)
+        }
+        else if (props.showHints === true) {
+            return getBoardHints(mls)
+        }
+        else {
+            return Array(10).fill('noColor')
+        }
+    }
+
+    
+    
+
+    const numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+    
+    let claims = getClaims(ml)  // An Array of 'x' 'o' & '_'
+    function getClaims(ml) {
+        let data = Array(10).fill('_');
+        let mla = moveListStringToArray(ml)
+        mla.forEach((num, turn) => {
+            data[num] = (turn % 2 === 0) ? 'x' : 'o'
+        })
+        console.log(`Claims data: ${data}`);
+        return data
+    }
+
+    let wins = getWins(ml)       // An Array of booleans, true if part of winning trio
+    function getWins(ml) {
+        let data = Array(10).fill(false)
+        numbersInWin(ml).forEach(num => data[num] = true)
+        return data
+    }
+
+    
+    
     let numCards = []
     boardNumbers.forEach(num => {
         let newNumCard =
