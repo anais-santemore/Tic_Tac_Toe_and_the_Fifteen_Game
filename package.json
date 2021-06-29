@@ -1,6 +1,6 @@
 {
-  "name": "tic_tac_toe_and_the_fifteen_game",
-  "homepage": "http://nolastemgarden.github.io/tic_tac_toe_and_the_fifteen_game",
+  "name": "Tic Tac Toe and the Fifteen Game",
+  "homepage": "http://nolastemgarden.github.io/tic-tac-toe-and-the-fifteen-game",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
