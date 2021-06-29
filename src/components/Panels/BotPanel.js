@@ -67,11 +67,7 @@ export default function BotPanel(props) {
                         moveList={moveList}
                     />
                 </Box>
-                <WinLossDrawRecord
-                    playMode="humanVsBot"
-                    humanPlaysX={props.humanPlaysX}
-                    record={record}
-                />
+                {record}
             </Box>
             <Grid container spacing={2} className={classes.controls} >
                 <Grid item xs={12}  >
