@@ -6,7 +6,6 @@ import React from 'react';
 
 // MUI  components
 import Paper from '@material-ui/core/Paper';
-import Typography from '@material-ui/core/Typography';
 import ClearIcon from '@material-ui/icons/Clear';
 import RadioButtonUncheckedIcon from '@material-ui/icons/RadioButtonUnchecked';
 

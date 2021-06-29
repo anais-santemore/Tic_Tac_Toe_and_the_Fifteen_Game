@@ -3,9 +3,7 @@ import React from 'react';
 // Custom Components
 
 // MUI Components
-import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
-import Container from '@material-ui/core/Container';
 import Button from '@material-ui/core/Button';
 
 // MUI Icons
@@ -35,26 +33,9 @@ const useStyles = makeStyles((theme) => ({
 export default function DifficultyModeButtons(props) {
     const classes = useStyles();
 
-    const moveNumber = props.moveNumber;
-    const handleLetBotGoFirstClick = props.handleLetBotGoFirstClick
-    const difficultyMode = props.difficultyMode
-    // const handleDifficultyModeChange = props.handleDifficultyModeChange
-
-    const letBotGoFirstButton = (
-        <Button
-            variant="contained"
-            color="primary"
-            className={classes.button}
-            onClick={() => handleLetBotGoFirstClick()}
-            disabled={moveNumber !== 1}
-        >
-            Let&nbsp;Bot&nbsp;Go&nbsp;First
-        </Button>
-    );
-
     let easyButton = (
         <Button
-            className={`${classes.button} ${difficultyMode === "easy" ? classes.selectedButton : classes.unselectedButton} `}
+            className={`${classes.button} ${props.difficultyMode === "easy" ? classes.selectedButton : classes.unselectedButton} `}
             variant={'contained'}
             onClick={() => props.handleDifficultyModeChange("easy")}
         >
@@ -64,7 +45,7 @@ export default function DifficultyModeButtons(props) {
 
     let mediumButton = (
         <Button
-            className={`${classes.button} ${difficultyMode === "medium" ? classes.selectedButton : classes.unselectedButton} `}
+            className={`${classes.button} ${props.difficultyMode === "medium" ? classes.selectedButton : classes.unselectedButton} `}
             variant={'contained'}
             onClick={() => props.handleDifficultyModeChange("medium")}
         >
@@ -74,7 +55,7 @@ export default function DifficultyModeButtons(props) {
 
     let hardButton = (
         <Button
-            className={`${classes.button} ${difficultyMode === "hard" ? classes.selectedButton : classes.unselectedButton} `}
+            className={`${classes.button} ${props.difficultyMode === "hard" ? classes.selectedButton : classes.unselectedButton} `}
             variant={'contained'}
             onClick={() => props.handleDifficultyModeChange("hard")}
         >
