@@ -42,6 +42,20 @@ export default function BotPanel(props) {
         return (s === "xWins" || s === "oWins" || s === "draw")
     }
 
+    let record = (props.game === "tic-tac-toe") ?
+        <TicTacToeRecord
+            playMode="humanVsBot"
+            humanGoesFirst={props.humanGoesFirst}
+            record={props.record}
+            status={props.status}
+        /> :
+        <FifteenRecord
+            playMode="humanVsBot"
+            humanGoesFirst={props.humanGoesFirst}
+            record={props.record}
+            status={props.status}
+        />
+    
     return (
         <Container maxWidth='sm' className={classes.panel} >
             <Box className={classes.infoArea} >
