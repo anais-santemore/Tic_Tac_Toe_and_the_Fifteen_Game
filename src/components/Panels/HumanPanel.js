@@ -64,7 +64,9 @@ export default function HumanPanel(props) {
                         gameNumber={props.gameNumber}
                     />&nbsp;&nbsp;&nbsp;
                     <StatusHeader
+                        game={props.game}
                         moveList={props.moveList}
+                        humanGoesFirst={props.humanGoesFirst}
                     />
                 </Box>
                 {record}
