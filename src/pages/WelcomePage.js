@@ -55,12 +55,17 @@ export default function WelcomePage() {
                         A Math Lesson in Disguise
                     </Typography>
                     <Typography paragraph align='justify' color='textPrimary' component='p' variant='body1' gutterBottom >
-                        Mathematics is not just a bunch of rules to memorize, it is a human endeavor, an expression of our creativity,
-                        a shared inheritance that has been added to by every culture around the world and throughout time.
-                        Humans have been doing math for a long time (about 20 thousand years) and yet the subject is still growing,
-                        with new theorems being proven every year. Mathematical proofs can be beautiful and elegant, however,
-                        this can be difficult to pick up on for someone with an untrained eye because proofs are often written in a way
-                        that involves a lot of abstraction and formality.
+                        This lesson aims to help students understand two key points about mathematics.  
+                    </Typography>
+                    <Typography paragraph align='justify' color='textPrimary' component='p' variant='body1' gutterBottom >
+                        1) All Mathematics starts out with a limited set of simple assumptions and builds upon that foundation by putting 
+                        those pieces together in creative ways to prove more complex ideas must be true. As Jordan Ellenberg put it, 
+                        "Mathematics is the extension of of common sense by other means."
+                    </Typography>
+                    <Typography paragraph align='justify' color='textPrimary' component='p' variant='body1' gutterBottom >
+                        2) Mathematics strips away the messy "real world" parts of problems and looks for
+                        patterns in the inner workings of things. We can deepen our understanding of what seems to be an unfamiliar
+                        situation by looking for ways that it is similar to a more familiar situation beneath the surface.
                     </Typography>
                     <Typography align='left' color='textPrimary' component='h4' variant='h4' gutterBottom >
                         Tic-Tac-Toe as an Intro to Proof
@@ -81,14 +86,17 @@ export default function WelcomePage() {
                         to proove that instead.
                     </Typography>
                     <Typography paragraph align='justify' color='textPrimary' component='p' variant='body1' gutterBottom >
-                        This can be done with nothing more than pencil and paper! I've done it and I encourage
-                        you to give it a try. It will take several pages and it will challenge your ability to organize your thoughts.
-                        It's going to take more than just playing lots of games and recording the results. Try making a tree-diagram
-                        that maps out all variations. There are shortcuts you can take that will depend on symmetry. You may find it helpful
+                        This can be done with nothing more than pencil and paper! I've done it and I encourage you to give it a try. 
+                        It will take several pages and it will challenge your ability to organize your thoughts.
+                        It's going to take more than just playing lots of games and recording the results. Even if you win a thousand games 
+                        in a row, that does not prove you have a winning strategy, just that you have an opponent who doesn't learn their lesson.
+                        To actually prove you have a winning strategy you will have to examine every possibility, not just the ones a particular 
+                        opponent selects. Making a tree-diagram that maps out all variations will help you ensure that you have not overlooked any 
+                        possible moves. There are shortcuts you can take that will depend on symmetry. You may find it helpful
                         to develop your own shorthand notation for a position. You will certainly need to come up with a precice definition
                         of the word "mistake".
                         It is essential in the process of becoming an educated person to reflect on what it takes for you to be convinced.
-                        This exercise is a great way to wrap your mind around the difference between a rigorous proof and a reasonable explanation.
+                        This exercise is a great way to wrap your mind around the difference between a rigorous proof and a plausible explanation.
                     </Typography>
                     <Box width="100%" mb={3} >
                         <Grid container>
@@ -153,6 +161,15 @@ export default function WelcomePage() {
 }
 
 
+
+// <Typography paragraph align='justify' color='textPrimary' component='p' variant='body1' gutterBottom >
+//     Mathematics is not just a bunch of rules to memorize, it is an expression of human creativity that has
+//     been added to by every civilization around the world and throughout time.
+//     Humans have been doing math for a long time (about 20 thousand years) and yet the subject is still growing.
+//     with new theorems being proven every year. Mathematical proofs can be beautiful and elegant, but this
+//     can be difficult to pick up on for someone with an untrained eye because proofs are often written in a way
+//     that involves a lot of abstraction and formality.
+// </Typography>
 
 // Just like a musician expresses their creativity in a song, a mathematician expresses their creativity in a
 // logical argument.As with songs, there are proofs that are considered classic, there are those that are seen as
