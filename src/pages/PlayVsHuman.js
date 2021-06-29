@@ -95,6 +95,7 @@ export default function PlayVsHuman(props) {
 
             <Box className={classes.panelArea}>
                 <HumanPanel
+                    game={props.game}
                     gameNumber={gameNumber}
                     record={record}
                     moveList={moveList}
