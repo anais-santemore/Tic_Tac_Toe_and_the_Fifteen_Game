@@ -67,6 +67,23 @@ export default function MenuList() {
             </ListSubheader>
 
             <ListItem
+                key={'rule'}
+                button
+                component={RouterLink}
+                to={{
+                    pathname: '/tic_tac_toe_rules',
+                }}
+            >
+                <Icon className={"fas fa-question fa-2x"}
+                    classes={{ root: classes.icon }}
+                />
+                <ListItemText
+                    primary={'Rules of the Game'}
+                    primaryTypographyProps={{ variant: 'h5' }}
+                />
+            </ListItem>
+
+            <ListItem
                 key={'play_vs_human'}
                 button
                 component={RouterLink}
@@ -124,6 +141,23 @@ export default function MenuList() {
                     The Fifteen Game
                 </Typography>
             </ListSubheader>
+
+            <ListItem
+                key={'fifteen_rules'}
+                button
+                component={RouterLink}
+                to={{
+                    pathname: '/fifteen_rules',
+                }}
+            >
+                <Icon className={"fas fa-question fa-2x"}
+                    classes={{ root: classes.icon }}
+                />
+                <ListItemText
+                    primary={'Rules of the Game'}
+                    primaryTypographyProps={{ variant: 'h5' }}
+                />
+            </ListItem>
             
             <ListItem
                 key={'fifteen_vs_human'}
