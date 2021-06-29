@@ -9,12 +9,12 @@ import ArrowRightAltIcon from '@material-ui/icons/ArrowRightAlt';
 import { makeStyles } from '@material-ui/core/styles';
 const useStyles = makeStyles((theme) => ({
     buttonIcon: {
-        fontSize: '2rem',
-        margin: '0rem 0rem 0.8rem',
+        fontSize: '1rem',
+        // margin: '0rem 0rem 0.8rem',
     },
     hiddenButtonIcon: {
-        fontSize: '2rem',
-        margin: '0rem 0rem 0.8rem',
+        fontSize: '1rem',
+        // margin: '0rem 0rem 0.8rem',
         color: theme.palette.common.black,
     }
 }));
