@@ -38,7 +38,7 @@ const useStyles = makeStyles((theme) => ({
 export default function BotPanel(props) {
     const classes = useStyles();
 
-    function gameOver(s = status) {
+    function gameOver(s = props.status) {
         return (s === "xWins" || s === "oWins" || s === "draw")
     }
 
@@ -61,10 +61,12 @@ export default function BotPanel(props) {
             <Box className={classes.infoArea} >
                 <Box display="flex" justifyContent="center" color="textPrimary" >
                     <GameNumber 
-                        gameNumber={gameNumber}
+                        gameNumber={props.gameNumber}
                     />&nbsp;&nbsp;&nbsp;
                     <StatusHeader 
-                        moveList={moveList}
+                        game={props.game}
+                        moveList={props.moveList}
+                        humanGoesFirst={props.humanGoesFirst}
                     />
                 </Box>
                 {record}
@@ -79,14 +81,14 @@ export default function BotPanel(props) {
                 <Grid item xs={6}   >
                     <NewGameButton
                         gameOver={gameOver(props.status)}
-                        handleNewGameClick={handleNewGameClick}
+                        handleNewGameClick={props.handleNewGameClick}
                     />
                 </Grid>
                 <Grid item xs={6}    >
                     <BotGoFirstButton 
                         gameOver={false}
-                        moveList={moveList}
-                        handleBotGoFirstClick={handleBotGoFirstClick}
+                        moveList={props.moveList}
+                        handleBotGoFirstClick={props.handleBotGoFirstClick}
                     />
                 </Grid>
 
