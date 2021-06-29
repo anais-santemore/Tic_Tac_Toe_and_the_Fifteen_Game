@@ -52,7 +52,7 @@ export default function PlayVsBot(props) {
     const classes = useStyles();
 
     const xGoesFirst = true  // X always goes first
-    let [humanPlaysX, setHumanPlaysX] = useState(true);
+    let [humanGoesFirst, setHumanGoesFirst] = useState(true);
     
     let startingPosition = ""  // vs []
     let [moveList, setMoveList] = useState(startingPosition);
@@ -66,18 +66,13 @@ export default function PlayVsBot(props) {
     let board = (props.game === "tic-tac-toe") ?
         <TicTacToeBoard
             moveList={moveList}
-
-
-
             handleBoardClick={handleBoardClick}
             showHints={false}
         /> :
         <FifteenBoard
             moveList={moveList}
-
             handleBoardClick={handleBoardClick}
             showHints={false}
-
         />
     
     
@@ -96,7 +91,7 @@ export default function PlayVsBot(props) {
                     moveList={moveList}
                     record={record}
                     difficultyMode={difficultyMode}
-                    humanPlaysX={humanPlaysX}
+                    humanGoesFirst={humanGoesFirst}
                     handleNewGameClick={handleNewGameClick}
                     handleBotGoFirstClick={handleBotGoFirstClick}
                     handleDifficultyModeChange={handleDifficultyModeChange}
@@ -106,13 +101,13 @@ export default function PlayVsBot(props) {
     )
 
     function humansNumbers(mls) {  
-        return (humanPlaysX) ? xNumbers(mls) : oNumbers(mls)
+        return (humanGoesFirst) ? xNumbers(mls) : oNumbers(mls)
     }
     function botsNumbers(mls) {  
-        return (humanPlaysX) ? oNumbers(mls) : xNumbers(mls)
+        return (humanGoesFirst) ? oNumbers(mls) : xNumbers(mls)
     }
     function humanGoesNext(mls) {  
-        if (humanPlaysX) {
+        if (humanGoesFirst) {
             return (nextPlayer(mls) === "xNext")
         } 
         else {
@@ -157,7 +152,7 @@ export default function PlayVsBot(props) {
             setRecord([record[0], record[1], ++record[2]])
         }
         else if (result === "xWins") {
-            if (humanPlaysX) {
+            if (humanGoesFirst) {
                 setRecord([++record[0], record[1], record[2]])
             }
             else {
@@ -165,7 +160,7 @@ export default function PlayVsBot(props) {
             }
         }
         else if (result === "oWins") {
-            if (humanPlaysX) {
+            if (humanGoesFirst) {
                 setRecord([record[0], ++record[1], record[2]])
             }
             else {
@@ -181,19 +176,19 @@ export default function PlayVsBot(props) {
     
     function handleNewGameClick() {
         setGameNumber(++gameNumber)
-        setHumanPlaysX(true)
+        setHumanGoesFirst(true)
         setMoveList(startingPosition)
     }
 
     function handleBotGoFirstClick() {
         console.assert(moveList.length === 0, `handleLetBotGoFirstClick was called but it is not the frst move of the game!`)
-        setHumanPlaysX(false)
+        setHumanGoesFirst(false)
         handleBotsTurn('') // if the bot is going first the movelist is empty.
     }
 
     function handleDifficultyModeChange(newDifficulty) {
         setGameNumber(1)
-        setHumanPlaysX(true)
+        setHumanGoesFirst(true)
         setRecord([0, 0, 0])
         setMoveList(startingPosition)
         setDifficultyMode(newDifficulty)
@@ -267,7 +262,7 @@ export default function PlayVsBot(props) {
     function hardProtocol(ml) {
         console.log(`Outcome Graph Hard Protocol called for move list: [${ml}]`)
         console.time('getHardFromGraph')
-        let sorted = sortBotMoves(ml, humanPlaysX)
+        let sorted = sortBotMoves(ml, humanGoesFirst)
         // console.log(`BOT SORTED its choices from position [${ml}]:`)
         // console.log(`Bot found these Winning Moves: ${sorted.winningForBot}`)  
         // console.log(`Bot found these Drawing Moves: ${sorted.drawing}`)
