@@ -58,14 +58,12 @@ const useStyles = makeStyles((theme) => ({
 
     },
     playerOne: {
-        backgroundColor: theme.palette.info.main,
-        color: 'white',
+        backgroundColor: theme.palette.playerOne.backgroundColor,
+        color: theme.palette.playerOne.text,
     },
     playerTwo: {
-        // backgroundColor: theme.palette.success.main,
-        backgroundColor: theme.palette.playerOne,
-
-
+        backgroundColor: theme.palette.playerTwo.backgroundColor,
+        color: theme.palette.playerTwo.text,
     },
     highlightWins: {
         backgroundColor: theme.palette.primary.main,
