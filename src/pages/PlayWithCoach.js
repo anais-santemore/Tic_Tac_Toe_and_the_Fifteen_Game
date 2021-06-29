@@ -18,29 +18,31 @@ import { makeStyles } from '@material-ui/core/styles';
 const useStyles = makeStyles((theme) => ({
     root: {
         width: '100%',
-        height: 'calc(100% - 3.6rem)',
+        height: '95%',
         display: 'flex',
         flexDirection: 'column',
-        justifyContent: 'space-between',
-        alignItems: 'center',
     },
     navbarArea: {
-        border: 'solid blue 1px',
+        // border: 'solid blue 1px',
         width: '100%',
         display: 'flex',
         flexDirection: 'row',
         flex: '1 0 5vh',
     },
     boardArea: {
-        padding: '0.7rem',
-        width: 'min(55vh, 100%)',
-        height: '55vh',
+        // border: 'solid green 1px',
         display: 'flex',
+        flex: '1 0 50vh',
         justifyContent: 'center',
+        paddingTop: '0.5rem'
     },
     panelArea: {
-        width: '100%',
-        height: '45vh',
+        // border: 'solid red 1px',
+        color: theme.palette.common.white,
+        backgroundColor: theme.palette.common.black,
+        display: 'flex',
+        alignItems: 'center',
+        flex: '1 0 45vh',
     },
 }));
 
