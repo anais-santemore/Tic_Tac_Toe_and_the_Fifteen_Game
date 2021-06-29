@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { moveNumber } from "../../logic/GameLogic";
+// import { moveNumber, status } from "../../logic/GameLogic";
 
 // Custom Components
 import StatusHeader from './Parts/StatusHeader';
