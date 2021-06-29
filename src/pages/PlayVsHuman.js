@@ -63,8 +63,8 @@ export default function PlayVsHuman(props) {
     const classes = useStyles();
 
     let [moveList, setMoveList] = useState("");
-    let [gameNumber, setGameNumber] = useState(1);     // In ODD numbered games X goes first
-    let [record, setRecord] = useState([0, 0, 0]);     // 3 element counter for humanWins, botWins, and tieGames.
+    let [gameNumber, setGameNumber] = useState(1);     
+    let [record, setRecord] = useState([0, 0, 0]);     
 
     console.assert(props.game === "tic-tac-toe" || props.game === "fifteen-game")
     let board = (props.game === "tic-tac-toe") ? 
