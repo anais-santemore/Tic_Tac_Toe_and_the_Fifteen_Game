@@ -1,35 +1,37 @@
-import React from 'react';
+import React from 'react'
 import {
     HashRouter as Router,
     Link as RouterLink,
     Route,
     Switch
-} from "react-router-dom";
+} from "react-router-dom"
 
-import logo from './logo.svg';
-import './styles/App.css';
+import logo from './logo.svg'
+import './styles/App.css'
 
 // My Components & Pages
-import Navbar from './components/Navbar/Navbar';
-import WelcomePage from "./pages/WelcomePage";
+import Navbar from './components/Navbar/Navbar'
+import WelcomePage from "./pages/WelcomePage"
 
 // PLAY MODES
-import PlayVsHuman from './pages/PlayVsHuman';
-import PlayVsBot from './pages/PlayVsBot';
-import PlayWithCoach from './pages/PlayWithCoach';
-// import MagicSquares from "./pages/MagicSquares";
+import TicTacToeRules from './pages/TicTacToeRules'
+import FifteenRules from './pages/FifteenRules'
+import PlayVsHuman from './pages/PlayVsHuman'
+import PlayVsBot from './pages/PlayVsBot'
+import PlayWithCoach from './pages/PlayWithCoach'
+// import MagicSquares from "./pages/MagicSquares"
 
 // MUI  components
-import CssBaseline from '@material-ui/core/CssBaseline';
-import Box from '@material-ui/core/Box';
-import Container from '@material-ui/core/Container';
+import CssBaseline from '@material-ui/core/CssBaseline'
+import Box from '@material-ui/core/Box'
+import Container from '@material-ui/core/Container'
 
 // THEMING
-import theme from "./theme";
+import theme from "./theme"
 import {
     makeStyles,
     ThemeProvider,
-} from '@material-ui/core/styles';
+} from '@material-ui/core/styles'
 
 
 
@@ -72,6 +74,14 @@ export default function App() {
                             <Route exact path="/">
                                 {/* <Navbar pageTitle={"Welcome"} /> */}
                                 <WelcomePage />
+                            </Route>
+
+                            <Route path="/tic_tac_toe_rules">
+                                <TicTacToeRules />
+                            </Route>
+
+                            <Route path="/fifteen_rules">
+                                <FifteenRules />
                             </Route>
 
                             <Route path="/play_vs_human">
