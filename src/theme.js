@@ -28,7 +28,14 @@ const theme = createMuiTheme({
             disabledBackground: '#2e6b12',
             disabledOpacity: '0.5'
         },
-        playerOne: '#4070e0',
+        playerOne: {
+            backgroundColor: '#C11',
+            text: '#000'
+        }, 
+        playerTwo: {
+            backgroundColor: '#11C',
+            text: '#FFF'
+        }, 
     },
     typography: {
         h4: {
