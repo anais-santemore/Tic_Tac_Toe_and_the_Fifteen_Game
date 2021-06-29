@@ -5,7 +5,8 @@ import React from 'react';
 // Custom Components
 import StatusHeader from './Parts/StatusHeader';
 import GameNumber from './Parts/GameNumber';
-import WinLossDrawRecord from "./Parts/WinLossDrawRecord";
+import TicTacToeRecord from '../../components/Panels/Parts/TicTacToeRecord'
+import FifteenRecord from '../../components/Panels/Parts/FifteenRecord'
 
 import NewGameButton from "../Buttons/NewGameButton";
 import UndoButton from "../Buttons/UndoButton";
@@ -42,7 +43,19 @@ export default function HumanPanel(props) {
     function gameOver(s = props.status) {
         return (s === "xWins" || s === "oWins" || s === "draw")
     }
-    
+
+    let record = (props.game === "tic-tac-toe") ?
+        <TicTacToeRecord
+            playMode="humanVsHuman"
+            record={props.record}
+            status={props.status}
+        /> :
+        <FifteenRecord
+            playMode="humanVsHuman"
+            record={props.record}
+            status={props.status}
+        />
+
     return (
         <Container maxWidth='sm' className={classes.panel} >
             <Box className={classes.infoArea} >
@@ -54,11 +67,7 @@ export default function HumanPanel(props) {
                         moveList={props.moveList}
                     />
                 </Box>
-                <WinLossDrawRecord
-                    playMode="humanVsHuman"
-                    humanPlaysX={props.humanPlaysX}
-                    record={props.record}
-                />
+                {record}
             </Box>
             <Grid container spacing={3} className={classes.controls} >
                 <Grid item xs={6} >
