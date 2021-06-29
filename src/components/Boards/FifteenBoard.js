@@ -31,7 +31,8 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 const useStyles = makeStyles((theme) => ({
     board: {
-        width: '100%',
+        width: 'min(100%, 720px)',
+        margin: '0 auto',
         height: '100%',
         display: 'flex',
         flexDirection: 'column',
