@@ -4,22 +4,15 @@ import React from 'react';
 import {
     status,
     numbersInWin,
-    xNumbers,
-    oNumbers,
-    trioList,
-    outcomeMap,
-    intersect,
-    availableNumbers,
     moveListStringToArray
 } from "../../logic/GameLogic";
 import {
     highlightWins,
-    getBoardIcons,
     getBoardHints,
 } from "../../logic/BoardLogic";
 
 // My Components
-import NumCard from "./NumCard";
+// import NumCard from "./NumCard";
 
 // MUI  components
 import Box from '@material-ui/core/Box';
