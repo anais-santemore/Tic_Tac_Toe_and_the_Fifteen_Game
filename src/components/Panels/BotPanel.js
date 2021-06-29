@@ -3,7 +3,9 @@ import React from 'react';
 // Custom Components
 import GameNumber from '../../components/Panels/Parts/GameNumber'
 import StatusHeader from '../../components/Panels/Parts/StatusHeader'
-import WinLossDrawRecord from '../../components/Panels/Parts/WinLossDrawRecord'
+import TicTacToeRecord from '../../components/Panels/Parts/TicTacToeRecord'
+import FifteenRecord from '../../components/Panels/Parts/FifteenRecord'
+
 
 import DifficultyModeButtons from "../../components/Buttons/DifficultyModeButtons";
 import NewGameButton from '../../components/Buttons/NewGameButton'
