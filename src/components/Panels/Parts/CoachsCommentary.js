@@ -108,7 +108,9 @@ export default function CoachsCommentary(props) {
                 indicating that no matter which X chooses they will be on track for a draw, at best. When Red squares appear in the hints
                 that indicates possible mistakes to avoid. Green squares indicate winning responses to mistakes`
                 break;
-
+            case "draw":
+                comment = `The game has ended a draw. What did you expect? `
+                break;
             default:
                 break;
         }
