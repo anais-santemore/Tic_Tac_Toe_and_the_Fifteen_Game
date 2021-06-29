@@ -188,7 +188,7 @@ function Card(props) {
         <Box number={props.num}
             className = { cardStatusClassName }
             onClick = {() => props.handleBoardClick(props.num)}
-            border={(props.border === true) ? 'solid green 5px' : ''}
+            border={(props.border === true) ? 'solid green 8px' : ''}
             borderRadius='1rem'
         >
                 <Typography color='inherit' variant='h1' >
