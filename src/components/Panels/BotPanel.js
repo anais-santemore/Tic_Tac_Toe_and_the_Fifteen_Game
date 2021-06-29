@@ -1,7 +1,5 @@
 import React from 'react';
 
-import { status, outcomeMap, getParent, winningMoves, urgentDefensiveMoves, doubleAttackingMoves } from "../../logic/GameLogic";
-
 // Custom Components
 import GameNumber from '../../components/Panels/Parts/GameNumber'
 import StatusHeader from '../../components/Panels/Parts/StatusHeader'
