@@ -39,48 +39,39 @@ const useStyles = makeStyles((theme) => ({
 export default function HumanPanel(props) {
     const classes = useStyles();
     
-    let gameNumber = props.gameNumber
-    let moveList = props.moveList
-    let status = props.status
-    let record = props.record
-
-    const handleNewGameClick = props.handleNewGameClick
-    const handleUndoClick = props.handleUndoClick
-
-    function gameOver(s = status) {
+    function gameOver(s = props.status) {
         return (s === "xWins" || s === "oWins" || s === "draw")
     }
     
-
     return (
         <Container maxWidth='sm' className={classes.panel} >
             <Box className={classes.infoArea} >
                 <Box display="flex" justifyContent="center" color="textPrimary" >
                     <GameNumber
-                        gameNumber={gameNumber}
+                        gameNumber={props.gameNumber}
                     />&nbsp;&nbsp;&nbsp;
                     <StatusHeader
-                        moveList={moveList}
+                        moveList={props.moveList}
                     />
                 </Box>
                 <WinLossDrawRecord
                     playMode="humanVsHuman"
                     humanPlaysX={props.humanPlaysX}
-                    record={record}
+                    record={props.record}
                 />
             </Box>
             <Grid container spacing={3} className={classes.controls} >
                 <Grid item xs={6} >
                     <NewGameButton
                         gameOver={gameOver()}
-                        handleNewGameClick={handleNewGameClick}
+                        handleNewGameClick={props.handleNewGameClick}
                     />
                 </Grid>
                 <Grid item xs={6}  >
                     <UndoButton
-                        moveList={moveList}
+                        moveList={props.moveList}
                         gameOver={gameOver()}
-                        handleUndoClick={handleUndoClick}
+                        handleUndoClick={props.handleUndoClick}
                     />
                 </Grid>
             </Grid>
