@@ -56,7 +56,7 @@ export default function Square(props) {
             squareIcon = <RadioButtonUncheckedIcon className={classes.iconO} />
             break;
         case '_':
-            squareIcon = <Typography variant='h3' color='textSecondary' >{props.number}</Typography> // 
+            // squareIcon = <Typography variant='h3' color='textSecondary' >{props.number}</Typography> // 
             break;
         default:
             console.error("Square passed symbol not 'x' 'o' or '_'");
