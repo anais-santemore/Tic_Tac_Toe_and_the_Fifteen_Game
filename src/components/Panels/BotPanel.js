@@ -38,15 +38,6 @@ const useStyles = makeStyles((theme) => ({
 export default function BotPanel(props) {
     const classes = useStyles();
 
-    let gameNumber = props.gameNumber
-    let moveList = props.moveList
-    let status = props.status
-    let record = props.record
-
-    let handleNewGameClick = props.handleNewGameClick
-    let handleBotGoFirstClick = props.handleBotGoFirstClick
-
-
     function gameOver(s = status) {
         return (s === "xWins" || s === "oWins" || s === "draw")
     }
