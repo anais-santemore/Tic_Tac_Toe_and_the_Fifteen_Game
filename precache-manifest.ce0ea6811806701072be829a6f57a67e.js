@@ -1,27 +1,27 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "c1e5e2dab7c1a9061d5530a010181dbf",
+    "revision": "f1ba1092f727bd6fe0509eadf9b45b51",
     "url": "/tic-tac-toe-and-the-fifteen-game/index.html"
   },
   {
-    "revision": "46eb7b9de13d1d670331",
+    "revision": "9d656e088e7e1234477f",
     "url": "/tic-tac-toe-and-the-fifteen-game/static/css/main.c9cb539e.chunk.css"
   },
   {
-    "revision": "ba1a055444c309d2a3ea",
-    "url": "/tic-tac-toe-and-the-fifteen-game/static/js/2.a346126e.chunk.js"
+    "revision": "2209a2d6d9d12ba26d94",
+    "url": "/tic-tac-toe-and-the-fifteen-game/static/js/2.a22980b6.chunk.js"
   },
   {
     "revision": "0749163b59fbee32225059cb60c18af6",
-    "url": "/tic-tac-toe-and-the-fifteen-game/static/js/2.a346126e.chunk.js.LICENSE.txt"
+    "url": "/tic-tac-toe-and-the-fifteen-game/static/js/2.a22980b6.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "46eb7b9de13d1d670331",
-    "url": "/tic-tac-toe-and-the-fifteen-game/static/js/main.c5f57a09.chunk.js"
+    "revision": "9d656e088e7e1234477f",
+    "url": "/tic-tac-toe-and-the-fifteen-game/static/js/main.b8048348.chunk.js"
   },
   {
-    "revision": "17874084ccce852756b4",
-    "url": "/tic-tac-toe-and-the-fifteen-game/static/js/runtime-main.d211d8fe.js"
+    "revision": "eda55060871f3d126f33",
+    "url": "/tic-tac-toe-and-the-fifteen-game/static/js/runtime-main.c584e9d6.js"
   },
   {
     "revision": "ee7cd8ed2dcec943251eb2763684fc6f",
