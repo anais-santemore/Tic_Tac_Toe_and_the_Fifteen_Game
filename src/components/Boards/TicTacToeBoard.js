@@ -1,16 +1,7 @@
 import React from 'react';
 
 // My Logical Components
-import { 
-    status,
-    xNumbers, 
-    oNumbers, 
-    trioList, 
-    outcomeMap,
-    intersect, 
-    availableNumbers,
-    moveListStringToArray
-} from "../../logic/GameLogic";
+import { status } from "../../logic/GameLogic";
 import {
     highlightWins,
     getBoardIcons,
